@@ -56,15 +56,16 @@ export default {
 
 <style>
 #pickerWrap{
+    padding-top:10px;
     color:rgb(214, 214, 214);
     background:rgb(180, 180, 180);
-    width:350px;
+    width:200px;
     margin-left:120px;
     border-radius: 5px;
 }
 #pickerWrap input{
     color:rgb(36, 36, 36);
     background:rgb(180, 180, 180);
-    width:250px;
+    width:150px;    
 }
 </style>
