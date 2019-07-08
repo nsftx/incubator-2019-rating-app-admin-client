@@ -22,11 +22,6 @@
       </div></router-link>
     </div>
     <router-view><router-view/> 
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    -->
   </div>
 </template>
 <script>
@@ -78,7 +73,7 @@ p {
   height: 100%;
   position: fixed;
   background: rgb(36, 40, 46);
-  &:active {color:rgb(64, 68, 73);} 
+  
 }
 body {
   background: rgb(18, 20, 22);
