@@ -1,29 +1,102 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <div class="buttonUser">
+        <v-chip v-show="logged" @click="logout()">
+          <v-avatar>
+            <img src="https://img.icons8.com/bubbles/2x/user.png" alt="admin">
+          </v-avatar>Administrator
+        </v-chip>
+      </div>
+    <div id="dash-nav">
+       <router-link to="/"><div id="buttonToday">
+      <img src="./assets/today.png" class="icons">
+      <p style="text-align='center'">Today</p>
+      </div></router-link>
+      <router-link to="/reports"><div id="buttonReports">
+      <img src="./assets/report.png" class="icons">
+      <p style="text-align='center'">Reports</p>
+      </div></router-link>
+      <router-link to="/settings"><div id="buttonSettings">
+      <img src="./assets/settings.png" class="icons">
+      <p style="text-align='center'">Settings</p>
+      </div></router-link>
+    </div>
+    <router-view><router-view/> 
+    <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    -->
   </div>
 </template>
-
+<script>
+export default{
+data : function() {
+    return {
+      logged: true
+    }
+},
+methods: {
+  logout: function(){
+    alert("Success!");
+  }
+}
+}
+</script>
 <style lang="less">
+p {
+  color:white;
+}
+#buttonToday{
+  margin-top:20px;
+}
+#buttonSettings{
+  margin-top:750px;
+}
+#buttonToday:hover,
+#buttonReports:hover,
+#buttonSettings:hover{
+  background: rgb(64, 68, 73);
+  cursor: pointer;
+}
+#buttonToday,
+#buttonReports,
+#buttonSettings{
+  height: 100px;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: rgb(190, 190, 190);
 }
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+#dash-nav {
+  top: 0;
+  left: 0;
+  width: 6%;
+  height: 100%;
+  position: fixed;
+  background: rgb(36, 40, 46);
+  &:active {color:rgb(64, 68, 73);} 
+}
+body {
+  background: rgb(18, 20, 22);
+}
+.icons{
+height:30px; 
+width:auto;
+margin-top:20px;
+}
+a{
+  text-decoration: none;
+  color: rgb(190, 190, 190);
+}
+h1{
+  font-size:55px;
+}
+h1,h2{
+  text-align:left;
+  margin-left: 200px;
 }
 </style>
