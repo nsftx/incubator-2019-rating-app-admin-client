@@ -9,26 +9,26 @@ Vue.use(Router)
 
 
 export default new Router({
-  routes: [
-    {
-      path: "/",
-      name: "today",
-      component: Today
-    },
-    {
-  path: "/reports",
-      name: "reports",
-      component: Reports
-    },
-    {
-      path: "/logout",
-      name: "logout",
-      component: Logout
-    },
-    {
-      path: "/settings",
-      name: "settings",
-      component: Settings
-    }
-  ]
+	routes: [
+		{
+			path: "/",
+			name: "today",
+			component: Today
+		},
+		{
+			path: "/reports",
+			name: "reports",
+			component: Reports
+		},
+		{
+			path: "/logout",
+			name: "logout",
+			component: Logout
+		},
+		{
+			path: "/settings",
+			name: "settings",
+			component: Settings
+		}
+	]
 })
