@@ -1,13 +1,13 @@
 <template>
-  <div id="app">
+  <div id="app" v-show="logged">
     <div class="buttonUser">
-        <v-chip v-show="logged" @click="logout()">
+       <router-link to="/logout"><v-chip v-show="logged">
           <v-avatar>
             <img src="https://img.icons8.com/bubbles/2x/user.png" alt="admin">
           </v-avatar>Administrator
-        </v-chip>
+        </v-chip></router-link>
       </div>
-    <div id="dash-nav">
+    <div id="dash-nav" v-show="logged">
        <router-link to="/"><div id="buttonToday">
       <img src="./assets/today.png" class="icons">
       <p style="text-align='center'">Today</p>
@@ -32,9 +32,7 @@ data : function() {
     }
 },
 methods: {
-  logout: function(){
-    alert("Success!");
-  }
+  
 }
 }
 </script>
@@ -60,7 +58,7 @@ p {
   height: 100px;
 }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
