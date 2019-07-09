@@ -60,6 +60,11 @@
     </div>
     <br>
     <h2>Showing reports for {{ date }}</h2>
+    <br>
+    <div id="lineChart"><p>Place for line chart</p></div>
+    <div id="pieChart"><p>Place for pie chart</p></div>
+    <br>
+    <div id="dataTable"><p>Place for data table</p></div>
   </div>
 </template>
 
@@ -91,5 +96,27 @@ export default {
     color:rgb(36, 36, 36);
     background:rgb(180, 180, 180);
     width:150px;    
+}
+#lineChart{
+  background:rgb(36, 40, 46);
+  height:400px;
+  width:55%;
+  float:left;
+  margin-left:150px;
+  margin-right:20px;
+}
+#pieChart{
+  background:rgb(36, 40, 46);
+  width:30%;
+  height:400px;
+  float:left;
+}
+#dataTable{
+  float:left;
+  background:rgb(36, 40, 46);
+  height:400px;
+  width:45%;
+  margin-left:150px;
+  margin-top:25px;
 }
 </style>
