@@ -1,7 +1,8 @@
 <template>
   <div id="logout">
-    <h3>Hello there...</h3>
-    <button @click="logout()">Logout</button>
+    <br>
+    <h1 style="text-align='center'">Want to logout?</h1>
+    <button id="logoutBttn" @click="logout()">Logout</button>
   </div>
 </template>
 
@@ -27,5 +28,10 @@ methods: {
 </script>
 
 <style>
-
+#logoutBttn{
+  font-size:24px;
+  border: 1px solid rgb(190, 190, 190);
+  padding: 10px 20px;
+  border-radius: 5px;
+}
 </style>

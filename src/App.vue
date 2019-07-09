@@ -7,6 +7,7 @@
           </v-avatar>Administrator
         </v-chip></router-link>
       </div>
+      <br>
     <div id="dash-nav" v-show="logged">
        <router-link to="/"><div id="buttonToday">
       <img src="./assets/today.png" class="icons">
@@ -91,5 +92,10 @@ h1{
 h1,h2{
   text-align:left;
   margin-left: 200px;
+}
+.buttonUser {
+    float: right;
+    margin-right: 10px;
+    margin-top:10px;
 }
 </style>
