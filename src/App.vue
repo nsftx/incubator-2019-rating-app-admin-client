@@ -97,5 +97,7 @@ h1,h2{
     float: right;
     margin-right: 10px;
     margin-top:10px;
+    margin-bottom:20px;
 }
+
 </style>
