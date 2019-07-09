@@ -75,6 +75,7 @@ export default {
         dark: true,
         reactive: true,
         logged: true,
+        menu: false,
         password: "",
         date: new Date().toISOString().substr(0, 10),
                 }
