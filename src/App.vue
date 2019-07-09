@@ -1,9 +1,10 @@
 <template>
 <div id="app">
     <div id="login" v-show="!logged">
-      <h3>Password</h3>
-      <input type="password">
-      <button @click="logged=true">Login</button>
+      <br>
+      <h2 style="text-align:center; margin:0;">Password</h2><br>
+      <input type="password" style="font-size:24px; border: 1px solid rgb(190, 190, 190); padding: 10px 20px; border-radius: 5px; margin-right: 10px;">
+      <button @click="logged=true" style="font-size:24px; border: 1px solid rgb(190, 190, 190); padding: 10px 20px; border-radius: 5px;">Login</button>
     </div>
   <div v-show="logged">
     <div class="buttonUser">
