@@ -1,5 +1,6 @@
 <template>
   <div id="today">
+    <br><br>
     <h1>Today is a new day.</h1>
     <h1>Check your ratings!</h1>
     <br>

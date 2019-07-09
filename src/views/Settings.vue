@@ -113,7 +113,7 @@ export default {
   }
   #settings {
     float: left;
-    margin-left: 200px;
+    margin-left: 150px;
     width:calc(100% - 200px);
     background: rgb(18, 20, 22);
   }
