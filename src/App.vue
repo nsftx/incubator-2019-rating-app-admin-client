@@ -22,19 +22,19 @@
       <p style="text-align='center'">Settings</p>
       </div></router-link>
     </div>
-    <router-view><router-view/> 
+    <router-view></router-view> 
   </div>
 </template>
 <script>
 export default{
-data : function() {
-    return {
-      logged: true
-    }
-},
-methods: {
+	data : function() {
+		return {
+			logged: true
+		}
+	},
+	methods: {
   
-}
+	}
 }
 </script>
 <style lang="less">
@@ -99,5 +99,4 @@ h1,h2{
     margin-top:10px;
     margin-bottom:20px;
 }
-
 </style>

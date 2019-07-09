@@ -17,11 +17,11 @@
 
 <script>
 export default {
-data:function(){
-    return{
-        today:0
-    }
-}
+	data:function(){
+		return{
+			today:0
+		}
+	}
 }
 </script>
 

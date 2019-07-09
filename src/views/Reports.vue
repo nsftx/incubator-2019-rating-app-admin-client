@@ -70,17 +70,17 @@
 
 <script>
 export default {
-    data() {
-        return {
-        dark: true,
-        reactive: true,
-        logged: true,
-        menu: false,
-        password: "",
-        date: new Date().toISOString().substr(0, 10),
-                }
-           }
-    }
+	data() {
+		return {
+			dark: true,
+			reactive: true,
+			logged: true,
+			menu: false,
+			password: "",
+			date: new Date().toISOString().substr(0, 10),
+		}
+	}
+}
 
 </script>
 

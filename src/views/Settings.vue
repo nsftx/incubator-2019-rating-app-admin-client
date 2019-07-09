@@ -7,11 +7,17 @@
         <v-divider class="divider" dark/>
         <v-layout>
           <v-flex md6>
-            <v-text-field
+            <p>Emotions preview</p>
+            <!--<v-text-field
               dark color="grey"
               v-model="activeSettings.emotions"
               label="Emotions preview">
-            </v-text-field>
+            </v-text-field>-->
+            <img src="../assets/happyPreview.png">
+            <img v-show="activeSettings.emotionsNum>3" src="../assets/between1Preview.png">
+            <img src="../assets/mehPreview.png">
+            <img v-show="activeSettings.emotionsNum>4" src="../assets/between2Preview.png">
+            <img src="../assets/sadPreview.png">
           </v-flex>
 
           <v-flex md6>
@@ -57,50 +63,50 @@
 </template>
 
 <script>
-import ApiService from '@/services/ApiService';
+import ApiService from "@/services/ApiService"
 
 export default {
-  data() {
-    return {
-      activeSettings: {
-        emotions: ' ',
-        message: 'Thanks',
-        emotionsNum: 5,
-        messageTimeout: 7,
-      },
-      messages: ['thanks', 'thank you'],
-      emotionsRules: [
-        v => !!v || 'Emotions number is required',
-        v => v > 2 || 'Min value is 3',
-        v => v < 6 || 'Max value is 5',
-      ],
-      timeoutRules: [
-        v => !!v || 'Message timeout is required',
-        v => v > 0 || 'Min value is 1',
-        v => v < 11 || 'Max values is 10',
-      ],
-    };
-  },
-  methods: {
-    validateSettings() {
-      return this.activeSettings.message.length > 0
+	data() {
+		return {
+			activeSettings: {
+				emotions: " ",
+				message: "Thanks",
+				emotionsNum: 5,
+				messageTimeout: 7,
+			},
+			messages: ["Thanks", "Thank you", "Thank you for your rating", "Hvala Vam na ocjeni", "Hvala"],
+			emotionsRules: [
+				v => !!v || "Emotions number is required",
+				v => v > 2 || "Min value is 3",
+				v => v < 6 || "Max value is 5",
+			],
+			timeoutRules: [
+				v => !!v || "Message timeout is required",
+				v => v > 0 || "Min value is 1",
+				v => v < 11 || "Max value is 10",
+			],
+		}
+	},
+	methods: {
+		validateSettings() {
+			return this.activeSettings.message.length > 0
         && this.activeSettings.message.length < 121
         && this.activeSettings.emotionsNum > 2
         && this.activeSettings.emotionsNum < 6
         && this.activeSettings.messageTimeout > 0
-        && this.activeSettings.messageTimeout < 11;
-    },
-    getActiveSettings() {
-      ApiService.getActiveSettings()
-        .then((response) => {
-          this.activeSettings = response.data;
-        });
-    },
-  },
-  created() {
-    this.getActiveSettings();
-  },
-};
+        && this.activeSettings.messageTimeout < 11
+		},
+		getActiveSettings() {
+			ApiService.getActiveSettings()
+				.then((response) => {
+					this.activeSettings = response.data
+				})
+		},
+	},
+	created() {
+		this.getActiveSettings()
+	},
+}
 </script>
 
 <style>

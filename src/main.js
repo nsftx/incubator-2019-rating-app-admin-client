@@ -9,6 +9,7 @@ import VueAxios from "vue-axios"
 import "vuetify/dist/vuetify.min.css"
 
 Vue.use(Vuetify)
+Vue.use(Axios,VueAxios)
 Vue.config.productionTip = false
 
 new Vue({

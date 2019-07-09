@@ -8,22 +8,24 @@
 
 <script>
 export default {
-mounted: {
-    logged:false
-},
-data() {
-    return{
-    password:""
-    }
-},
-methods: {
-    logout() {
-      if(confirm("Are you sure you want to logout?"))
-      {
-      alert("Success!");
-      }
-    }
-}
+	mounted: {
+		logged:false
+	},
+	data() {
+		return{
+			password:"",
+			logged: true
+		}
+	},
+	methods: {
+		logout() {
+			if(confirm("Are you sure you want to logout?"))
+			{
+				alert("Success!")
+				this.logged=false
+			}
+		}
+	}
 }
 </script>
 
