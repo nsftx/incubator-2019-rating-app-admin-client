@@ -1,5 +1,11 @@
 <template>
-  <div id="app" v-show="logged">
+<div id="app">
+    <div id="login" v-show="!logged">
+      <h3>Password</h3>
+      <input type="password">
+      <button @click="logged=true">Login</button>
+    </div>
+  <div v-show="logged">
     <div class="buttonUser">
        <router-link to="/logout"><v-chip v-show="logged">
           <v-avatar>
@@ -24,6 +30,7 @@
     </div>
     <router-view></router-view> 
   </div>
+</div>
 </template>
 <script>
 export default{
