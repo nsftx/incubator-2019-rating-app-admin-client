@@ -26,40 +26,40 @@
 
 <script>
 export default {
-	data:function(){
+	data(){
 		return{
-      today:450,
-      headers: [
-        {
-          text: "Reactions",
-          align: "left",
-          sortable: false,
-          value: "name"
-        },
-        { text: "Number of reactions", value: "number" }
-      ],
-      reactions: [
-        {
-          name: "Happy",
-          number: 200
-        },
-        {
-          name: "Happy-Meh",
-          number: 100
-        },
-        {
-          name: "Meh",
-          number: 75
-        },
-        {
-          name: "Meh-Sad",
-          number: 50
-        },
-        {
-          name: "Sad",
-          number: 25
-        }
-      ]
+			today:450,
+			headers: [
+				{
+					text: "Reactions",
+					align: "left",
+					sortable: true,
+					value: "name"
+				},
+				{ text: "Number of reactions", value: "number" }
+			],
+			reactions: [
+				{
+					name: "Happy",
+					number: 200
+				},
+				{
+					name: "Happy-Meh",
+					number: 100
+				},
+				{
+					name: "Meh",
+					number: 75
+				},
+				{
+					name: "Meh-Sad",
+					number: 50
+				},
+				{
+					name: "Sad",
+					number: 25
+				}
+			]
 		}
 	}
 }
@@ -67,7 +67,7 @@ export default {
 
 <style>
 #lineChart{
-  background:rgb(36, 40, 46);
+  background:#444444;
   height:400px;
   width:55%;
   float:left;
@@ -75,7 +75,7 @@ export default {
   margin-right:20px;
 }
 #pieChart{
-  background:rgb(36, 40, 46);
+  background:#444444;
   width:30%;
   height:400px;
   float:left;

@@ -95,6 +95,7 @@ export default {
 			logged: true,
 			menu: false,
 			password: "",
+<<<<<<< HEAD
       date: new Date().toISOString().substr(0, 10),
       headers: [
         {
@@ -168,6 +169,40 @@ export default {
           number: 25
         }
       ]
+=======
+			date: new Date().toISOString().substr(0, 10),
+			headers: [
+				{
+					text: "Reactions",
+					align: "left",
+					sortable: true,
+					value: "name"
+				},
+				{ text: "Number of reactions", value: "number" }
+			],
+			reactions: [
+				{
+					name: "Happy",
+					number: 200
+				},
+				{
+					name: "Happy-Meh",
+					number: 100
+				},
+				{
+					name: "Meh",
+					number: 75
+				},
+				{
+					name: "Meh-Sad",
+					number: 50
+				},
+				{
+					name: "Sad",
+					number: 25
+				}
+			]
+>>>>>>> 2a91f2b5970634e773613e7098669c308df61c17
 		}
   },
 }
@@ -189,17 +224,26 @@ export default {
     width:150px;    
 }
 #lineChart{
-  background:rgb(36, 40, 46);
+  background:#444444;
   height:400px;
   width:55%;
   float:left;
   margin-left:150px;
   margin-right:20px;
 }
+<<<<<<< HEAD
+=======
+#pieChart{
+  background:#444444;
+  width:30%;
+  height:400px;
+  float:left;
+}
+>>>>>>> 2a91f2b5970634e773613e7098669c308df61c17
 #dataTable{
   float:left;
   background:rgb(36, 40, 46);
-  height:400px;
+  height:300px;
   width:45%;
   margin-left:150px;
   margin-top:25px;
