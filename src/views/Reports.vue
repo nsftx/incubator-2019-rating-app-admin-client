@@ -210,4 +210,10 @@ export default {
   margin-left:150px;
   margin-top:25px;
 }
+.apexcharts-legend-text{
+  color:white !important;
+}
+.apexcharts-yaxis-texts-g text,.apexcharts-xaxis-texts-g text{
+  fill:white !important;
+}
 </style>
