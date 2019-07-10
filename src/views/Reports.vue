@@ -139,7 +139,7 @@ export default {
     width:150px;    
 }
 #lineChart{
-  background:rgb(36, 40, 46);
+  background:#444444;
   height:400px;
   width:55%;
   float:left;
@@ -147,7 +147,7 @@ export default {
   margin-right:20px;
 }
 #pieChart{
-  background:rgb(36, 40, 46);
+  background:#444444;
   width:30%;
   height:400px;
   float:left;
@@ -155,7 +155,7 @@ export default {
 #dataTable{
   float:left;
   background:rgb(36, 40, 46);
-  height:400px;
+  height:300px;
   width:45%;
   margin-left:150px;
   margin-top:25px;

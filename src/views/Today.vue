@@ -67,7 +67,7 @@ export default {
 
 <style>
 #lineChart{
-  background:rgb(36, 40, 46);
+  background:#444444;
   height:400px;
   width:55%;
   float:left;
@@ -75,7 +75,7 @@ export default {
   margin-right:20px;
 }
 #pieChart{
-  background:rgb(36, 40, 46);
+  background:#444444;
   width:30%;
   height:400px;
   float:left;
