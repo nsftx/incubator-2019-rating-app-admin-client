@@ -37,22 +37,22 @@
 export default{
 	data : function() {
 		return {
-      logged: true,
-      password: ""
+			logged: true,
+			password: ""
 		}
 	},
 	methods: {
-    login(){
-      if(this.password==='admin')
-      {
-        alert("Welcome administrator!")
-        this.logged=true
-      }
-      else
-      {
-        alert("Wrong password!")
-      }
-    }
+		login(){
+			if(this.password==="admin")
+			{
+				alert("Welcome administrator!")
+				this.logged=true
+			}
+			else
+			{
+				alert("Wrong password!")
+			}
+		}
 	}
 }
 </script>
