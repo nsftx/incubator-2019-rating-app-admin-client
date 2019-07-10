@@ -10,6 +10,7 @@
     "linter": "eslint"
   },
   "dependencies": {
+    "apexcharts": "^3.8.2",
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
     "vue": "^2.6.10",

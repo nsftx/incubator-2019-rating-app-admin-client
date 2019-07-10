@@ -62,7 +62,7 @@
     <h2>Showing reports for {{ date }}</h2>
     <br>
     <div id="lineChart"><p>Place for line chart</p></div>
-    <div id="pieChart"><p>Place for pie chart</p></div>
+    <div id="pieChart"></div>
     <br>
     <div id="dataTable">
       <div id="tableData">
@@ -78,6 +78,8 @@
 </template>
 
 <script>
+
+import ApexCharts from "apexcharts"
 export default {
 	data() {
 		return {
@@ -96,6 +98,14 @@ export default {
         },
         { text: "Number of reactions", value: "number" }
       ],
+      options: {
+        chart: {
+          type: 'pie',
+        },
+        labels: ['Happy', 'Happy-Meh', 'Meh', 'Sad-Meh', 'Sad'],
+        series: [44, 55, 13, 43, 22],
+      },
+ 
       reactions: [
         {
           name: "Happy",
@@ -119,7 +129,11 @@ export default {
         }
       ]
 		}
-	}
+  },
+  mounted() {
+    var chart = new ApexCharts(document.querySelector("#pieChart"), this.options);
+    chart.render();
+  }
 }
 
 </script>
