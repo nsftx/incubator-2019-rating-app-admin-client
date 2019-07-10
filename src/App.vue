@@ -8,10 +8,10 @@
     </div>
   <div v-show="logged">
     <div class="buttonUser">
-       <router-link to="/logout"><v-chip v-show="logged">
+       <router-link to="/logout"><v-chip v-show="logged" :dark="true">
           <v-avatar>
             <img src="https://img.icons8.com/bubbles/2x/user.png" alt="admin">
-          </v-avatar>Administrator
+          </v-avatar><b>Administrator</b>
         </v-chip></router-link>
       </div>
       <br>
@@ -69,7 +69,7 @@ p {
 #buttonToday:hover,
 #buttonReports:hover,
 #buttonSettings:hover{
-  background: rgb(64, 68, 73);
+  background: #616161;
   cursor: pointer;
 }
 #buttonToday,
@@ -90,7 +90,7 @@ p {
   width: 6%;
   height: 100%;
   position: fixed;
-  background: rgb(36, 40, 46);
+  background: #444444;
   
 }
 body {

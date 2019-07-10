@@ -29,6 +29,7 @@
                 prepend-icon="event"
                 readonly
                 v-on="on"
+                :dark="dark"
               />
             </template>
             <v-date-picker
@@ -177,15 +178,14 @@ export default {
 <style>
 #pickerWrap{
     height: 50px;
-    color:rgb(214, 214, 214);
-    background:rgb(180, 180, 180);
+    background:none;
     width:200px;
     margin-left:120px;
     border-radius: 5px;
 }
 #pickerWrap input{
     color:rgb(36, 36, 36);
-    background:rgb(180, 180, 180);
+    background:none;
     width:150px;    
 }
 #lineChart{
@@ -215,5 +215,8 @@ export default {
 }
 .apexcharts-yaxis-texts-g text,.apexcharts-xaxis-texts-g text{
   fill:white !important;
+}
+input[type="text"] {
+    color: white !important;
 }
 </style>
