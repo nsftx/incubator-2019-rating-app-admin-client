@@ -35,7 +35,7 @@
 </template>
 <script>
 export default{
-	data : function() {
+	data() {
 		return {
 			logged: true,
 			password: ""

@@ -26,7 +26,7 @@
 
 <script>
 export default {
-	data:function(){
+	data(){
 		return{
 			today:450,
 			headers: [
