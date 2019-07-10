@@ -3,8 +3,8 @@
     <div id="login" v-show="!logged">
       <br>
       <h2 style="text-align:center; margin:0;">Password</h2><br>
-      <input type="password" style="font-size:24px; border: 1px solid rgb(190, 190, 190); padding: 10px 20px; border-radius: 5px; margin-right: 10px;">
-      <button @click="logged=true" style="font-size:24px; border: 1px solid rgb(190, 190, 190); padding: 10px 20px; border-radius: 5px;">Login</button>
+      <input type="password" v-model="password" style="font-size:24px; border: 1px solid rgb(190, 190, 190); padding: 10px 20px; border-radius: 5px; margin-right: 10px;">
+      <button @click="login()" style="font-size:24px; border: 1px solid rgb(190, 190, 190); padding: 10px 20px; border-radius: 5px;">Login</button>
     </div>
   <div v-show="logged">
     <div class="buttonUser">
@@ -37,11 +37,22 @@
 export default{
 	data : function() {
 		return {
-			logged: true
+      logged: true,
+      password: ""
 		}
 	},
 	methods: {
-  
+    login(){
+      if(this.password==='admin')
+      {
+        alert("Welcome administrator!")
+        this.logged=true
+      }
+      else
+      {
+        alert("Wrong password!")
+      }
+    }
 	}
 }
 </script>

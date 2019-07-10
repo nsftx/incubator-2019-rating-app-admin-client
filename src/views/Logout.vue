@@ -13,8 +13,7 @@ export default {
 	},
 	data() {
 		return{
-			password:"",
-			logged: true
+			password:""
 		}
 	},
 	methods: {
@@ -22,7 +21,7 @@ export default {
 			if(confirm("Are you sure you want to logout?"))
 			{
 				alert("Success!")
-				this.logged=false
+				this.$parent.logged=false
 			}
 		}
 	}
