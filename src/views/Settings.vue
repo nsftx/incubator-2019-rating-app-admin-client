@@ -13,11 +13,11 @@
               v-model="activeSettings.emotions"
               label="Emotions preview">
             </v-text-field>-->
-            <img src="../assets/happyPreview.png">
-            <img v-show="activeSettings.emotionsNum>3" src="../assets/between1Preview.png">
-            <img src="../assets/mehPreview.png">
-            <img v-show="activeSettings.emotionsNum>4" src="../assets/between2Preview.png">
-            <img src="../assets/sadPreview.png">
+            <img class="emoPreview" src="../assets/happyPreview.png">
+            <img class="emoPreview" v-show="activeSettings.emotionsNum>3" src="../assets/between1Preview.png">
+            <img class="emoPreview" src="../assets/mehPreview.png">
+            <img class="emoPreview" v-show="activeSettings.emotionsNum>4" src="../assets/between2Preview.png">
+            <img class="emoPreview" src="../assets/sadPreview.png">
           </v-flex>
 
           <v-flex md6>
@@ -125,5 +125,10 @@ export default {
   }
   .application--wrap{
     background: rgb(18, 20, 22);
+  }
+  .emoPreview{
+    height:40px;
+    margin-right:10px;
+    width:auto;
   }
 </style>
