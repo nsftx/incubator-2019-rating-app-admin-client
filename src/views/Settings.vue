@@ -131,4 +131,7 @@ export default {
     margin-right:10px;
     width:auto;
   }
+  #settings h1 {
+    margin-left: 20px !important;
+  }
 </style>

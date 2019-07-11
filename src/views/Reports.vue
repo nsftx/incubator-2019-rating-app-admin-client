@@ -242,13 +242,10 @@ export default {
 .apexcharts-legend-text{
   color:white !important;
 }
-#reports h2{
-	color:white;
-}
 .apexcharts-yaxis-texts-g text,.apexcharts-xaxis-texts-g text{
   fill:white !important;
 }
-input[type="text"] {
-    color: white !important;
+input[type="text"]{
+	color:rgb(190, 190, 190) !important;
 }
 </style>
