@@ -1,4 +1,5 @@
 <template>
+<div id="settings">
   <v-app>
     <v-form>
       <v-container class="settings" fluid>
@@ -6,7 +7,7 @@
         <v-divider class="divider" dark/>
         <v-layout>
           <v-flex md6>
-            <label>Emotions preview</label>
+            <label style="float:left;">Emotions preview</label>
           </v-flex>
 
           <v-flex md6>
@@ -48,6 +49,7 @@
       </v-container>
     </v-form>
   </v-app>
+</div>
 </template>
 
 <script>
@@ -100,12 +102,20 @@ export default {
 
 <style>
   .settings {
-    width: 90%;
+    width: 80%;
+    background: rgb(18, 20, 22);
   }
   .divider {
     margin: 20px 0;
   }
-  h1 {
-    text-align: left;
+  #settings {
+    float: left;
+    margin-left: 150px;
+    width:calc(100% - 200px);
+    background: rgb(18, 20, 22);
+  }
+  .application--wrap{
+    background: rgb(18, 20, 22);
+  
   }
 </style>
