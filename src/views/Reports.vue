@@ -65,7 +65,7 @@
       <apexcharts type=area height=400 :options="diagramOptions" :series="diagramSeries"></apexcharts>
     </div>
     <div id="pieChart">
-      <apexcharts type=pie height=400 :options="chartOptions" :series="chartSeries"></apexcharts>
+      <apexcharts type=pie height=350 :options="chartOptions" :series="chartSeries"></apexcharts>
     </div>
     <br>
     <div id="dataTable">
@@ -85,9 +85,9 @@
 import ApexCharts from "vue-apexcharts"
 
 export default {
-  components: {
-    apexcharts: ApexCharts
-  },
+	components: {
+		apexcharts: ApexCharts
+	},
 	data() {
 		return {
 			dark: true,
@@ -95,81 +95,110 @@ export default {
 			logged: true,
 			menu: false,
 			password: "",
-      date: new Date().toISOString().substr(0, 10),
-      headers: [
-        {
-          text: "Reactions",
-          align: "left",
-          sortable: false,
-          value: "name"
-        },
-        { text: "Number of reactions", value: "number" }
-      ],
-      chartSeries: [200, 100, 75, 50, 25],
-      diagramSeries: [{
-          name: 'Happy',
-          data: [10, 20, 30, 40, 50, 60, 70]
-        }, {
-          name: 'Happy-Meh',
-          data: [5, 10, 15, 20, 25, 30, 35]
-        },{
-          name: 'Meh',
-          data: [11, 13, 15, 17, 19, 25, 29]
-        }, {
-          name: 'Sad-Meh',
-          data: [1, 1, 6, 8, 8, 9, 11]
-        },{
-          name: 'Sad',
-          data: [3, 13, 20, 40, 50, 70, 82]
-        }],
-      diagramOptions: {
-        dataLabels: {
-            enabled: false,
-        },
-        stroke: {
-           width: 2,
-        },
-        legend: {
-          onItemClick: {
-            toggleDataSeries: false
-      },
-        },
-        xaxis: {
-          type: 'datetime',
-          categories: ["2019-09-10T00:00:00", "2019-09-10T03:00:00", "2019-09-10T07:00:00", "2019-09-10T11:00:00", "2019-09-10T15:00:00", "2019-09-10T019:00:00", "2019-09-10T023:59:00"],                
-        }
-      },
-      chartOptions: {
-        labels: ["Happy", "Happy-Meh", "Meh", "Sad-Meh", "Sad"],
-        legend: {
-          position: "bottom"
-        }
-      },
- 
-      reactions: [
-        {
-          name: "Happy",
-          number: 200
-        },
-        {
-          name: "Happy-Meh",
-          number: 100
-        },
-        {
-          name: "Meh",
-          number: 75
-        },
-        {
-          name: "Meh-Sad",
-          number: 50
-        },
-        {
-          name: "Sad",
-          number: 25
-        }
-      ],
+			date: new Date().toISOString().substr(0, 10),
+			headers: [
+				{
+					text: "Reactions",
+					align: "left",
+					sortable: false,
+					value: "name"
+				},
+				{ text: "Number of reactions", value: "number" }
+			],
+			chartSeries: [200, 100, 75, 50, 25],
+			diagramSeries: [{
+				name: "Happy",
+				data: [10, 20, 30, 40, 50, 60, 70]
+			}, {
+				name: "Happy-Meh",
+				data: [5, 10, 15, 20, 25, 30, 35]
+			},{
+				name: "Meh",
+				data: [11, 13, 15, 17, 19, 25, 29]
+			}, {
+				name: "Sad-Meh",
+				data: [1, 1, 6, 8, 8, 9, 11]
+			},{
+				name: "Sad",
+				data: [3, 13, 20, 40, 50, 70, 82]
+			}],
+			diagramOptions: {
+				dataLabels: {
+					enabled: false,
+				},
+				stroke: {
+					width: 2,
+				},
+				legend: {
+					onItemClick: {
+						toggleDataSeries: false
+					},
+					labels: {
+						colors: "#fff",
+					},
+				},
+				xaxis: {
+					labels: {
+						style: {
+							colors: "#fff",
+						},
+					},
+					type: "datetime",
+					categories: ["2019-09-10T00:00:00", "2019-09-10T03:00:00", "2019-09-10T07:00:00", "2019-09-10T11:00:00", "2019-09-10T15:00:00", "2019-09-10T019:00:00", "2019-09-10T023:59:00"],                
+				},
+				yaxis: {
+					labels: {
+						style: {
+							color: "#fff",
+						},
+					},
+				},
+				title: {
+					text: "Ratings",
+					style: {
+						color: "#fff"
+					},
+				},
+			},
+			chartOptions: {
+				labels: ["Happy", "Happy-Meh", "Meh", "Sad-Meh", "Sad"],
+				legend: {
+					position: "bottom",
+					labels: {
+						colors: "#fff",
+					},
+				},
+				title: {
+					text: "Ratings",
+					style: {
+						color: "#fff"
+					},
+				},
+			},
+			reactions: [
+				{
+					name: "Happy",
+					number: 200
+				},
+				{
+					name: "Happy-Meh",
+					number: 100
+				},
+				{
+					name: "Meh",
+					number: 75
+				},
+				{
+					name: "Meh-Sad",
+					number: 50
+				},
+				{
+					name: "Sad",
+					number: 25
+				}
+			],
 		}
-  },
+	},
 }
 
 </script>
