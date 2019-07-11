@@ -134,13 +134,6 @@ export default {
 					onItemClick: {
 						toggleDataSeries: false
 					},
-<<<<<<< HEAD
-				},
-				xaxis: {
-					type: "datetime",
-					categories: ["2019-09-10T00:00:00", "2019-09-10T03:00:00", "2019-09-10T07:00:00", "2019-09-10T11:00:00", "2019-09-10T15:00:00", "2019-09-10T019:00:00", "2019-09-10T023:59:00"],                
-				}
-=======
 					labels: {
 						colors: "#fff",
 					},
@@ -167,17 +160,10 @@ export default {
 						color: "#fff"
 					},
 				},
->>>>>>> 59968a13d78574ce2bdee5813a6544a25b9315c0
 			},
 			chartOptions: {
 				labels: ["Happy", "Happy-Meh", "Meh", "Sad-Meh", "Sad"],
 				legend: {
-<<<<<<< HEAD
-					position: "bottom"
-				}
-			},
- 
-=======
 					position: "bottom",
 					labels: {
 						colors: "#fff",
@@ -190,7 +176,6 @@ export default {
 					},
 				},
 			},
->>>>>>> 59968a13d78574ce2bdee5813a6544a25b9315c0
 			reactions: [
 				{
 					name: "Happy",
