@@ -1,10 +1,34 @@
 <template>
 <div id="app">
     <div id="login" v-show="!logged">
+      <v-snackbar
+        v-model="snackbar"
+        :bottom="y === 'bottom'"
+        :left="x === 'left'"
+        :multi-line="mode === 'multi-line'"
+        :right="x === 'right'"
+        :timeout="timeout"
+        :top="y === 'top'"
+        :vertical="mode === 'vertical'"
+      >
+        {{ text }}
+        <v-btn
+          color="pink"
+          flat
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </v-snackbar>
+      <br>
+      <h1>Login</h1>
+      <br>
+      <p style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">Welcome to the Rating Dashboard! Please enter your credentials</p>
       <br>
       <h2 style="text-align:center; margin:0;">Password</h2><br>
       <input type="password" v-model="password" style="font-size:24px; border: 1px solid rgb(190, 190, 190); padding: 10px 20px; border-radius: 5px; margin-right: 10px;">
       <button @click="login()" style="font-size:24px; border: 1px solid rgb(190, 190, 190); padding: 10px 20px; border-radius: 5px;">Login</button>
+      
     </div>
   <div v-show="logged">
     <div class="buttonUser">
@@ -37,20 +61,28 @@
 export default{
 	data() {
 		return {
-			logged: true,
-			password: ""
+			logged: false,
+			password: "",
+			snackbar: false,
+			y: "top",
+			x: null,
+			mode: "",
+			timeout: 6000,
+			text: "Login success! Welcome administrator!"
 		}
 	},
 	methods: {
 		login(){
 			if(this.password==="admin")
 			{
-				alert("Welcome administrator!")
 				this.logged=true
 			}
 			else
 			{
 				alert("Wrong password!")
+			}
+			if(this.logged){
+				this.snackbar=true
 			}
 		}
 	}

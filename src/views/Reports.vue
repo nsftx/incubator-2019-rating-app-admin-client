@@ -177,7 +177,7 @@ export default {
 .apexcharts-yaxis-texts-g text,.apexcharts-xaxis-texts-g text{
   fill:white !important;
 }
-input[type="text"] {
-    color: white !important;
+input[type="text"]{
+	color:rgb(190, 190, 190) !important;
 }
 </style>
