@@ -7,8 +7,12 @@
     <h2>Graphs present your rating results. Today you have {{ today }} rates,</h2>
     <h2>check it on the dashboard.</h2>
     <br>
-    <div id="lineChart"><p>Place for line chart</p></div>
-    <div id="pieChart"><p>Place for pie chart</p></div>
+    <div id="lineChart">
+      <ratings-area-diagram></ratings-area-diagram>
+    </div>
+    <div id="pieChart">
+      <ratings-pie-chart></ratings-pie-chart>
+    </div>
     <br>
     <div id="dataTable">
     <div id="tableData">
@@ -25,7 +29,14 @@
 </template>
 
 <script>
+import RatingsPieChart from "../components/RatingsPieChart"
+import RatingsAreaDiagram from "../components/RatingsAreaDiagram"
+
 export default {
+  components: {
+    RatingsPieChart,
+    RatingsAreaDiagram,
+  },
 	data(){
 		return{
 			today:450,

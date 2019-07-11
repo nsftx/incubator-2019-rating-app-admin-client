@@ -3,10 +3,7 @@ module.exports = {
 		"browser": true,
 		"es6": true
 	},
-	"extends": [
-		"eslint:recommended",
-		"plugin:vue/essential"
-	],
+	"extends": "airbnb",
 	"globals": {
 		"Atomics": "readonly",
 		"SharedArrayBuffer": "readonly"
@@ -35,5 +32,5 @@ module.exports = {
 			"error",
 			"never"
 		]
-	}
+	},
 }
