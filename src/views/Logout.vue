@@ -9,7 +9,7 @@
 <script>
 export default {
 	mounted: {
-		logged:false
+		logged:false,
 	},
 	data() {
 		return{
@@ -20,7 +20,6 @@ export default {
 		logout() {
 			if(confirm("Are you sure you want to logout?"))
 			{
-				alert("Success!")
 				this.$parent.logged=false
 			}
 		}

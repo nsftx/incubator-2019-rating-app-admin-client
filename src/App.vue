@@ -2,7 +2,7 @@
 <div id="app">
     <div id="login" v-show="!logged">
       <v-snackbar
-        v-model="snackbar"
+        v-model="snackbar2"
         :bottom="y === 'bottom'"
         :left="x === 'left'"
         :multi-line="mode === 'multi-line'"
@@ -11,7 +11,7 @@
         :top="y === 'top'"
         :vertical="mode === 'vertical'"
       >
-        {{ text }}
+        {{ text2 }}
         <v-btn
           color="pink"
           flat
@@ -31,6 +31,25 @@
       
     </div>
   <div v-show="logged">
+    <v-snackbar
+        v-model="snackbar"
+        :bottom="y === 'bottom'"
+        :left="x === 'left'"
+        :multi-line="mode === 'multi-line'"
+        :right="x === 'right'"
+        :timeout="timeout"
+        :top="y === 'top'"
+        :vertical="mode === 'vertical'"
+      >
+        {{ text }}
+        <v-btn
+          color="pink"
+          flat
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </v-snackbar>
     <div class="buttonUser">
        <router-link to="/logout"><v-chip v-show="logged" :dark="true">
           <v-avatar>
@@ -63,12 +82,14 @@ export default{
 		return {
 			logged: false,
 			password: "",
-			snackbar: false,
+      snackbar: false,
+      snackbar2: false,
 			y: "top",
 			x: null,
 			mode: "",
 			timeout: 6000,
-			text: "Login success! Welcome administrator!"
+			text: "Login success! Welcome administrator!",
+      text2: "You have entered wrong credentials, try again!"
 		}
 	},
 	methods: {
@@ -79,7 +100,7 @@ export default{
 			}
 			else
 			{
-				alert("Wrong password!")
+				this.snackbar2=true;
 			}
 			if(this.logged){
 				this.snackbar=true
