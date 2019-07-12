@@ -15,6 +15,7 @@
     </div>
     <br>
     <div id="dataTable">
+	<!-- <data-table-temp></data-table-temp> -->
     <div id="tableData">
         <v-data-table :headers="headers" :items="reactions" class="elevation-1" :dark="true">
           <template v-slot:items="props">

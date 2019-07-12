@@ -1,36 +1,36 @@
 module.exports = {
-	"env": {
-		"browser": true,
-		"es6": true
+	env: {
+		browser: true,
+		es6: true,
 	},
-	"extends": "airbnb",
-	"globals": {
-		"Atomics": "readonly",
-		"SharedArrayBuffer": "readonly"
+	extends: "airbnb",
+	globals: {
+		Atomics: "readonly",
+		SharedArrayBuffer: "readonly",
 	},
-	"parserOptions": {
-		"ecmaVersion": 2018,
-		"sourceType": "module"
+	parserOptions: {
+		ecmaVersion: 2018,
+		sourceType: "module",
 	},
-	"plugins": [
-		"vue"
+	plugins: [
+		"vue",
 	],
-	"rules": {
-		"indent": [
+	rules: {
+		indent: [
 			"error",
-			"tab"
+			"tab",
 		],
 		"linebreak-style": [
 			"error",
-			"unix"
+			"unix",
 		],
-		"quotes": [
+		quotes: [
 			"error",
-			"double"
+			"double",
 		],
-		"semi": [
+		semi: [
 			"error",
-			"never"
-		]
+			"never",
+		],
 	},
 }
