@@ -16,6 +16,7 @@
     <br>
     <div id="dataTable">
     <div id="tableData">
+		// eslint-disable-next-line
         <v-data-table :headers="headers" :items="reactions" class="elevation-1" :dark="true">
           <template v-slot:items="props">
             <td>{{ props.item.name }}</td>
@@ -162,10 +163,12 @@ export default {
 }
 #dataTable{
   float:left;
-  background:rgb(36, 40, 46);
   height:300px;
   width:45%;
   margin-left:150px;
   margin-top:25px;
+}
+#tableData, #pieChart, #lineChart{
+	border-radius: 5px;
 }
 </style>
