@@ -3,7 +3,7 @@
   <v-app>
     <v-form>
       <v-container fluid>
-        <h2>Settings</h2>
+        <h3>Settings</h3>
         <v-divider class="divider" dark/>
         <v-layout>
           <v-flex class="flex">
@@ -11,19 +11,12 @@
           </v-flex>
 
           <v-flex class="flex">
-            <!--<v-combobox
+            <v-text-field
               dark color="grey"
               v-model="activeSettings.message"
-              :items="messages"
               label='Thank you message'
               clearable>
-              </v-combobox>-->
-              <v-text-field
-                dark color="grey"
-                v-model="activeSettings.message"
-                label='Thank you message'
-                clearable>
-              </v-text-field>
+            </v-text-field>
           </v-flex>
         </v-layout>
 
@@ -52,6 +45,17 @@
               min="1"
               max="10">
             </v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-layout>
+          <v-flex>
+            <v-combobox
+              dark color="grey"
+              v-model="activeSettings.message"
+              :items="messages"
+              label='Thank you message'
+              clearable>
+            </v-combobox>
           </v-flex>
         </v-layout>
       </v-container>
@@ -113,7 +117,7 @@ export default {
     width: 80%;
     background: rgb(18, 20, 22);
   }
-  h2 {
+  h3 {
     text-align: left;
     font-size: 2vw;
   }
