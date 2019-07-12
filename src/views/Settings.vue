@@ -3,7 +3,6 @@
   <v-app>
     <v-form>
       <v-container fluid>
-        <h3>Settings</h3>
         <v-divider class="divider" dark/>
         <v-layout>
           <v-flex class="flex">
@@ -13,7 +12,7 @@
           <v-flex class="flex">
             <v-text-field
               dark color="grey"
-              v-model="activeSettings.message"
+              v-model="activeSettings.message.text"
               label='Thank you message'
               clearable>
             </v-text-field>
@@ -40,7 +39,7 @@
               v-model="activeSettings.messageTimeout"
               :rules="timeoutRules"
               label="Mesage timeout"
-              hint="Can be from 0-15" persistent-hint
+              hint="Can be from 0-10" persistent-hint
               type="number"
               min="1"
               max="10">
@@ -49,7 +48,21 @@
         </v-layout>
         <v-layout>
           <v-flex>
+            <v-btn class="showMessages"
+              color="secondary"
+              @click="showActiveSettings">
+              {{messagesBtnText}}
+            </v-btn> <br/>
+            <v-btn
+              class="update"
+              color="secondary"
+              @click="updateActiveSettings">
+              Confirm
+            </v-btn>
+          </v-flex>
+          <v-flex>
             <v-combobox
+              v-show="showMessages"
               dark color="grey"
               v-model="activeSettings.message"
               :items="messages"
@@ -72,6 +85,8 @@ export default {
     return {
       activeSettings: {},
       messages: [],
+      showMessages: false,
+      messagesBtnText: "Show all messages",
       emotionsRules: [
         v => v > 2 || 'Min value is 3',
         v => v < 6 || 'Max value is 5',
@@ -95,7 +110,7 @@ export default {
     getActiveSettings() {
       ApiService.getActiveSettings()
         .then((response) => {
-          this.activeSettings = response.data[0];
+          this.activeSettings = response.data;
         });
     },
     getThanksMessages() {
@@ -103,6 +118,22 @@ export default {
         .then((response) => {
           this.messages = response.data;
         });
+    },
+    updateActiveSettings() {
+      this.activeSettings.messageId = this.activeSettings.message.id;
+      ApiService.updateActiveSettings(this.activeSettings, this.activeSettings.id);
+    },
+    showActiveSettings() {
+      this.showMessages = !this.showMessages;
+      this.messagesBtnText = this.showMessages ? "Hide all messages" : "Show all messages";
+    },
+    isMessageExisting() {
+      for(let i = 0; i < this.messages.length; i++) {
+        if(this.messages[i].text == this.activeMessage) {
+          return true;
+        }
+      }
+      return false;
     },
   },
   created() {
@@ -123,6 +154,9 @@ export default {
   }
   .divider {
     margin: 20px 0;
+  }
+  .showMessages, .update {
+    width: 15vw;
   }
   #settings {
     float: left;
