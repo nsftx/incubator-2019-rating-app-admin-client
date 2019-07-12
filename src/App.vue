@@ -15,7 +15,7 @@
         <v-btn
           color="pink"
           flat
-          @click="snackbar = false"
+          @click="snackbar2 = false"
         >
           Close
         </v-btn>
