@@ -16,7 +16,6 @@
     <br>
     <div id="dataTable">
     <div id="tableData">
-		// eslint-disable-next-line
         <v-data-table :headers="headers" :items="reactions" class="elevation-1" :dark="true">
           <template v-slot:items="props">
             <td>{{ props.item.name }}</td>
