@@ -1,19 +1,21 @@
+/* eslint-disable no-tabs */
 import Vue from "vue"
-import App from "./App.vue"
-import router from "./router"
-import store from "./store"
 import Vuetify from "vuetify"
 import Axios from "axios"
 import VueAxios from "vue-axios"
+import App from "./App.vue"
+import router from "./router"
+import store from "./store"
+
 
 import "vuetify/dist/vuetify.min.css"
 
 Vue.use(Vuetify)
-Vue.use(Axios,VueAxios)
+Vue.use(Axios, VueAxios)
 Vue.config.productionTip = false
 
 new Vue({
 	router,
 	store,
-	render: h => h(App)
+	render: h => h(App),
 }).$mount("#app")
