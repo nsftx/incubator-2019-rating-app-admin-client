@@ -40,13 +40,13 @@ export default {
 						toggleDataSeries: false
 					},
 					labels: {
-						colors: "#fff",
+						colors: "#444444",
 					},
 				},
 				xaxis: {
 					labels: {
 						style: {
-							colors: "#fff",
+							colors: "#444444",
 						},
 					},
 					type: "datetime",
@@ -55,14 +55,14 @@ export default {
 				yaxis: {
 					labels: {
 						style: {
-							color: "#fff",
+							color: "#444444",
 						},
 					},
 				},
 				title: {
 					text: "Ratings",
 					style: {
-						color: "#fff"
+						color: "#444444"
 					},
 				},
 			},

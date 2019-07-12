@@ -15,6 +15,7 @@
     </div>
     <br>
     <div id="dataTable">
+	<!-- <data-table-temp></data-table-temp> -->
     <div id="tableData">
         <v-data-table :headers="headers" :items="reactions" class="elevation-1" :dark="true">
           <template v-slot:items="props">
@@ -162,10 +163,12 @@ export default {
 }
 #dataTable{
   float:left;
-  background:rgb(36, 40, 46);
   height:300px;
   width:45%;
   margin-left:150px;
   margin-top:25px;
+}
+#tableData, #pieChart, #lineChart{
+	border-radius: 5px;
 }
 </style>
