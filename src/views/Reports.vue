@@ -60,7 +60,7 @@
       </v-layout>
     </div>
     <br>
-    <h2>Showing reports for {{ date }}</h2>
+    <h2>Showing reports for: {{ date }}</h2>
     <br>
     <div id="lineChart">
       <ratings-area-diagram></ratings-area-diagram>
