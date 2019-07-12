@@ -15,6 +15,10 @@ export default {
     return axios.get(`${API_URL}/messages`)
       .then(response => response.data)
   },
+  createNewMessage(message) {
+    return axios.post(`${API_URL}/messages`, message)
+      .then(response => response.data)
+  },
   updateActiveSettings(settings, id) {
     return axios.put(`${API_URL}/settings/${id}`, settings)
       .then(response => response.data)

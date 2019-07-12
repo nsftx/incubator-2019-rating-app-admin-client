@@ -3,6 +3,7 @@
   <v-app>
     <v-form>
       <v-container fluid>
+        <h3>Settings</h3>
         <v-divider class="divider" dark/>
         <v-layout>
           <v-flex class="flex">
@@ -12,7 +13,7 @@
           <v-flex class="flex">
             <v-text-field
               dark color="grey"
-              v-model="activeSettings.message.text"
+              v-model="newMessage"
               label='Thank you message'
               clearable>
             </v-text-field>
@@ -85,6 +86,7 @@ export default {
     return {
       activeSettings: {},
       messages: [],
+      newMessage: "",
       showMessages: false,
       messagesBtnText: "Show all messages",
       emotionsRules: [
@@ -113,12 +115,6 @@ export default {
           this.activeSettings = response.data;
         });
     },
-    getThanksMessages() {
-      ApiService.getThanksMessages()
-        .then((response) => {
-          this.messages = response.data;
-        });
-    },
     updateActiveSettings() {
       this.activeSettings.messageId = this.activeSettings.message.id;
       ApiService.updateActiveSettings(this.activeSettings, this.activeSettings.id);
@@ -127,9 +123,18 @@ export default {
       this.showMessages = !this.showMessages;
       this.messagesBtnText = this.showMessages ? "Hide all messages" : "Show all messages";
     },
+    getThanksMessages() {
+      ApiService.getThanksMessages()
+        .then((response) => {
+          this.messages = response.data;
+        });
+    },
+    createNewMessage() {
+      ApiService.createNewMessage(this.newMessage);
+    },
     isMessageExisting() {
       for(let i = 0; i < this.messages.length; i++) {
-        if(this.messages[i].text == this.activeMessage) {
+        if(this.messages[i].text == this.newMessage) {
           return true;
         }
       }
