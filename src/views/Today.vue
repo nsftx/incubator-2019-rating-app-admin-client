@@ -73,9 +73,6 @@ export default {
 					for(let i in response.data)
 					this.reactions.push(new Reaction(response.data[i]["emoticon.name"],response.data[i].count))
 				console.log(this.reactions)})
-		},
-		dataTableFetch(){
-
 		}
 	},
 	created() {

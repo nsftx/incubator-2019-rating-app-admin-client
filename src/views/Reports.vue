@@ -25,7 +25,7 @@
             <template v-slot:activator="{ on }">
               <v-text-field
                 v-model="date"
-                label="Pick a date..."
+                label="Beginning date..."
                 prepend-icon="event"
                 readonly
                 v-on="on"
@@ -59,8 +59,67 @@
         </v-flex>
       </v-layout>
     </div>
+    <div id="pickerWrap">
+      <v-layout
+        row
+        wrap
+      >
+        <v-flex
+          xs12
+          sm6
+          md4
+        >
+          <v-menu
+            ref="menu"
+            v-model="menu"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            :return-value.sync="date"
+            lazy
+            transition="scale-transition"
+            offset-y
+            full-width
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="date"
+                label="Ending date..."
+                prepend-icon="event"
+                readonly
+                v-on="on"
+                :dark="dark"
+              />
+            </template>
+            <v-date-picker
+              v-model="date2"
+              no-title
+              scrollable
+              :dark="dark"
+              :reactive="reactive"
+            >
+              <v-spacer />
+              <v-btn
+                flat
+                color="primary"
+                @click="menu2 = false"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                flat
+                color="primary"
+                @click="$refs.menu2.save(date2)"
+              >
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-menu>
+        </v-flex>
+      </v-layout>
+    </div>
     <br>
-    <h2>Showing reports for: {{ date }}</h2>
+    <h2>Showing reports for: {{ date2 }}</h2>
     <br>
     <div id="lineChart">
       <ratings-area-diagram></ratings-area-diagram>
@@ -85,6 +144,7 @@
 <script>
 import RatingsPieChart from "../components/RatingsPieChart"
 import RatingsAreaDiagram from "../components/RatingsAreaDiagram"
+import ApiService from '@/services/ApiService'
 
 export default {
 	components: {
@@ -98,7 +158,9 @@ export default {
 			logged: true,
 			menu: false,
 			password: "",
-			date: new Date().toISOString().substr(0, 10),
+      date: new Date().toISOString().substr(0, 10),
+      menu2: false,
+			date2: new Date().toISOString().substr(0, 10),
 			headers: [
 				{
 					text: "Reactions",
@@ -108,30 +170,30 @@ export default {
 				},
 				{ text: "Number of reactions", value: "number" }
 			],
-			reactions: [
-				{
-					name: "Happy",
-					number: 200
-				},
-				{
-					name: "Happy-Meh",
-					number: 100
-				},
-				{
-					name: "Meh",
-					number: 75
-				},
-				{
-					name: "Meh-Sad",
-					number: 50
-				},
-				{
-					name: "Sad",
-					number: 25
-				}
-			],
+			reactions: [],
+		}
+  },
+  methods: {
+		createToday(){
+			function Reaction(name, number) {
+			this.name = name;
+			this.number = number;
+			let that=this;
+			}
+			const Today={
+				date:this.date,
+				settingsId:8
+			}
+			ApiService.createNewDaily(Today)
+				.then((response)=> {
+					for(let i in response.data)
+					this.reactions.push(new Reaction(response.data[i]["emoticon.name"],response.data[i].count))
+				console.log(this.reactions)})
 		}
 	},
+	created() {
+		this.createToday()
+	}
 }
 
 </script>
