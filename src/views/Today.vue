@@ -52,76 +52,7 @@ export default {
 					value: "name"
 				},
 				{ text: "Number of reactions", value: "number" }
-			],chartSeries: [200, 100, 75, 50, 25],
-			diagramSeries: [{
-				name: "Happy",
-				data: [10, 20, 30, 40, 50, 60, 70]
-			}, {
-				name: "Happy-Meh",
-				data: [5, 10, 15, 20, 25, 30, 35]
-			},{
-				name: "Meh",
-				data: [11, 13, 15, 17, 19, 25, 29]
-			}, {
-				name: "Sad-Meh",
-				data: [1, 1, 6, 8, 8, 9, 11]
-			},{
-				name: "Sad",
-				data: [3, 13, 20, 40, 50, 70, 82]
-			}],
-			diagramOptions: {
-				dataLabels: {
-					enabled: false,
-				},
-				stroke: {
-					width: 2,
-				},
-				legend: {
-					onItemClick: {
-						toggleDataSeries: false
-					},
-					labels: {
-						colors: "#fff",
-					},
-				},
-				xaxis: {
-					labels: {
-						style: {
-							colors: "#fff",
-						},
-					},
-					type: "datetime",
-					categories: ["2019-09-10T00:00:00", "2019-09-10T03:00:00", "2019-09-10T07:00:00", "2019-09-10T11:00:00", "2019-09-10T15:00:00", "2019-09-10T019:00:00", "2019-09-10T023:59:00"],                
-				},
-				yaxis: {
-					labels: {
-						style: {
-							color: "#fff",
-						},
-					},
-				},
-				title: {
-					text: "Ratings",
-					style: {
-						color: "#fff"
-					},
-				},
-			},
-			chartOptions: {
-				labels: ["Happy", "Happy-Meh", "Meh", "Sad-Meh", "Sad"],
-				legend: {
-					position: "bottom",
-					labels: {
-						colors: "#fff",
-					},
-				},
-				title: {
-					text: "Ratings",
-					style: {
-						color: "#fff"
-					},
-				},
-			},
+			],
 			reactions: [],
 			today: new Date().toISOString().substr(0, 10),
 		}
@@ -138,7 +69,10 @@ export default {
 				settingsId:8
 			}
 			ApiService.createNewDaily(Today)
-				.then((response)=> {console.log(response.data)})
+				.then((response)=> {
+					for(let i in response.data)
+					this.reactions.push(new Reaction(response.data[i]["emoticon.name"],response.data[i].count))
+				console.log(this.reactions)})
 		},
 		dataTableFetch(){
 
