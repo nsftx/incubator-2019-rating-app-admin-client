@@ -13,7 +13,7 @@
           <v-flex class="flex">
             <v-text-field
               dark color="grey"
-              v-model="newMessage"
+              v-model="activeMessage"
               label='Thank you message'
               clearable>
             </v-text-field>
@@ -51,7 +51,7 @@
           <v-flex>
             <v-btn class="showMessages"
               color="secondary"
-              @click="showActiveSettings">
+              @click="showExistingMessages">
               {{messagesBtnText}}
             </v-btn> <br/>
             <v-btn
@@ -86,7 +86,7 @@ export default {
     return {
       activeSettings: {},
       messages: [],
-      newMessage: "",
+      activeMessage: "",
       showMessages: false,
       messagesBtnText: "Show all messages",
       emotionsRules: [
@@ -113,13 +113,14 @@ export default {
       ApiService.getActiveSettings()
         .then((response) => {
           this.activeSettings = response.data;
+          this.activeMessage = this.activeSettings.message.text;
         });
     },
     updateActiveSettings() {
       this.activeSettings.messageId = this.activeSettings.message.id;
       ApiService.updateActiveSettings(this.activeSettings, this.activeSettings.id);
     },
-    showActiveSettings() {
+    showExistingMessages() {
       this.showMessages = !this.showMessages;
       this.messagesBtnText = this.showMessages ? "Hide all messages" : "Show all messages";
     },
@@ -129,12 +130,12 @@ export default {
           this.messages = response.data;
         });
     },
-    createNewMessage() {
-      ApiService.createNewMessage(this.newMessage);
+    createNewMessage(message) {
+      ApiService.createNewMessage(message);
     },
-    isMessageExisting() {
+    isMessageExisting(message) {
       for(let i = 0; i < this.messages.length; i++) {
-        if(this.messages[i].text == this.newMessage) {
+        if(this.messages[i].text == message) {
           return true;
         }
       }
@@ -144,6 +145,15 @@ export default {
   created() {
     this.getActiveSettings();
     this.getThanksMessages();
+  },
+  watch: {
+    activeMessage: {
+      handler() {
+        if (!this.isMessageExisting(this.activeMessage)) {
+          this.createNewMessage(this.activeMessage);
+        }
+      },
+    }
   },
 };
 </script>
