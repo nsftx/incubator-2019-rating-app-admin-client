@@ -1,6 +1,7 @@
 <template>
   <div id="today">
     <br><br>
+	<img id="artwork" src="../assets/Artwork.svg">
     <h1>Today is a new day.</h1>
     <h1>Check your ratings!</h1>
     <br>
@@ -170,5 +171,11 @@ export default {
 }
 #tableData, #pieChart, #lineChart{
 	border-radius: 5px;
+}
+#artwork{
+	z-index:-1;
+	float: right;
+	margin-right: 20px;
+	margin-bottom: 20px;
 }
 </style>
