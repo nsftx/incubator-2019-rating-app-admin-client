@@ -3,23 +3,13 @@
   <v-app>
     <v-form>
       <v-container fluid>
+        <h3>Settings</h3>
         <v-divider class="divider" dark/>
         <v-layout>
           <v-flex class="flex">
             <label style="float:left;">Emotions preview</label>
           </v-flex>
 
-          <v-flex class="flex">
-            <v-text-field
-              dark color="grey"
-              v-model="activeSettings.message.text"
-              label='Thank you message'
-              clearable>
-            </v-text-field>
-          </v-flex>
-        </v-layout>
-
-        <v-layout>
           <v-flex class="flex">
             <v-text-field
               dark color="grey"
@@ -31,6 +21,26 @@
               min="3"
               max="5">
             </v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-layout>
+          <v-flex class="flex">
+            <v-text-field
+              v-show="!showMessages"
+              dark color="grey"
+              v-model="activeMessage.text"
+              label='Thank you message'
+              clearable>
+            </v-text-field>
+            <v-select
+              v-show="showMessages"
+              dark color="grey"
+              v-model="activeSettings.message"
+              :items="messages"
+              return-object
+              hide-selected
+              label='Thank you message'>
+            </v-select>
           </v-flex>
 
           <v-flex class="flex">
@@ -50,7 +60,7 @@
           <v-flex>
             <v-btn class="showMessages"
               color="secondary"
-              @click="showActiveSettings">
+              @click="showExistingMessages">
               {{messagesBtnText}}
             </v-btn> <br/>
             <v-btn
@@ -60,16 +70,7 @@
               Confirm
             </v-btn>
           </v-flex>
-          <v-flex>
-            <v-combobox
-              v-show="showMessages"
-              dark color="grey"
-              v-model="activeSettings.message"
-              :items="messages"
-              label='Thank you message'
-              clearable>
-            </v-combobox>
-          </v-flex>
+          <v-flex></v-flex>
         </v-layout>
       </v-container>
     </v-form>
@@ -85,6 +86,7 @@ export default {
     return {
       activeSettings: {},
       messages: [],
+      activeMessage: {},
       showMessages: false,
       messagesBtnText: "Show all messages",
       emotionsRules: [
@@ -111,7 +113,24 @@ export default {
       ApiService.getActiveSettings()
         .then((response) => {
           this.activeSettings = response.data;
+          this.activeMessage = this.activeSettings.message;
         });
+    },
+    updateActiveSettings() {
+      if(this.showMessages) {
+        this.activeSettings.messageId = this.activeSettings.message.id;
+        ApiService.updateActiveSettings(this.activeSettings, this.activeSettings.id);
+      } else if (!this.isMessageExisting(this.activeMessage.text)){
+        this.createNewMessage(this.activeSettings.id, this.activeMessage);
+      }
+    },
+    isMessageExisting(message) {
+      for(let i = 0; i < this.messages.length; i++) {
+        if(this.messages[i].text == message) {
+          return true;
+        }
+      }
+      return false;
     },
     getThanksMessages() {
       ApiService.getThanksMessages()
@@ -119,21 +138,12 @@ export default {
           this.messages = response.data;
         });
     },
-    updateActiveSettings() {
-      this.activeSettings.messageId = this.activeSettings.message.id;
-      ApiService.updateActiveSettings(this.activeSettings, this.activeSettings.id);
+    createNewMessage(settingsId, newMessage) {
+      ApiService.createNewMessage(settingsId, newMessage);
     },
-    showActiveSettings() {
+    showExistingMessages() {
       this.showMessages = !this.showMessages;
-      this.messagesBtnText = this.showMessages ? "Hide all messages" : "Show all messages";
-    },
-    isMessageExisting() {
-      for(let i = 0; i < this.messages.length; i++) {
-        if(this.messages[i].text == this.activeMessage) {
-          return true;
-        }
-      }
-      return false;
+      this.messagesBtnText = this.showMessages ? "Create new message" : "Show all messages";
     },
   },
   created() {
