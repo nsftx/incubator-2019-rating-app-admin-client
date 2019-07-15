@@ -138,7 +138,8 @@ export default {
 				settingsId:8
 			}
 			ApiService.createNewDaily(Today)
-				.then((response)=> {console.log(response.data)})
+				.then((response)=> {this.reactions.push(response.data[0])
+				console.log(this.reactions)})
 		},
 		dataTableFetch(){
 
