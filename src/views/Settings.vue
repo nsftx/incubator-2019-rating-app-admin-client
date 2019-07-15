@@ -19,7 +19,6 @@
             </v-text-field>
           </v-flex>
         </v-layout>
-
         <v-layout>
           <v-flex class="flex">
             <v-text-field
@@ -61,6 +60,7 @@
               Confirm
             </v-btn>
           </v-flex>
+
           <v-flex>
             <v-combobox
               v-show="showMessages"
@@ -134,26 +134,12 @@ export default {
       ApiService.createNewMessage(message);
     },
     isMessageExisting(message) {
-      for(let i = 0; i < this.messages.length; i++) {
-        if(this.messages[i].text == message) {
-          return true;
-        }
-      }
-      return false;
+      return _.some(this.messages, { 'text': this.activeMessage });;
     },
   },
   created() {
     this.getActiveSettings();
     this.getThanksMessages();
-  },
-  watch: {
-    activeMessage: {
-      handler() {
-        if (!this.isMessageExisting(this.activeMessage)) {
-          this.createNewMessage(this.activeMessage);
-        }
-      },
-    }
   },
 };
 </script>
