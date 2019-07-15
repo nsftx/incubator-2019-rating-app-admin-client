@@ -5,7 +5,7 @@
     <h1>Today is a new day.</h1>
     <h1>Check your ratings!</h1>
     <br>
-    <h2>Graphs present your rating results. Today you have {{ today }} rates,</h2>
+    <h2>Graphs present your rating results. Today you have {{ todayCount }} rates,</h2>
     <h2>check it on the dashboard.</h2>
     <br>
     <div id="lineChart">
@@ -25,6 +25,7 @@
           </template>
         </v-data-table>
       </div>
+	  <br><br>
     </div>
   </div>
   
@@ -33,6 +34,7 @@
 <script>
 import RatingsPieChart from "../components/RatingsPieChart"
 import RatingsAreaDiagram from "../components/RatingsAreaDiagram"
+import ApiService from '@/services/ApiService'
 
 export default {
   components: {
@@ -41,7 +43,7 @@ export default {
   },
 	data(){
 		return{
-			today:450,
+			todayCount:450,
 			headers: [
 				{
 					text: "Reactions",
@@ -120,29 +122,30 @@ export default {
 					},
 				},
 			},
-			reactions: [
-				{
-					name: "Happy",
-					number: 200
-				},
-				{
-					name: "Happy-Meh",
-					number: 100
-				},
-				{
-					name: "Meh",
-					number: 75
-				},
-				{
-					name: "Meh-Sad",
-					number: 50
-				},
-				{
-					name: "Sad",
-					number: 25
-				}
-			]
+			reactions: [],
+			today: new Date().toISOString().substr(0, 10),
 		}
+	},
+	methods: {
+		createToday(){
+			function Reaction(name, number) {
+			this.name = name;
+			this.number = number;
+			let that=this;
+			}
+			const Today={
+				date:this.today,
+				settingsId:8
+			}
+			ApiService.createNewDaily(Today)
+				.then((response)=> {console.log(response.data)})
+		},
+		dataTableFetch(){
+
+		}
+	},
+	created() {
+		this.createToday()
 	}
 }
 </script>

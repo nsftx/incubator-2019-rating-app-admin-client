@@ -34,8 +34,10 @@ export default {
 	},
 	createNewRange(dateWithInterval) {
 		return axios.post(`${API_URL}/ratings/range`, dateWithInterval)
+			.then(response => response.data)
 	},
 	createNewDaily(date) {
 		return axios.post(`${API_URL}/ratings/count`, date)
+			.then(response => response.data)
 	},
 }
