@@ -13,16 +13,6 @@
           <v-flex class="flex">
             <v-text-field
               dark color="grey"
-              v-model="activeMessage"
-              label='Thank you message'
-              clearable>
-            </v-text-field>
-          </v-flex>
-        </v-layout>
-        <v-layout>
-          <v-flex class="flex">
-            <v-text-field
-              dark color="grey"
               v-model="activeSettings.emoticonNumber"
               :rules="emotionsRules"
               label="Number of emotions"
@@ -31,6 +21,26 @@
               min="3"
               max="5">
             </v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-layout>
+          <v-flex class="flex">
+            <v-text-field
+              v-show="!showMessages"
+              dark color="grey"
+              v-model="activeMessage.text"
+              label='Thank you message'
+              clearable>
+            </v-text-field>
+            <v-select
+              v-show="showMessages"
+              dark color="grey"
+              v-model="activeSettings.message"
+              :items="messages"
+              return-object
+              hide-selected
+              label='Thank you message'>
+            </v-select>
           </v-flex>
 
           <v-flex class="flex">
@@ -60,17 +70,7 @@
               Confirm
             </v-btn>
           </v-flex>
-
-          <v-flex>
-            <v-combobox
-              v-show="showMessages"
-              dark color="grey"
-              v-model="activeSettings.message"
-              :items="messages"
-              label='Thank you message'
-              clearable>
-            </v-combobox>
-          </v-flex>
+          <v-flex></v-flex>
         </v-layout>
       </v-container>
     </v-form>
@@ -86,7 +86,7 @@ export default {
     return {
       activeSettings: {},
       messages: [],
-      activeMessage: "",
+      activeMessage: {},
       showMessages: false,
       messagesBtnText: "Show all messages",
       emotionsRules: [
@@ -113,16 +113,24 @@ export default {
       ApiService.getActiveSettings()
         .then((response) => {
           this.activeSettings = response.data;
-          this.activeMessage = this.activeSettings.message.text;
+          this.activeMessage = this.activeSettings.message;
         });
     },
     updateActiveSettings() {
-      this.activeSettings.messageId = this.activeSettings.message.id;
-      ApiService.updateActiveSettings(this.activeSettings, this.activeSettings.id);
+      if(this.showMessages) {
+        this.activeSettings.messageId = this.activeSettings.message.id;
+        ApiService.updateActiveSettings(this.activeSettings, this.activeSettings.id);
+      } else if (!this.isMessageExisting(this.activeMessage.text)){
+        this.createNewMessage(this.activeSettings.id, this.activeMessage);
+      }
     },
-    showExistingMessages() {
-      this.showMessages = !this.showMessages;
-      this.messagesBtnText = this.showMessages ? "Hide all messages" : "Show all messages";
+    isMessageExisting(message) {
+      for(let i = 0; i < this.messages.length; i++) {
+        if(this.messages[i].text == message) {
+          return true;
+        }
+      }
+      return false;
     },
     getThanksMessages() {
       ApiService.getThanksMessages()
@@ -130,11 +138,12 @@ export default {
           this.messages = response.data;
         });
     },
-    createNewMessage(message) {
-      ApiService.createNewMessage(message);
+    createNewMessage(settingsId, newMessage) {
+      ApiService.createNewMessage(settingsId, newMessage);
     },
-    isMessageExisting(message) {
-      return _.some(this.messages, { 'text': this.activeMessage });;
+    showExistingMessages() {
+      this.showMessages = !this.showMessages;
+      this.messagesBtnText = this.showMessages ? "Create new message" : "Show all messages";
     },
   },
   created() {
