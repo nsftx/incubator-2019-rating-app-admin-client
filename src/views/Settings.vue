@@ -125,12 +125,7 @@ export default {
       }
     },
     isMessageExisting(message) {
-      for(let i = 0; i < this.messages.length; i++) {
-        if(this.messages[i].text == message) {
-          return true;
-        }
-      }
-      return false;
+      return _.some(this.messages, ["text", this.activeMessage.text]);
     },
     getThanksMessages() {
       ApiService.getThanksMessages()

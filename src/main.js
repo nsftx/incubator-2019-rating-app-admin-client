@@ -9,8 +9,10 @@ import store from "./store"
 
 import "vuetify/dist/vuetify.min.css"
 
+const _ = require('lodash');
+
 Vue.use(Vuetify)
-Vue.use(Axios, VueAxios)
+Vue.use(VueAxios, Axios)
 Vue.config.productionTip = false
 
 new Vue({
