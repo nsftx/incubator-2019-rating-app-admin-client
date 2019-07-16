@@ -70,11 +70,11 @@
           md4
         >
           <v-menu
-            ref="menu"
-            v-model="menu"
+            ref="menu2"
+            v-model="menu2"
             :close-on-content-click="false"
             :nudge-right="40"
-            :return-value.sync="date"
+            :return-value.sync="date2"
             lazy
             transition="scale-transition"
             offset-y
@@ -83,7 +83,7 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="date"
+                v-model="date2"
                 label="Ending date..."
                 prepend-icon="event"
                 readonly
@@ -119,7 +119,7 @@
       </v-layout>
     </div>
     <br>
-    <h2>Showing reports for: {{ date2 }}</h2>
+    <h2>Showing reports from {{ date }} to {{ date2 }}</h2>
     <br>
     <div id="lineChart">
       <ratings-area-diagram></ratings-area-diagram>
