@@ -12,9 +12,9 @@ export default {
     },
     data() {
         return {
-            chartSeries: [200, 100, 75, 50, 25],
+            chartSeries: [],
             chartOptions: {
-                labels: ["Happy", "Happy-Meh", "Meh", "Sad-Meh", "Sad"],
+                labels: [],
                 legend: {
                     position: "bottom",
                     labels: {

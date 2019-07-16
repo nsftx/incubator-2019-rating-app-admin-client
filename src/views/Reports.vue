@@ -119,13 +119,17 @@
       </v-layout>
     </div>
     <br>
+    <div id="spacer"></div>
+    <v-btn @click="createToday()" dark id="createBtn">Show me the reports</v-btn>
+    <div id="spacer"></div>
+    <br>
     <h2>Showing reports from {{ date }} to {{ date2 }}</h2>
     <br>
     <div id="lineChart">
       <ratings-area-diagram></ratings-area-diagram>
     </div>
     <div id="pieChart">
-      <ratings-pie-chart></ratings-pie-chart>
+      <apexcharts id="apexPie" type="pie" height="350" :options="chartOptions" :series="chartSeries"></apexcharts>
     </div>
     <br>
     <div id="dataTable">
@@ -145,11 +149,14 @@
 import RatingsPieChart from "../components/RatingsPieChart"
 import RatingsAreaDiagram from "../components/RatingsAreaDiagram"
 import ApiService from '@/services/ApiService'
+import ApexCharts from "vue-apexcharts"
+import { setTimeout } from 'timers';
 
 export default {
 	components: {
 		RatingsPieChart,
-		RatingsAreaDiagram,
+    RatingsAreaDiagram,
+    apexcharts: ApexCharts
 	},
 	data() {
 		return {
@@ -165,13 +172,29 @@ export default {
 				{
 					text: "Reactions",
 					align: "left",
-					sortable: false,
+					sortable: true,
 					value: "name"
 				},
 				{ text: "Number of reactions", value: "number" }
-			],
-			reactions: [],
-		}
+      ],
+      reactions: [],
+      chartSeries: [],
+            chartOptions: {
+                labels: [],
+                legend: {
+                    position: "bottom",
+                    labels: {
+                        colors: "#fff",
+                    },
+                },
+                title: {
+                    text: "Ratings",
+                    style: {
+                        color: "#fff"
+                    },
+                },
+            },
+    }
   },
   methods: {
 		createToday(){
@@ -181,30 +204,56 @@ export default {
 			let that=this;
 			}
 			const Today={
-				date:this.date,
+        startDate:this.date,
+        endDate:this.date2,
 				settingsId:8
 			}
-			ApiService.createNewDaily(Today)
+			ApiService.createNewReport(Today)
 				.then((response)=> {
+          console.log(response.data)
 					for(let i in response.data)
-					this.reactions.push(new Reaction(response.data[i]["emoticon.name"],response.data[i].count))
-				console.log(this.reactions)})
-		}
-	},
+					this.reactions.push(new Reaction(response.data[`${i}`].emoticon.name,response.data[i].count))
+        })
+      this.createPieChart();
+    },
+    createPieChart(){
+      this.reactions=[]
+      this.chartSeries=[]
+      const Today={
+				startDate:this.date,
+        endDate:this.date2,
+				settingsId:8
+			}
+      ApiService.createNewReport(Today)
+				.then((response)=> {
+          for(let i in response.data)
+          {
+            this.chartSeries.push(response.data[i].count)
+            this.chartOptions.labels[i]=(response.data[`${i}`].emoticon.name)
+          }
+          console.log(this.chartOptions.labels)
+        })
+        //this.emptyLabels()
+    },
+    emptyLabels(){
+      this.chartOptions.labels=[]
+    }
+  },
 	created() {
-		this.createToday()
+    this.createToday()
 	}
 }
 
 </script>
 
 <style>
-#pickerWrap{
+#pickerWrap {
     height: 50px;
     background:none;
     width:200px;
     margin-left:120px;
     border-radius: 5px;
+    float:left;
 }
 #pickerWrap input{
     color:rgb(36, 36, 36);
@@ -218,6 +267,11 @@ export default {
   float:left;
   margin-left:150px;
   margin-right:20px;
+}
+#createBtn{
+  float:left;
+  margin-left:150px;
+
 }
 #pieChart{
   background:#444444;
@@ -241,5 +295,9 @@ export default {
 }
 input[type="text"]{
 	color:rgb(190, 190, 190) !important;
+}
+#spacer{
+  width:100%;
+  height:50px;
 }
 </style>
