@@ -217,6 +217,7 @@ export default {
       this.createPieChart();
     },
     createPieChart(){
+      //this.emptyLabels() - removes reactions with 0 count, but no label texts, if it is not called labels have text
       this.reactions=[]
       this.chartSeries=[]
       const Today={
@@ -231,12 +232,13 @@ export default {
             this.chartSeries.push(response.data[i].count)
             this.chartOptions.labels[i]=(response.data[`${i}`].emoticon.name)
           }
-          console.log(this.chartOptions.labels)
+          console.log('Length: '+this.chartOptions.labels.length)
         })
-        //this.emptyLabels()
+        
     },
     emptyLabels(){
       this.chartOptions.labels=[]
+      console.log(this.chartOptions.labels)
     }
   },
 	created() {
