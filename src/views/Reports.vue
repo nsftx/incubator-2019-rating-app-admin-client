@@ -181,6 +181,12 @@ export default {
       chartSeries: [],
             chartOptions: {
                 labels: [],
+                noData: {
+                    text: "No data for selected date interval",
+                    style: {
+                      color: "#fff"
+                    },
+                },
                 legend: {
                     position: "bottom",
                     labels: {
