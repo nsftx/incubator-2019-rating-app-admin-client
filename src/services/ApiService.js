@@ -44,4 +44,8 @@ export default {
 		return axios.post(`${API_URL}/ratings/count`, date)
 			.then(response => response.data)
 	},
+	createNewReport(date) {
+		return axios.post(`${API_URL}/ratings/report`, date)
+			.then(response => response.data)
+	},
 }

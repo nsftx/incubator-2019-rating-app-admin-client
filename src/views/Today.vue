@@ -12,7 +12,7 @@
       <ratings-area-diagram></ratings-area-diagram>
     </div>
     <div id="pieChart">
-      <ratings-pie-chart></ratings-pie-chart>
+      <apexcharts type="pie" height="350" :options="chartOptions" :series="chartSeries"></apexcharts>
     </div>
     <br>
     <div id="dataTable">
@@ -35,11 +35,13 @@
 import RatingsPieChart from "../components/RatingsPieChart"
 import RatingsAreaDiagram from "../components/RatingsAreaDiagram"
 import ApiService from '@/services/ApiService'
+import ApexCharts from "vue-apexcharts"
 
 export default {
   components: {
     RatingsPieChart,
     RatingsAreaDiagram,
+    apexcharts: ApexCharts
   },
 	data(){
 		return{
@@ -54,7 +56,23 @@ export default {
 				{ text: "Number of reactions", value: "number" }
 			],
 			reactions: [],
-			today: new Date().toISOString().substr(0, 10),
+      today: new Date().toISOString().substr(0, 10),
+      chartSeries: [],
+            chartOptions: {
+                labels: [],
+                legend: {
+                    position: "bottom",
+                    labels: {
+                        colors: "#fff",
+                    },
+                },
+                title: {
+                    text: "Ratings",
+                    style: {
+                        color: "#fff"
+                    },
+                },
+            },
 		}
 	},
 	methods: {
@@ -71,12 +89,29 @@ export default {
 			ApiService.createNewDaily(Today)
 				.then((response)=> {
 					for(let i in response.data)
-					this.reactions.push(new Reaction(response.data[i]["emoticon.name"],response.data[i].count))
-				console.log(this.reactions)})
-		}
+					this.reactions.push(new Reaction(response.data[i]["emoticon.name"],response.data[i].count))})
+    },
+    createPieChart(){
+      this.chartSeries=[]
+      this.chartOptions.labels=[]
+      const Today={
+				date:this.today,
+				settingsId:8
+			}
+      ApiService.createNewDaily(Today)
+				.then((response)=> {
+          for(let i in response.data)
+          {
+            this.chartSeries[i]=(response.data[i].count)
+            this.chartOptions.labels[i]=(response.data[i]["emoticon.name"])
+          }
+          
+        });
+    },
 	},
 	created() {
-		this.createToday()
+    this.createToday(),
+    this.createPieChart()
 	}
 }
 </script>
