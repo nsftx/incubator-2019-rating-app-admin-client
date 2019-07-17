@@ -20,6 +20,10 @@ export default {
 		return axios.post(`${API_URL}/messages/${settingsId}`, message)
 			.then(response => response.data)
 	},
+	getEmoticonGroup() {
+		return axios.get(`${API_URL}/emoticonsGroups`)
+			.then(response => response.data)
+	},
 	updateActiveSettings(settings, id) {
 		return axios.put(`${API_URL}/settings/${id}`, settings)
 			.then(response => response.data)

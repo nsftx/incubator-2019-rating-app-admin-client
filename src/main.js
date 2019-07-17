@@ -11,9 +11,11 @@ import "vuetify/dist/vuetify.min.css"
 
 const _ = require('lodash');
 
+
 Vue.use(Vuetify)
 Vue.use(VueAxios, Axios)
 Vue.config.productionTip = false
+Vue.com
 
 new Vue({
 	router,
