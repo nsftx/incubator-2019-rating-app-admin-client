@@ -15,7 +15,7 @@
             v-model="menu"
             :close-on-content-click="false"
             :nudge-right="40"
-            :return-value.sync="date"
+            :return-value.sync="dateBegin"
             lazy
             transition="scale-transition"
             offset-y
@@ -24,7 +24,7 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="date"
+                v-model="dateBegin"
                 label="Beginning date..."
                 prepend-icon="event"
                 readonly
@@ -33,7 +33,7 @@
               />
             </template>
             <v-date-picker
-              v-model="date"
+              v-model="dateBegin"
               no-title
               scrollable
               :dark="dark"
@@ -50,7 +50,7 @@
               <v-btn
                 flat
                 color="primary"
-                @click="$refs.menu.save(date)"
+                @click="$refs.menu.save(dateBegin)"
               >
                 OK
               </v-btn>
@@ -74,7 +74,7 @@
             v-model="menu2"
             :close-on-content-click="false"
             :nudge-right="40"
-            :return-value.sync="date2"
+            :return-value.sync="dateEnd"
             lazy
             transition="scale-transition"
             offset-y
@@ -83,7 +83,7 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="date2"
+                v-model="dateEnd"
                 label="Ending date..."
                 prepend-icon="event"
                 readonly
@@ -92,7 +92,7 @@
               />
             </template>
             <v-date-picker
-              v-model="date2"
+              v-model="dateEnd"
               no-title
               scrollable
               :dark="dark"
@@ -109,7 +109,7 @@
               <v-btn
                 flat
                 color="primary"
-                @click="$refs.menu2.save(date2)"
+                @click="$refs.menu2.save(dateEnd)"
               >
                 OK
               </v-btn>
@@ -123,7 +123,7 @@
     <v-btn @click="createToday()" dark id="createBtn">Show me the reports</v-btn>
     <div id="spacer"></div>
     <br>
-    <h2>Showing reports from {{ date }} to {{ date2 }}</h2>
+    <h2>Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
     <br>
     <div id="lineChart">
       <ratings-area-diagram></ratings-area-diagram>
@@ -165,9 +165,9 @@ export default {
 			logged: true,
 			menu: false,
 			password: "",
-      date: new Date().toISOString().substr(0, 10),
+      dateBegin: new Date().toISOString().substr(0, 10),
       menu2: false,
-			date2: new Date().toISOString().substr(0, 10),
+			dateEnd: new Date().toISOString().substr(0, 10),
 			headers: [
 				{
 					text: "Reactions",
@@ -199,13 +199,13 @@ export default {
   methods: {
 		createToday(){
 			function Reaction(name, number) {
-			this.name = name;
-			this.number = number;
-			let that=this;
+			this.name = name
+			this.number = number
+			let that=this
 			}
 			const Today={
-        startDate:this.date,
-        endDate:this.date2,
+        startDate:this.dateBegin,
+        endDate:this.dateEnd,
 				settingsId:8
 			}
 			ApiService.createNewReport(Today)
@@ -213,19 +213,16 @@ export default {
 					for(let i in response.data)
 					this.reactions.push(new Reaction(response.data[`${i}`].emoticon.name,response.data[i].count))
         })
-      this.createPieChart();
+      this.createPieChart()
     },
     createPieChart(){
-      while(this.chartOptions.labels.length>0)
-      {
-        this.chartOptions.labels.pop();
-      }
+      this.chartOptions.labels.length=0
       this.reactions=[]
       this.chartSeries=[]
       let temp = []
       const Today={
-				startDate:this.date,
-        endDate:this.date2,
+				startDate:this.dateBegin,
+        endDate:this.dateEnd,
 				settingsId:8
 			}
       ApiService.createNewReport(Today)

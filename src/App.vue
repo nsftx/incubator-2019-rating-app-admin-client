@@ -25,9 +25,23 @@
       <br>
       <p style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">Welcome to the Rating Dashboard! Please enter your credentials</p>
       <br>
-      <h2 style="text-align:center; margin:0;">Password</h2><br>
-      <input type="password" v-model="password" style="font-size:24px; border: 1px solid rgb(190, 190, 190); padding: 10px 20px; border-radius: 5px; margin-right: 10px;">
-      <button @click="login()" style="font-size:24px; border: 1px solid rgb(190, 190, 190); padding: 10px 20px; border-radius: 5px;">Login</button>
+      <v-flex xs12 sm6>
+            <v-text-field
+              v-model="password"
+              :append-icon="show1 ? 'visibility' : 'visibility_off'"
+              :rules="[rules.required, rules.min]"
+              :type="show1 ? 'text' : 'password'"
+              name="input-10-1"
+              label="Password"
+              hint="At least 5 characters"
+              counter
+              @click:append="show1 = !show1"
+              dark
+              color="grey"
+              style="margin-left: 200px;"
+            ></v-text-field>
+          </v-flex>
+      <v-btn dark @click="login()" style="float: left; margin-left: 200px;">Login</v-btn>
       
     </div>
   <div v-show="logged">
@@ -80,6 +94,11 @@
 export default{
 	data() {
 		return {
+      show1: false,
+      rules: {
+        required: value => !!value || 'Required.',
+        min: v => v.length >= 5 || 'Min 5 characters'
+      },
 			logged: false,
 			password: "",
       snackbar: false,
@@ -113,11 +132,8 @@ export default{
 p {
   color:white;
 }
-#buttonToday{
-  margin-top:20px;
-}
 #buttonSettings{
-  margin-top:790px;
+  margin-top:810px;
 }
 #buttonToday:hover,
 #buttonReports:hover,
@@ -176,5 +192,10 @@ h1,h2{
 }
 .v-datatable__actions {
     border-radius: 5px;
+}
+@media screen and ( min-height: 1110px ){
+#buttonSettings{
+  margin-top:910px;
+}
 }
 </style>
