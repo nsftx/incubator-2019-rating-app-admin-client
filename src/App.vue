@@ -117,7 +117,7 @@ p {
   margin-top:20px;
 }
 #buttonSettings{
-  margin-top:750px;
+  margin-top:790px;
 }
 #buttonToday:hover,
 #buttonReports:hover,
@@ -170,5 +170,11 @@ h1,h2{
     margin-right: 10px;
     margin-top:10px;
     margin-bottom:20px;
+}
+.elevation-1 > * {
+    border-radius: 5px !important;
+}
+.v-datatable__actions {
+    border-radius: 5px;
 }
 </style>

@@ -282,7 +282,6 @@ export default {
 }
 #dataTable{
   float:left;
-  background:rgb(36, 40, 46);
   height:300px;
   width:45%;
   margin-left:150px;

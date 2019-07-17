@@ -108,10 +108,26 @@ export default {
           
         });
     },
+    countToday(){
+      let counter=0
+      const Today={
+				date:this.today,
+				settingsId:8
+			}
+      ApiService.createNewDaily(Today)
+				.then((response)=> {
+          for(let i in response.data)
+          {
+            counter+=parseInt(response.data[i].count)
+          }
+          this.todayCount = counter
+        });
+    }
 	},
 	created() {
     this.createToday(),
-    this.createPieChart()
+    this.createPieChart(),
+    this.countToday()
 	}
 }
 </script>
