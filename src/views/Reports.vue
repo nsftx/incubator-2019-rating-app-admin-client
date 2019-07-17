@@ -210,7 +210,6 @@ export default {
 			}
 			ApiService.createNewReport(Today)
 				.then((response)=> {
-          console.log(response.data)
 					for(let i in response.data)
 					this.reactions.push(new Reaction(response.data[`${i}`].emoticon.name,response.data[i].count))
         })

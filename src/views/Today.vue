@@ -45,7 +45,7 @@ export default {
   },
 	data(){
 		return{
-			todayCount:450,
+			todayCount:0,
 			headers: [
 				{
 					text: "Reactions",
