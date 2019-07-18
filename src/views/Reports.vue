@@ -220,10 +220,10 @@ export default {
   methods: {
 		createRange() {
 			function Reaction(name, number) {
-			this.name = name
+			this.name = name,
 			this.number = number
 			}
-			const Today={
+			const Today = {
         startDate:this.dateBegin,
         endDate:this.dateEnd,
 				settingsId:8
@@ -250,7 +250,6 @@ export default {
           _.times(response.data.length, ()=> this.chartSeries.push(response.data[i++].count))
           _.times(response.data.length, ()=> this.chartOptions.labels.push(response.data[`${j++}`].emoticon.name))
         })
-        
     },
   }
 }

@@ -127,9 +127,9 @@ export default {
     };
   },
   created() {
-    this.getActiveSettings();
-    this.getThanksMessages();
-    this.getEmoticonGroup();
+    this.getActiveSettings(),
+    this.getThanksMessages(),
+    this.getEmoticonGroup()
   },
   methods: {
     validateSettings() {

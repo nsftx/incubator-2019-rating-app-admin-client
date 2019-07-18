@@ -5,12 +5,12 @@
     <h2>Press the button if you want to logout</h2>
     <v-btn
       dark
-      @click="snackbar3=true"
+      @click="snackbarLogoutConfirm=true"
     >
       Logout
     </v-btn>
     <v-snackbar
-      v-model="snackbar3"
+      v-model="snackbarLogoutConfirm"
       :bottom="y === 'bottom'"
       :left="x === 'left'"
       :multi-line="mode === 'multi-line'"
@@ -19,7 +19,7 @@
       :top="y === 'top'"
       :vertical="mode === 'vertical'"
     >
-      {{ text3 }}
+      {{ textLogoutConfirm }}
       <v-btn
         color="pink"
         flat
@@ -37,12 +37,12 @@ export default {
 		return{
 			confirmed: false,
 			password:"",
-			snackbar3: false,
+			snackbarLogoutConfirm: false,
 			y: "top",
 			x: null,
 			mode: "",
 			timeout: 3000,
-			text3: "One last confirmation..",
+			textLogoutConfirm: "One last confirmation...",
 		}
 	},
 	methods: {
