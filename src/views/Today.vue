@@ -1,7 +1,10 @@
 <template>
   <div id="today">
     <br><br>
-	<img id="artwork" src="../assets/Artwork.svg">
+    <img
+      id="artwork"
+      src="../assets/Artwork.svg"
+    >
     <h1>Today is a new day.</h1>
     <h1>Check your ratings!</h1>
     <br>
@@ -9,37 +12,46 @@
     <h2>check it on the dashboard.</h2>
     <br>
     <div id="lineChart">
-      <ratings-area-diagram></ratings-area-diagram>
+      <ratings-area-diagram />
     </div>
     <div id="pieChart">
-      <apexcharts type="pie" height="350" :options="chartOptions" :series="chartSeries"></apexcharts>
+      <apexcharts
+        type="pie"
+        height="350"
+        :options="chartOptions"
+        :series="chartSeries"
+      />
     </div>
     <br>
     <div id="dataTable">
-	<!-- <data-table-temp></data-table-temp> -->
-    <div id="tableData">
-        <v-data-table :headers="headers" :items="reactions" class="elevation-1" :dark="true">
+      <!-- <data-table-temp></data-table-temp> -->
+      <div id="tableData">
+        <v-data-table
+          :headers="headers"
+          :items="reactions"
+          class="elevation-1"
+          :dark="true"
+        >
           <template v-slot:items="props">
             <td>{{ props.item.name }}</td>
-            <td class="text-xs-right">{{ props.item.number }}</td>
+            <td class="text-xs-right">
+              {{ props.item.number }}
+            </td>
           </template>
         </v-data-table>
       </div>
-	  <br><br>
+      <br><br>
     </div>
   </div>
-  
 </template>
 
 <script>
-import RatingsPieChart from "../components/RatingsPieChart"
 import RatingsAreaDiagram from "../components/RatingsAreaDiagram"
 import ApiService from '@/services/ApiService'
 import ApexCharts from "vue-apexcharts"
 
 export default {
   components: {
-    RatingsPieChart,
     RatingsAreaDiagram,
     apexcharts: ApexCharts
   },
@@ -75,12 +87,16 @@ export default {
             },
 		}
 	},
+	created() {
+    this.createToday(),
+    this.createPieChart(),
+    this.countToday()
+	},
 	methods: {
 		createToday(){
 			function Reaction(name, number) {
-			this.name = name;
-			this.number = number;
-			let that=this;
+			this.name = name
+			this.number = number
 			}
 			const Today={
 				date:this.today,
@@ -123,11 +139,6 @@ export default {
           this.todayCount = counter
         });
     }
-	},
-	created() {
-    this.createToday(),
-    this.createPieChart(),
-    this.countToday()
 	}
 }
 </script>
