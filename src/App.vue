@@ -27,7 +27,7 @@
       <h1>Login</h1>
       <br>
       <p style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">
-        Welcome to the Rating Dashboard! Please enter your credentials
+        Welcome to the Rating Dashboard! Please enter your credentials<br>This view will be replaced with Google OAuth
       </p>
       <br>
       <v-flex
@@ -41,7 +41,7 @@
           :type="show1 ? 'text' : 'password'"
           name="input-10-1"
           label="Password"
-          hint="At least 5 characters"
+          hint="5 characters"
           counter
           dark
           color="grey"
@@ -49,13 +49,15 @@
           @click:append="show1 = !show1"
         />
       </v-flex>
-      <v-btn
-        dark
-        style="float: left; margin-left: 200px;"
-        @click="login()"
-      >
-        Login
-      </v-btn>
+      <router-link to="/">
+        <v-btn
+          dark
+          style="float: left; margin-left: 200px;"
+          @click="login()"
+        >
+          Login
+        </v-btn>
+      </router-link>
     </div>
     <div v-show="logged">
       <v-snackbar
@@ -140,8 +142,8 @@ export default{
 		return {
       show1: false,
       rules: {
-        required: value => !!value || 'Required.',
-        min: v => v.length >= 5 || 'Min 5 characters'
+        required: value => !!value || 'Required. Password: admin',
+        min: v => v.length >= 5 || 'Min 5 characters. Password: admin'
       },
 			logged: false,
 			password: "",
