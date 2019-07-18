@@ -1,15 +1,12 @@
 <template id="ratings-area-diagram">
   <div>
     <apexcharts type="area" height="400" :options="diagramOptions" :series="diagramSeries"></apexcharts>
-    <button @click="createNewRange">click</button>
   </div>
 </template>
 
 <script>
 import ApexCharts from "vue-apexcharts";
 import ApiService from "../services/ApiService";
-
-const HOURS = 24;
 
 export default {
   template: "#ratings-area-diagram",
@@ -19,7 +16,6 @@ export default {
   },
   data() {
     return {
-      diagramCategories: new Date().toISOString().substr(0, 8),
       range: {
         date: new Date().toISOString().substr(0, 10),
         interval: 2
@@ -62,10 +58,11 @@ export default {
           }
         },
         xaxis: {
+          format: "HH/DD",
           labels: {
             style: {
               colors: "#444444"
-            }
+			},
           },
           type: "datetime",
           categories: []
@@ -94,9 +91,9 @@ export default {
         this.populateDiagramOptionsCategories(response.data);
         for (let i = 0; i < response.data.length; i++) {
           for (let j = 0; j < response.data[i].length; j++) {
-            let nameIndex = _.findIndex(this.diagramSeries, {
-              name: response.data[i][j].emoticon.name
-            });
+            let nameIndex = _.findIndex(this.diagramSeries, [
+              "name", response.data[i][j].emoticon.name
+            ]);
             this.diagramSeries[nameIndex].data.push(response.data[i][j].count);
             ratedEmotionsPerHour.push(nameIndex);
           }
@@ -110,15 +107,19 @@ export default {
       });
     },
     populateDiagramSeriesNames(emoticons) {
-      for (let emoticon in emoticons) {
-        this.diagramSeries[emoticon].name = emoticons[emoticon].name;
+      for (let i = 0; i < this.diagramSeries.length; i++) {
+        this.diagramSeries[i].name = emoticons[i].name;
       }
     },
     populateDiagramOptionsCategories(ratings) {
       for (let i = 0; i < ratings.length; i++) {
         this.diagramOptions.xaxis.categories.push(ratings[i][0].end);
       }
-    }
+      console.log(this.diagramOptions.xaxis.categories)
+    },
+  },
+  created() {
+	this.createNewRange();
   }
 };
 </script>

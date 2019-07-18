@@ -13,9 +13,10 @@
           <v-divider class="divider" dark />
           <v-layout>
             <v-flex class="flex">
-              <label style="float:left;">Emotions preview</label> <br/>
+              <label style="float:left;">Emotions preview</label>
+              <br />
               <i
-              class="fa-2x"
+                class="fa-2x fa-fw"
                 v-for="emoticon in emoticons.emoticons"
                 :key="emoticon.id"
                 :class="[emoticon.symbol]"
@@ -132,7 +133,7 @@ export default {
         this.activeMessage = this.activeSettings.message;
       });
     },
-    updateActiveSettings() {
+    updateActiveSettings() { // TODO: Update if valid settings
       if (this.showMessages) {
         this.activeSettings.messageId = this.activeSettings.message.id;
         ApiService.updateActiveSettings(
@@ -162,7 +163,7 @@ export default {
     },
     getEmoticonGroup() {
       ApiService.getEmoticonGroup().then(response => {
-        this.emoticons = response.data[0];
+        this.emoticons = response.data[0];  //TODO: Set selected emoticons from dropdown
       });
     }
   },
