@@ -11,8 +11,8 @@
           md4
         >
           <v-menu
-            ref="menu"
-            v-model="menu"
+            ref="menuBegin"
+            v-model="menuBegin"
             :close-on-content-click="false"
             :nudge-right="40"
             :return-value.sync="dateBegin"
@@ -43,14 +43,14 @@
               <v-btn
                 flat
                 color="primary"
-                @click="menu = false"
+                @click="menuBegin = false"
               >
                 Cancel
               </v-btn>
               <v-btn
                 flat
                 color="primary"
-                @click="$refs.menu.save(dateBegin)"
+                @click="$refs.menuBegin.save(dateBegin)"
               >
                 OK
               </v-btn>
@@ -70,8 +70,8 @@
           md4
         >
           <v-menu
-            ref="menu2"
-            v-model="menu2"
+            ref="menuEnd"
+            v-model="menuEnd"
             :close-on-content-click="false"
             :nudge-right="40"
             :return-value.sync="dateEnd"
@@ -102,14 +102,14 @@
               <v-btn
                 flat
                 color="primary"
-                @click="menu2 = false"
+                @click="menuEnd = false"
               >
                 Cancel
               </v-btn>
               <v-btn
                 flat
                 color="primary"
-                @click="$refs.menu2.save(dateEnd)"
+                @click="$refs.menuEnd.save(dateEnd)"
               >
                 OK
               </v-btn>
@@ -120,7 +120,7 @@
     </div>
     <br>
     <div id="spacer"></div>
-    <v-btn @click="createToday()" dark id="createBtn">Show me the reports</v-btn>
+    <v-btn @click="createRange()" dark id="createBtn">Show reports</v-btn>
     <div id="spacer"></div>
     <br>
     <h2>Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
@@ -150,7 +150,7 @@ import RatingsPieChart from "../components/RatingsPieChart"
 import RatingsAreaDiagram from "../components/RatingsAreaDiagram"
 import ApiService from '@/services/ApiService'
 import ApexCharts from "vue-apexcharts"
-import { setTimeout } from 'timers';
+import { setTimeout } from 'timers'
 
 export default {
 	components: {
@@ -162,11 +162,11 @@ export default {
 		return {
 			dark: true,
 			reactive: true,
-			logged: true,
-			menu: false,
-			password: "",
+      logged: true,
+      password: "",
+			menuBegin: false,
       dateBegin: new Date().toISOString().substr(0, 10),
-      menu2: false,
+      menuEnd: false,
 			dateEnd: new Date().toISOString().substr(0, 10),
 			headers: [
 				{
@@ -197,11 +197,10 @@ export default {
     }
   },
   methods: {
-		createToday(){
+		createRange() {
 			function Reaction(name, number) {
 			this.name = name
 			this.number = number
-			let that=this
 			}
 			const Today={
         startDate:this.dateBegin,
@@ -210,16 +209,15 @@ export default {
 			}
 			ApiService.createNewReport(Today)
 				.then((response)=> {
-					for(let i in response.data)
-					this.reactions.push(new Reaction(response.data[`${i}`].emoticon.name,response.data[i].count))
+          let i=0
+          _.times(response.data.length, ()=> this.reactions.push(new Reaction(response.data[`${i}`].emoticon.name,response.data[i++].count)))          
         })
       this.createPieChart()
     },
-    createPieChart(){
+    createPieChart() {
       this.chartOptions.labels.length=0
       this.reactions=[]
       this.chartSeries=[]
-      let temp = []
       const Today={
 				startDate:this.dateBegin,
         endDate:this.dateEnd,
@@ -227,17 +225,15 @@ export default {
 			}
       ApiService.createNewReport(Today)
 				.then((response)=> {
-          for(let i in response.data)
-          {
-            this.chartSeries.push(response.data[i].count)
-            this.chartOptions.labels[i]=(response.data[`${i}`].emoticon.name)
-          }
+          let i=0,j=0
+          _.times(response.data.length, ()=> this.chartSeries.push(response.data[i++].count))
+          _.times(response.data.length, ()=> this.chartOptions.labels.push(response.data[`${j++}`].emoticon.name))
         })
         
     },
   },
 	created() {
-    this.createToday()
+    this.createRange()
 	}
 }
 
