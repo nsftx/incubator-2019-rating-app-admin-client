@@ -104,8 +104,9 @@ export default {
 			}
 			ApiService.createNewDaily(Today)
 				.then((response)=> {
-					for(let i in response.data)
-					this.reactions.push(new Reaction(response.data[i]["emoticon.name"],response.data[i].count))})
+          let i=0
+          _.times(response.data.length, ()=> this.reactions.push(new Reaction(response.data[`${i}`]["emoticon.name"],response.data[i++].count)))
+          })
     },
     createPieChart(){
       this.chartSeries=[]
@@ -116,12 +117,9 @@ export default {
 			}
       ApiService.createNewDaily(Today)
 				.then((response)=> {
-          for(let i in response.data)
-          {
-            this.chartSeries[i]=(response.data[i].count)
-            this.chartOptions.labels[i]=(response.data[i]["emoticon.name"])
-          }
-          
+          let i=0,j=0
+          _.times(response.data.length, ()=> this.chartSeries.push(response.data[i++].count))
+          _.times(response.data.length, ()=> this.chartOptions.labels.push(response.data[`${j++}`]["emoticon.name"]))
         });
     },
     countToday(){
@@ -132,10 +130,8 @@ export default {
 			}
       ApiService.createNewDaily(Today)
 				.then((response)=> {
-          for(let i in response.data)
-          {
-            counter+=parseInt(response.data[i].count)
-          }
+          let i=0
+          _.times(response.data.length, ()=> counter+=parseInt(response.data[i++].count))
           this.todayCount = counter
         });
     }
