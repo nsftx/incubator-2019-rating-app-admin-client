@@ -168,7 +168,8 @@
 import RatingsAreaDiagram from "../components/RatingsAreaDiagram"
 import ApiService from '@/services/ApiService'
 import ApexCharts from "vue-apexcharts"
-import { setTimeout } from 'timers'
+// eslint-disable-next-line
+import { setTimeout } from "timers"
 
 export default {
 	components: {
