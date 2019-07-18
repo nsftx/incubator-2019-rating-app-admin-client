@@ -2,27 +2,32 @@
   <div id="logout">
     <br>
     <h2>Already leaving ☹</h2>
-	<h2>Press the button if you want to logout</h2>
-    <v-btn dark @click="snackbar3=true">Logout</v-btn>
-	 <v-snackbar
-        v-model="snackbar3"
-        :bottom="y === 'bottom'"
-        :left="x === 'left'"
-        :multi-line="mode === 'multi-line'"
-        :right="x === 'right'"
-        :timeout="timeout"
-        :top="y === 'top'"
-        :vertical="mode === 'vertical'"
+    <h2>Press the button if you want to logout</h2>
+    <v-btn
+      dark
+      @click="snackbar3=true"
+    >
+      Logout
+    </v-btn>
+    <v-snackbar
+      v-model="snackbar3"
+      :bottom="y === 'bottom'"
+      :left="x === 'left'"
+      :multi-line="mode === 'multi-line'"
+      :right="x === 'right'"
+      :timeout="timeout"
+      :top="y === 'top'"
+      :vertical="mode === 'vertical'"
+    >
+      {{ text3 }}
+      <v-btn
+        color="pink"
+        flat
+        @click="logout()"
       >
-        {{ text3 }}
-        <v-btn
-          color="pink"
-          flat
-          @click="logout()"
-        >
-          Confirm
-        </v-btn>
-      </v-snackbar>
+        Confirm
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 

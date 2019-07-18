@@ -5,28 +5,31 @@
       href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
       integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
       crossorigin="anonymous"
-    />
+    >
     <v-app>
       <v-form>
         <v-container fluid>
           <h3>Settings</h3>
-          <v-divider class="divider" dark />
+          <v-divider
+            class="divider"
+            dark
+          />
           <v-layout>
             <v-flex class="flex">
-              <label style="float:left;">Emotions preview</label> <br/>
+              <label style="float:left;">Emotions preview</label> <br>
               <i
-              class="fa-2x"
                 v-for="emoticon in emoticons.emoticons"
                 :key="emoticon.id"
+                class="fa-2x"
                 :class="[emoticon.symbol]"
-              ></i>
+              />
             </v-flex>
 
             <v-flex class="flex">
               <v-text-field
+                v-model="activeSettings.emoticonNumber"
                 dark
                 color="grey"
-                v-model="activeSettings.emoticonNumber"
                 :rules="emotionsRules"
                 label="Number of emotions"
                 hint="Enter number from 3-5"
@@ -34,36 +37,36 @@
                 type="number"
                 min="3"
                 max="5"
-              ></v-text-field>
+              />
             </v-flex>
           </v-layout>
           <v-layout>
             <v-flex class="flex">
               <v-text-field
                 v-show="!showMessages"
+                v-model="activeMessage.text"
                 dark
                 color="grey"
-                v-model="activeMessage.text"
                 label="Thank you message"
                 clearable
-              ></v-text-field>
+              />
               <v-select
                 v-show="showMessages"
+                v-model="activeSettings.message"
                 dark
                 color="grey"
-                v-model="activeSettings.message"
                 :items="messages"
                 return-object
                 hide-selected
                 label="Thank you message"
-              ></v-select>
+              />
             </v-flex>
 
             <v-flex class="flex">
               <v-text-field
+                v-model="activeSettings.messageTimeout"
                 dark
                 color="grey"
-                v-model="activeSettings.messageTimeout"
                 :rules="timeoutRules"
                 label="Mesage timeout"
                 hint="Can be from 0-10"
@@ -71,7 +74,7 @@
                 type="number"
                 min="1"
                 max="10"
-              ></v-text-field>
+              />
             </v-flex>
           </v-layout>
           <v-layout>
@@ -80,11 +83,19 @@
                 class="showMessages"
                 color="secondary"
                 @click="showExistingMessages"
-              >{{messagesBtnText}}</v-btn>
-              <br />
-              <v-btn class="update" color="secondary" @click="updateActiveSettings">Confirm</v-btn>
+              >
+                {{ messagesBtnText }}
+              </v-btn>
+              <br>
+              <v-btn
+                class="update"
+                color="secondary"
+                @click="updateActiveSettings"
+              >
+                Confirm
+              </v-btn>
             </v-flex>
-            <v-flex></v-flex>
+            <v-flex />
           </v-layout>
         </v-container>
       </v-form>
@@ -114,6 +125,11 @@ export default {
         v => v < 11 || "Max values is 10"
       ]
     };
+  },
+  created() {
+    this.getActiveSettings();
+    this.getThanksMessages();
+    this.getEmoticonGroup();
   },
   methods: {
     validateSettings() {
@@ -165,11 +181,6 @@ export default {
         this.emoticons = response.data[0];
       });
     }
-  },
-  created() {
-    this.getActiveSettings();
-    this.getThanksMessages();
-    this.getEmoticonGroup();
   }
 };
 </script>

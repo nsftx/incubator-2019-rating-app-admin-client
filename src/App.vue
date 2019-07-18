@@ -1,6 +1,9 @@
 <template>
-<div id="app">
-    <div id="login" v-show="!logged">
+  <div id="app">
+    <div
+      v-show="!logged"
+      id="login"
+    >
       <v-snackbar
         v-model="snackbar2"
         :bottom="y === 'bottom'"
@@ -23,29 +26,39 @@
       <br>
       <h1>Login</h1>
       <br>
-      <p style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">Welcome to the Rating Dashboard! Please enter your credentials</p>
+      <p style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">
+        Welcome to the Rating Dashboard! Please enter your credentials
+      </p>
       <br>
-      <v-flex xs12 sm6>
-            <v-text-field
-              v-model="password"
-              :append-icon="show1 ? 'visibility' : 'visibility_off'"
-              :rules="[rules.required, rules.min]"
-              :type="show1 ? 'text' : 'password'"
-              name="input-10-1"
-              label="Password"
-              hint="At least 5 characters"
-              counter
-              @click:append="show1 = !show1"
-              dark
-              color="grey"
-              style="margin-left: 200px;"
-            ></v-text-field>
-          </v-flex>
-      <v-btn dark @click="login()" style="float: left; margin-left: 200px;">Login</v-btn>
-      
+      <v-flex
+        xs12
+        sm6
+      >
+        <v-text-field
+          v-model="password"
+          :append-icon="show1 ? 'visibility' : 'visibility_off'"
+          :rules="[rules.required, rules.min]"
+          :type="show1 ? 'text' : 'password'"
+          name="input-10-1"
+          label="Password"
+          hint="At least 5 characters"
+          counter
+          dark
+          color="grey"
+          style="margin-left: 200px;"
+          @click:append="show1 = !show1"
+        />
+      </v-flex>
+      <v-btn
+        dark
+        style="float: left; margin-left: 200px;"
+        @click="login()"
+      >
+        Login
+      </v-btn>
     </div>
-  <div v-show="logged">
-    <v-snackbar
+    <div v-show="logged">
+      <v-snackbar
         v-model="snackbar"
         :bottom="y === 'bottom'"
         :left="x === 'left'"
@@ -64,31 +77,63 @@
           Close
         </v-btn>
       </v-snackbar>
-    <div class="buttonUser">
-       <router-link to="/logout"><v-chip v-show="logged" :dark="true">
-          <v-avatar>
-            <img src="https://img.icons8.com/bubbles/2x/user.png" alt="admin">
-          </v-avatar><b>Administrator</b>
-        </v-chip></router-link>
+      <div class="buttonUser">
+        <router-link to="/logout">
+          <v-chip
+            v-show="logged"
+            :dark="true"
+          >
+            <v-avatar>
+              <img
+                src="https://img.icons8.com/bubbles/2x/user.png"
+                alt="admin"
+              >
+            </v-avatar><b>Administrator</b>
+          </v-chip>
+        </router-link>
       </div>
       <br>
-    <div id="dash-nav" v-show="logged">
-       <router-link to="/"><div id="buttonToday">
-      <img src="./assets/today.png" class="icons">
-      <p style="text-align='center'">Today</p>
-      </div></router-link>
-      <router-link to="/reports"><div id="buttonReports">
-      <img src="./assets/report.png" class="icons">
-      <p style="text-align='center'">Reports</p>
-      </div></router-link>
-      <router-link to="/settings"><div id="buttonSettings">
-      <img src="./assets/settings.png" class="icons">
-      <p style="text-align='center'">Settings</p>
-      </div></router-link>
+      <div
+        v-show="logged"
+        id="dash-nav"
+      >
+        <router-link to="/">
+          <div id="buttonToday">
+            <img
+              src="./assets/today.png"
+              class="icons"
+            >
+            <p style="text-align='center'">
+              Today
+            </p>
+          </div>
+        </router-link>
+        <router-link to="/reports">
+          <div id="buttonReports">
+            <img
+              src="./assets/report.png"
+              class="icons"
+            >
+            <p style="text-align='center'">
+              Reports
+            </p>
+          </div>
+        </router-link>
+        <router-link to="/settings">
+          <div id="buttonSettings">
+            <img
+              src="./assets/settings.png"
+              class="icons"
+            >
+            <p style="text-align='center'">
+              Settings
+            </p>
+          </div>
+        </router-link>
+      </div>
+      <router-view /> 
     </div>
-    <router-view></router-view> 
   </div>
-</div>
 </template>
 <script>
 export default{

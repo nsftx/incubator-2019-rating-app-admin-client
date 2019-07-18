@@ -28,8 +28,8 @@
                 label="Beginning date..."
                 prepend-icon="event"
                 readonly
-                v-on="on"
                 :dark="dark"
+                v-on="on"
               />
             </template>
             <v-date-picker
@@ -87,8 +87,8 @@
                 label="Ending date..."
                 prepend-icon="event"
                 readonly
-                v-on="on"
                 :dark="dark"
+                v-on="on"
               />
             </template>
             <v-date-picker
@@ -119,34 +119,52 @@
       </v-layout>
     </div>
     <br>
-    <div id="spacer"></div>
-    <v-btn @click="createRange()" dark id="createBtn">Show reports</v-btn>
-    <div id="spacer"></div>
+    <div id="spacer" />
+    <v-btn
+      id="createBtn"
+      dark
+      @click="createRange()"
+    >
+      Show reports
+    </v-btn>
+    <div id="spacer" />
     <br>
     <h2>Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
     <br>
     <div id="lineChart">
-      <ratings-area-diagram></ratings-area-diagram>
+      <ratings-area-diagram />
     </div>
     <div id="pieChart">
-      <apexcharts id="apexPie" type="pie" height="350" :options="chartOptions" :series="chartSeries"></apexcharts>
+      <apexcharts
+        id="apexPie"
+        type="pie"
+        height="350"
+        :options="chartOptions"
+        :series="chartSeries"
+      />
     </div>
     <br>
     <div id="dataTable">
       <div id="tableData">
-        <v-data-table :headers="headers" :items="reactions" class="elevation-1" :dark="true">
+        <v-data-table
+          :headers="headers"
+          :items="reactions"
+          class="elevation-1"
+          :dark="true"
+        >
           <template v-slot:items="props">
             <td>{{ props.item.name }}</td>
-            <td class="text-xs-right">{{ props.item.number }}</td>
+            <td class="text-xs-right">
+              {{ props.item.number }}
+            </td>
           </template>
         </v-data-table>
       </div>
-      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import RatingsPieChart from "../components/RatingsPieChart"
 import RatingsAreaDiagram from "../components/RatingsAreaDiagram"
 import ApiService from '@/services/ApiService'
 import ApexCharts from "vue-apexcharts"
@@ -154,7 +172,6 @@ import { setTimeout } from 'timers'
 
 export default {
 	components: {
-		RatingsPieChart,
     RatingsAreaDiagram,
     apexcharts: ApexCharts
 	},
@@ -196,6 +213,9 @@ export default {
             },
     }
   },
+	created() {
+    this.createRange()
+	},
   methods: {
 		createRange() {
 			function Reaction(name, number) {
@@ -231,10 +251,7 @@ export default {
         })
         
     },
-  },
-	created() {
-    this.createRange()
-	}
+  }
 }
 
 </script>
