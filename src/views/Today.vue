@@ -24,7 +24,6 @@
     </div>
     <br>
     <div id="dataTable">
-      <!-- <data-table-temp></data-table-temp> -->
       <div id="tableData">
         <v-data-table
           :headers="headers"
@@ -55,7 +54,7 @@ export default {
     RatingsAreaDiagram,
     apexcharts: ApexCharts
   },
-	data(){
+	data() {
 		return{
 			todayCount:0,
 			headers: [
@@ -95,7 +94,7 @@ export default {
 	methods: {
 		createToday(){
 			function Reaction(name, number) {
-			this.name = name
+			this.name = name,
 			this.number = number
 			}
 			const Today={
@@ -108,7 +107,7 @@ export default {
           _.times(response.data.length, ()=> this.reactions.push(new Reaction(response.data[`${i}`]["emoticon.name"],response.data[i++].count)))
           })
     },
-    createPieChart(){
+    createPieChart() {
       this.chartSeries=[]
       this.chartOptions.labels=[]
       const Today={
@@ -122,7 +121,7 @@ export default {
           _.times(response.data.length, ()=> this.chartOptions.labels.push(response.data[`${j++}`]["emoticon.name"]))
         });
     },
-    countToday(){
+    countToday() {
       let counter=0
       const Today={
 				date:this.today,

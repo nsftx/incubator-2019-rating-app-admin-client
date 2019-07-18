@@ -5,7 +5,7 @@
       id="login"
     >
       <v-snackbar
-        v-model="snackbar2"
+        v-model="snackbarLoginFail"
         :bottom="y === 'bottom'"
         :left="x === 'left'"
         :multi-line="mode === 'multi-line'"
@@ -14,11 +14,11 @@
         :top="y === 'top'"
         :vertical="mode === 'vertical'"
       >
-        {{ text2 }}
+        {{ textLoginFail }}
         <v-btn
           color="pink"
           flat
-          @click="snackbar2 = false"
+          @click="snackbarLoginFail = false"
         >
           Close
         </v-btn>
@@ -59,7 +59,7 @@
     </div>
     <div v-show="logged">
       <v-snackbar
-        v-model="snackbar"
+        v-model="snackbarLoginSuccess"
         :bottom="y === 'bottom'"
         :left="x === 'left'"
         :multi-line="mode === 'multi-line'"
@@ -68,11 +68,11 @@
         :top="y === 'top'"
         :vertical="mode === 'vertical'"
       >
-        {{ text }}
+        {{ textLoginSuccess }}
         <v-btn
           color="pink"
           flat
-          @click="snackbar = false"
+          @click="snackbarLoginSuccess = false"
         >
           Close
         </v-btn>
@@ -146,28 +146,28 @@ export default{
       },
 			logged: false,
 			password: "",
-      snackbar: false,
-      snackbar2: false,
+      snackbarLoginSuccess: false,
+      snackbarLoginFail: false,
 			y: "top",
 			x: null,
 			mode: "",
 			timeout: 6000,
-			text: "Login success! Welcome administrator!",
-      text2: "You have entered wrong credentials, try again!"
+			textLoginSuccess: "Login success! Welcome administrator!",
+      textLoginFail: "You have entered wrong credentials, try again!"
 		}
 	},
 	methods: {
-		login(){
+		login() {
 			if(this.password==="admin")
 			{
 				this.logged=true
 			}
 			else
 			{
-				this.snackbar2=true;
+				this.snackbarLoginFail=true;
 			}
 			if(this.logged){
-				this.snackbar=true
+				this.snackbarLoginSuccess=true
 			}
 		}
 	}
