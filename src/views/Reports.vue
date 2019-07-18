@@ -1,5 +1,6 @@
 <template>
   <div id="reports">
+    <br>
     <div id="pickerWrap">
       <v-layout
         row

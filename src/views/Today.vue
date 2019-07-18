@@ -1,10 +1,16 @@
 <template>
   <div id="today">
-    <br><br>
+    <div id="parentImages">
+    <img 
+      id="artworkBg"
+      src="../assets/Oval.svg"
+    >
     <img
       id="artwork"
       src="../assets/Artwork.svg"
     >
+    </div>
+    <br><br>
     <h1>Today is a new day.</h1>
     <h1>Check your ratings!</h1>
     <br>
@@ -163,10 +169,21 @@ export default {
 #tableData, #pieChart, #lineChart{
 	border-radius: 5px;
 }
-#artwork{
-	z-index:-1;
-	float: right;
+#parentImages {
+  position: relative;
+  left:0;
+  top:0;
 	margin-right: 20px;
 	margin-bottom: 20px;
+  z-index: -1;
+  float:right;
+}
+#artwork{
+    top:0;
+    right:0;
+	  position: relative;
+}
+#artworkBg{
+  position: absolute;
 }
 </style>

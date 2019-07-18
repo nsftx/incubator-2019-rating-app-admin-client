@@ -23,7 +23,6 @@
           Close
         </v-btn>
       </v-snackbar>
-      <br>
       <h1>Login</h1>
       <br>
       <p style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">
@@ -92,7 +91,6 @@
           </v-chip>
         </router-link>
       </div>
-      <br>
       <div
         v-show="logged"
         id="dash-nav"
@@ -237,6 +235,9 @@ h1,h2{
 }
 .v-datatable__actions {
     border-radius: 5px;
+}
+.buttonUser {
+  z-index:0;
 }
 @media screen and ( min-height: 1110px ){
 #buttonSettings{
