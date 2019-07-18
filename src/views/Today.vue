@@ -1,14 +1,14 @@
 <template>
   <div id="today">
     <div id="parentImages">
-    <img 
-      id="artworkBg"
-      src="../assets/Oval.svg"
-    >
-    <img
-      id="artwork"
-      src="../assets/Artwork.svg"
-    >
+      <img 
+        id="artworkBg"
+        src="../assets/Oval.svg"
+      >
+      <img
+        id="artwork"
+        src="../assets/Artwork.svg"
+      >
     </div>
     <br><br>
     <h1>Today is a new day.</h1>
@@ -179,9 +179,9 @@ export default {
   float:right;
 }
 #artwork{
-    top:0;
-    right:0;
-	  position: relative;
+  top:0;
+  right:0;
+	position: relative;
 }
 #artworkBg{
   position: absolute;
