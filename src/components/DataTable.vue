@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import Vuetify from "vuetify"
 export default {
     components: {
     },
