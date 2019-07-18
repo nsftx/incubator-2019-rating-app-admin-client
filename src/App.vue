@@ -4,6 +4,7 @@
       v-show="!logged"
       id="login"
     >
+      <br>
       <v-snackbar
         v-model="snackbarLoginFail"
         :bottom="y === 'bottom'"

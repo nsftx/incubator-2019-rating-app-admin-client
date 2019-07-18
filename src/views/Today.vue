@@ -185,5 +185,6 @@ export default {
 }
 #artworkBg{
   position: absolute;
+  right:-250px;
 }
 </style>
