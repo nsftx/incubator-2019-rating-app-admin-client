@@ -16,10 +16,24 @@
           />
           <v-layout>
             <v-flex class="flex">
+              <v-select
+                v-model="emoticonName"
+                dark
+                color="grey"
+                label="Set active emotions"
+                :items="emoticonNames"
+                @change="previewEmoticon"
+              />
+            </v-flex>
+          </v-layout>
+          <v-layout>
+            <v-flex class="flex">
               <label style="float:left;">Emotions preview</label> <br>
-              <i
-                v-for="emoticon in emoticons.emoticons"
+              <v-icon
+                v-for="emoticon in emoticonPreview.emoticons"
                 :key="emoticon.id"
+                v-model="emoticon.symbol"
+                dark
                 class="fa-2x"
                 :class="[emoticon.symbol]"
               />
@@ -90,7 +104,7 @@
               <v-btn
                 class="update"
                 color="secondary"
-                @click="updateActiveSettings"
+                @click="updateCheck"
               >
                 Confirm
               </v-btn>
@@ -113,7 +127,10 @@ export default {
       messages: [],
       activeMessage: {},
       showMessages: false,
-      emoticons: {},
+      emoticonPreview: [],
+      emoticons: [],
+      emoticonNames: [],
+      emoticonName: "",
       messagesBtnText: "Show all messages",
       emotionsRules: [
         v => v > 2 || "Min value is 3",
@@ -132,6 +149,9 @@ export default {
     this.getEmoticonGroup()
   },
   methods: {
+    updateEmoticon() {
+      console.log(4)
+    },
     validateSettings() {
       return (
         this.activeSettings.message.length > 0 &&
@@ -148,19 +168,35 @@ export default {
         this.activeMessage = this.activeSettings.message;
       });
     },
-    updateActiveSettings() {
-      if (this.showMessages) {
-        this.activeSettings.messageId = this.activeSettings.message.id;
-        ApiService.updateActiveSettings(
-          this.activeSettings,
-          this.activeSettings.id
-        );
-      } else if (!this.isMessageExisting(this.activeMessage.text)) {
-        this.createNewMessage(this.activeSettings.id, this.activeMessage);
+    updateCheck() {
+      if(!this.validateSettings) {
+      } else {
+        this.updateActiveSettings()
       }
     },
+    updateActiveSettings() {
+      if (!this.isMessageExisting(this.activeMessage.text)) {
+        this.createNewMessage(this.activeSettings.id, this.activeMessage);
+      }
+      this.activeSettings.messageId = this.activeSettings.message.id;
+      this.updateActiveEmoticons()
+      ApiService.updateActiveSettings(
+        this.activeSettings,
+        this.activeSettings.id
+      );
+    },
+    updateActiveEmoticons() {
+      for(let i = 0; i < this.emoticons.length; i++) {
+        for(let j= 0; j < this.emoticons[i].length; j++) {
+          if(this.emoticons[i][j].name == this.emoticonName) {
+            this.activeSettings.emoticonsGroupId = this.emoticons[i][j].id
+          }
+        }
+      }
+    },
+    // eslint-disable-next-line
     isMessageExisting(message) {
-      return _.some(this.messages, ["text", this.activeMessage.text]);
+      return _.some(this.messages, ["text", message]);
     },
     getThanksMessages() {
       ApiService.getThanksMessages().then(response => {
@@ -178,10 +214,27 @@ export default {
     },
     getEmoticonGroup() {
       ApiService.getEmoticonGroup().then(response => {
-        this.emoticons = response.data[0];
+        let activeEmoticonsIndex = _.findIndex(response.data, [
+              "id", this.activeSettings.emoticonsGroupId
+            ]);
+        this.emoticonPreview = response.data[activeEmoticonsIndex];
+        this.emoticonName = this.emoticonPreview.name
+        this.emoticons.push(response.data);
+        for(let i = 0; i < response.data.length; i++) {
+          this.emoticonNames.push(response.data[i].name)
+        }
       });
-    }
-  }
+    },
+    previewEmoticon() {
+      for(let i = 0; i < this.emoticons.length; i++) {
+        for(let j= 0; j < this.emoticons[i].length; j++) {
+          if(this.emoticons[i][j].name == this.emoticonName) {
+            this.emoticonPreview = this.emoticons[i][j]
+          }
+        }
+      }
+    },
+  },
 };
 </script>
 
