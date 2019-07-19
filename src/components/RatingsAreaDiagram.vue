@@ -84,42 +84,52 @@ export default {
     };
   },
   methods: {
-    createNewRange() {
-      let ratedEmotionsPerHour = [];
+    populateDiagram() {
+      let index;
+      let ids = [];
+      let counts = [];
       ApiService.createNewRange(this.range).then(response => {
+        console.log("Response", response.data)
         this.populateDiagramSeriesNames(response.emoticons);
         this.populateDiagramOptionsCategories(response.data);
-        for (let i = 0; i < response.data.length; i++) {
-          for (let j = 0; j < response.data[i].length; j++) {
-            let nameIndex = _.findIndex(this.diagramSeries, [
-              "name", response.data[i][j].emoticon.name
-            ]);
-            this.diagramSeries[nameIndex].data.push(response.data[i][j].count);
-            ratedEmotionsPerHour.push(nameIndex);
-          }
-          for (let z = 0; z < this.diagramSeries.length; z++) {
-            if (!_.includes(ratedEmotionsPerHour, z)) {
-              this.diagramSeries[z].data.push(0);
+        for(let i = 0; i < response.data.length; i++) {
+          for(let j = 0; j < response.data[i].ratings.length; j++) {
+            let name = this.getRatedName(response.emoticons, response.data[i].ratings[j].emoticonId)
+            index = _.findIndex(this.diagramSeries, ['name', name])
+            if(index != -1) {
+              ids.push(index);
+              counts.push(response.data[i].ratings[j].count)
             }
           }
-          ratedEmotionsPerHour = [];
+          for(let j = 0; j < this.diagramSeries.length; j++) {
+            index = _.indexOf(ids, j)
+            if (index != -1) {
+              this.diagramSeries[j].data.push(counts[index])
+            }
+              this.diagramSeries[j].data.push(0)
+          }
+          ids = []
+          counts = []
         }
       });
     },
     populateDiagramSeriesNames(emoticons) {
       for (let i = 0; i < this.diagramSeries.length; i++) {
-        this.diagramSeries[i].name = emoticons[i].name;
+        this.diagramSeries[i].name = (emoticons[i].name);
       }
     },
     populateDiagramOptionsCategories(ratings) {
       for (let i = 0; i < ratings.length; i++) {
-        this.diagramOptions.xaxis.categories.push(ratings[i][0].end);
+        this.diagramOptions.xaxis.categories.push(ratings[i].end);
       }
-      console.log(this.diagramOptions.xaxis.categories)
     },
+    getRatedName(emoticons, id) {
+      let index = _.findIndex(emoticons, ["id", id])
+      return emoticons[index].name
+    }
   },
   created() {
-	this.createNewRange();
+	this.populateDiagram();
   }
 };
 </script>
