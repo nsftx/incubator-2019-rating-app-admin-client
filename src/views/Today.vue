@@ -62,7 +62,8 @@ export default {
   },
 	data() {
 		return{
-			todayCount:0,
+      todayCount:0,
+      settingId:12,
 			headers: [
 				{
 					text: "Reactions",
@@ -93,6 +94,7 @@ export default {
 		}
 	},
 	created() {
+    this.getSetId(),
     this.createToday(),
     this.createPieChart(),
     this.countToday()
@@ -105,7 +107,7 @@ export default {
 			}
 			const Today={
 				date:this.today,
-				settingsId:8
+				settingsId:this.settingId
 			}
 			ApiService.createNewDaily(Today)
 				.then((response)=> {
@@ -118,7 +120,7 @@ export default {
       this.chartOptions.labels=[]
       const Today={
 				date:this.today,
-				settingsId:8
+				settingsId:this.settingId
 			}
       ApiService.createNewDaily(Today)
 				.then((response)=> {
@@ -131,7 +133,7 @@ export default {
       let counter=0
       const Today={
 				date:this.today,
-				settingsId:8
+				settingsId:this.settingId
 			}
       ApiService.createNewDaily(Today)
 				.then((response)=> {
@@ -139,6 +141,12 @@ export default {
           _.times(response.data.length, ()=> counter+=parseInt(response.data[i++].count))
           this.todayCount = counter
         });
+    },
+    getSetId(){
+      ApiService.getActiveSettings()
+        .then((response) => {
+          this.settingId=response.data.id
+        })
     }
 	}
 }
