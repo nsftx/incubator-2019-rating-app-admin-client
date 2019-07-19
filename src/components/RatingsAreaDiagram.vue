@@ -14,6 +14,7 @@ export default {
     apexcharts: ApexCharts,
     ApiService
   },
+  props: ["response"],
   data() {
     return {
       range: {
@@ -88,17 +89,15 @@ export default {
       let index;
       let ids = [];
       let counts = [];
-      ApiService.createNewRange(this.range).then(response => {
-        console.log("Response", response.data)
-        this.populateDiagramSeriesNames(response.emoticons);
-        this.populateDiagramOptionsCategories(response.data);
-        for(let i = 0; i < response.data.length; i++) {
-          for(let j = 0; j < response.data[i].ratings.length; j++) {
-            let name = this.getRatedName(response.emoticons, response.data[i].ratings[j].emoticonId)
+        this.populateDiagramSeriesNames(this.response.emoticons);
+        this.populateDiagramOptionsCategories(this.response.data);
+        for(let i = 0; i < this.response.data.length; i++) {
+          for(let j = 0; j < this.response.data[i].ratings.length; j++) {
+            let name = this.getRatedName(this.response.emoticons, this.response.data[i].ratings[j].emoticonId)
             index = _.findIndex(this.diagramSeries, ['name', name])
             if(index != -1) {
               ids.push(index);
-              counts.push(response.data[i].ratings[j].count)
+              counts.push(this.response.data[i].ratings[j].count)
             }
           }
           for(let j = 0; j < this.diagramSeries.length; j++) {
@@ -111,7 +110,6 @@ export default {
           ids = []
           counts = []
         }
-      });
     },
     populateDiagramSeriesNames(emoticons) {
       for (let i = 0; i < this.diagramSeries.length; i++) {
@@ -120,7 +118,7 @@ export default {
     },
     populateDiagramOptionsCategories(ratings) {
       for (let i = 0; i < ratings.length; i++) {
-        this.diagramOptions.xaxis.categories.push(ratings[i].end);
+        this.diagramOptions.xaxis.categories.push(ratings[i].time);
       }
     },
     getRatedName(emoticons, id) {

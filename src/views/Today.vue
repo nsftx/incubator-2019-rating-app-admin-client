@@ -9,7 +9,7 @@
     <h2>check it on the dashboard.</h2>
     <br>
     <div id="lineChart">
-      <ratings-area-diagram></ratings-area-diagram>
+      <ratings-area-diagram v-bind:response="response"></ratings-area-diagram>
     </div>
     <div id="pieChart">
       <apexcharts type="pie" height="350" :options="chartOptions" :series="chartSeries"></apexcharts>
@@ -45,6 +45,11 @@ export default {
   },
 	data(){
 		return{
+      range: {
+        date: new Date().toISOString().substr(0, 10),
+        interval: 2
+      },
+      response: {},
 			todayCount:450,
 			headers: [
 				{
@@ -76,6 +81,11 @@ export default {
 		}
 	},
 	methods: {
+    createNewRange() {
+      ApiService.createNewRange(this.range).then(response => {
+        this.response = response;
+      })
+    },
 		createToday(){
 			function Reaction(name, number) {
 			this.name = name;
@@ -110,6 +120,7 @@ export default {
     },
 	},
 	created() {
+    this.createNewRange(),
     this.createToday(),
     this.createPieChart()
 	}
