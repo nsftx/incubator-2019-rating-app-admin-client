@@ -18,7 +18,7 @@
     <h2>check it on the dashboard.</h2>
     <br>
     <div id="lineChart">
-      <ratings-area-diagram />
+      <ratings-area-diagram v-bind:response="response"></ratings-area-diagram>
     </div>
     <div id="pieChart">
       <apexcharts
@@ -62,6 +62,12 @@ export default {
   },
 	data() {
 		return{
+      range: {
+        date: new Date().toISOString().substr(0, 10),
+        interval: 2
+      },
+      response: {},
+			todayCount:450,
       todayCount:0,
       settingId:14,
 			headers: [
@@ -97,6 +103,11 @@ export default {
     this.getSetId()
 	},
 	methods: {
+    getDiagramData() {
+      ApiService.createNewRange(this.range).then(response => {
+        this.response = response;
+      })
+    },
 		createToday(){
 			function Reaction(name, number) {
 			this.name = name,
@@ -127,6 +138,11 @@ export default {
           _.times(response.data.length, ()=> this.chartOptions.labels.push(response.data[`${j++}`]["emoticon.name"]))
         });
     },
+	},
+	created() {
+    this.getDiagramData(),
+    this.createToday(),
+    this.createPieChart()
     countToday() {
       let counter=0
       const Today={

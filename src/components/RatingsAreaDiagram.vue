@@ -8,74 +8,135 @@
 </template>
 
 <script>
-import ApexCharts from "vue-apexcharts"
+import ApexCharts from "vue-apexcharts";
+import ApiService from "../services/ApiService";
 
 export default {
-    components: {
-        apexcharts: ApexCharts
-    },
-    data() {
-        return {
-            diagramSeries: [{
-				name: "Happy",
-				data: [10, 20, 30, 40, 50, 60, 70]
-			}, {
-				name: "Happy-Meh",
-				data: [5, 10, 15, 20, 25, 30, 35]
-			},{
-				name: "Meh",
-				data: [11, 13, 15, 17, 19, 25, 29]
-			}, {
-				name: "Sad-Meh",
-				data: [1, 1, 6, 8, 8, 9, 11]
-			},{
-				name: "Sad",
-				data: [3, 13, 20, 40, 50, 70, 82]
-			}],
-			diagramOptions: {
-				dataLabels: {
-					enabled: false,
-				},
-				stroke: {
-					width: 2,
-				},
-				legend: {
-					onItemClick: {
-						toggleDataSeries: false
-					},
-					labels: {
-						colors: "#444444",
-					},
-				},
-				xaxis: {
-					labels: {
-						style: {
-							colors: "#444444",
-						},
-					},
-					type: "datetime",
-					categories: ["2019-09-10T00:00:00", "2019-09-10T03:00:00", "2019-09-10T07:00:00", "2019-09-10T11:00:00", "2019-09-10T15:00:00", "2019-09-10T019:00:00", "2019-09-10T023:59:00"],                
-				},
-				yaxis: {
-					labels: {
-						style: {
-							color: "#444444",
-						},
-					},
-				},
-				title: {
-					text: "Ratings",
-					style: {
-						color: "#444444"
-					},
-				},
+
+  template: "#ratings-area-diagram",
+  components: {
+    apexcharts: ApexCharts,
+    ApiService
+  },
+  props: ["response"],
+  data() {
+    return {
+      range: {
+        date: new Date().toISOString().substr(0, 10),
+        interval: 2
+      },
+      diagramSeries: [
+        {
+          name: "",
+          data: []
+        },
+        {
+          name: "",
+          data: []
+        },
+        {
+          name: "",
+          data: []
+        },
+        {
+          name: "",
+          data: []
+        },
+        {
+          name: "",
+          data: []
+        }
+      ],
+      diagramOptions: {
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: 2
+        },
+        legend: {
+          onItemClick: {
+            toggleDataSeries: false
+          },
+          labels: {
+            colors: "#444444"
+          }
+        },
+        xaxis: {
+          format: "HH/DD",
+          labels: {
+            style: {
+              colors: "#444444"
 			},
+          },
+          type: "datetime",
+          categories: []
+        },
+        yaxis: {
+          labels: {
+            style: {
+              color: "#444444"
+            }
+          }
+        },
+        title: {
+          text: "Ratings",
+          style: {
+            color: "#444444"
+          }
+        }
+      }
+    };
+  },
+  methods: {
+    populateDiagram() {
+      let index;
+      let ids = [];
+      let counts = [];
+        this.populateDiagramSeriesNames(this.response.emoticons);
+        this.populateDiagramOptionsCategories(this.response.data);
+        for(let i = 0; i < this.response.data.length; i++) {
+          for(let j = 0; j < this.response.data[i].ratings.length; j++) {
+            let name = this.getRatedName(this.response.emoticons, this.response.data[i].ratings[j].emoticonId)
+            index = _.findIndex(this.diagramSeries, ['name', name])
+            if(index != -1) {
+              ids.push(index);
+              counts.push(this.response.data[i].ratings[j].count)
+            }
+          }
+          for(let j = 0; j < this.diagramSeries.length; j++) {
+            index = _.indexOf(ids, j)
+            if (index != -1) {
+              this.diagramSeries[j].data.push(counts[index])
+            }
+              this.diagramSeries[j].data.push(0)
+          }
+          ids = []
+          counts = []
         }
     },
-    template: "#ratings-area-diagram",
-}
+    populateDiagramSeriesNames(emoticons) {
+      for (let i = 0; i < this.diagramSeries.length; i++) {
+        this.diagramSeries[i].name = (emoticons[i].name);
+      }
+    },
+    populateDiagramOptionsCategories(ratings) {
+      for (let i = 0; i < ratings.length; i++) {
+        this.diagramOptions.xaxis.categories.push(ratings[i].time);
+      }
+    },
+    getRatedName(emoticons, id) {
+      let index = _.findIndex(emoticons, ["id", id])
+      return emoticons[index].name
+    }
+  },
+  watch: {
+    response() {
+      this.populateDiagram()
+    }
+  }
+};
 </script>
 
 <style>
-
 </style>

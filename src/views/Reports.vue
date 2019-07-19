@@ -133,7 +133,7 @@
     <h2>Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
     <br>
     <div id="lineChart">
-      <ratings-area-diagram />
+      <ratings-area-diagram v-bind:response="response"></ratings-area-diagram>
     </div>
     <div id="pieChart">
       <apexcharts
@@ -179,6 +179,11 @@ export default {
 	},
 	data() {
 		return {
+      range: {
+        date: new Date().toISOString().substr(0, 10),
+        interval: 2
+      },
+      response: {},
 			dark: true,
 			reactive: true,
       logged: true,
@@ -201,6 +206,12 @@ export default {
       chartSeries: [],
             chartOptions: {
                 labels: [],
+                noData: {
+                    text: "No data for selected date interval",
+                    style: {
+                      color: "#fff"
+                    },
+                },
                 legend: {
                     position: "bottom",
                     labels: {
@@ -237,6 +248,12 @@ export default {
           _.times(response.data.length, ()=> this.reactions.push(new Reaction(response.data[`${i}`].emoticon.name,response.data[i++].count)))          
         })
       this.createPieChart()
+    },
+
+    getDiagramData() {
+      ApiService.createReportForDays(Today).then(response => {
+        this.response = response;
+      })
     },
     createPieChart() {
       this.chartOptions.labels.length=0
