@@ -186,7 +186,8 @@ export default {
 			menuBegin: false,
       dateBegin: new Date().toISOString().substr(0, 10),
       menuEnd: false,
-			dateEnd: new Date().toISOString().substr(0, 10),
+      dateEnd: new Date().toISOString().substr(0, 10),
+      settingId:12,
 			headers: [
 				{
 					text: "Reactions",
@@ -216,6 +217,7 @@ export default {
     }
   },
 	created() {
+    this.getSetId()
     this.createRange()
 	},
   methods: {
@@ -227,7 +229,7 @@ export default {
 			const Today = {
         startDate:this.dateBegin,
         endDate:this.dateEnd,
-				settingsId:8
+				settingsId:this.settingId
 			}
 			ApiService.createNewReport(Today)
 				.then((response)=> {
@@ -243,15 +245,22 @@ export default {
       const Today={
 				startDate:this.dateBegin,
         endDate:this.dateEnd,
-				settingsId:8
+				settingsId:this.settingId
 			}
       ApiService.createNewReport(Today)
 				.then((response)=> {
+          console.log(response)
           let i=0,j=0
           _.times(response.data.length, ()=> this.chartSeries.push(response.data[i++].count))
           _.times(response.data.length, ()=> this.chartOptions.labels.push(response.data[`${j++}`].emoticon.name))
         })
     },
+    getSetId(){
+      ApiService.getActiveSettings()
+        .then((response) => {
+          this.settingId=response.data.id
+        })
+    }
   }
 }
 
