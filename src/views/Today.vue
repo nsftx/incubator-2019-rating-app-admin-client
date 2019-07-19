@@ -100,72 +100,67 @@ export default {
 		}
 	},
 	created() {
-    this.getSetId()
-	},
-	methods: {
-    getDiagramData() {
-      ApiService.createNewRange(this.range).then(response => {
-        this.response = response;
-      })
-    },
-		createToday(){
-			function Reaction(name, number) {
-			this.name = name,
-			this.number = number
-			}
-			const Today={
-				date:this.today,
-				settingsId:this.settingId
-			}
-			ApiService.createNewDaily(Today)
-				.then((response)=> {
-          let i=0
-          _.times(response.data.length, ()=> this.reactions.push(new Reaction(response.data[`${i}`]["emoticon.name"],response.data[i++].count)))
-          })
-
-    },
-    createPieChart() {
-      this.chartSeries=[]
-      this.chartOptions.labels.length=0
-      const Today={
-				date:this.today,
-				settingsId:this.settingId
-			}
-      ApiService.createNewDaily(Today)
-				.then((response)=> {
-          let i=0,j=0
-          _.times(response.data.length, ()=> this.chartSeries.push(response.data[i++].count))
-          _.times(response.data.length, ()=> this.chartOptions.labels.push(response.data[`${j++}`]["emoticon.name"]))
-        });
-    },
-	},
-	created() {
-    this.getDiagramData(),
-    this.createToday(),
-    this.createPieChart()
-    countToday() {
-      let counter=0
-      const Today={
-				date:this.today,
-				settingsId:this.settingId
-			}
-      ApiService.createNewDaily(Today)
-				.then((response)=> {
-          let i=0
-          _.times(response.data.length, ()=> counter+=parseInt(response.data[i++].count))
-          this.todayCount = counter
-        });
-    },
-    getSetId() {
-      ApiService.getActiveSettings()
-        .then((response) => {
-          this.settingId=response.data.id
-          this.createToday()
-          this.countToday()
-          this.createPieChart()
+   this.getSetId()
+   this.getDiagramData()
+  },
+    methods: {
+      getDiagramData() {
+        ApiService.createNewRange(this.range).then(response => {
+          this.response = response;
         })
+      },
+        createToday(){
+            function Reaction(name, number) {
+            this.name = name,
+            this.number = number
+            }
+            const Today={
+                date:this.today,
+                settingsId:this.settingId
+            }
+            ApiService.createNewDaily(Today)
+                .then((response)=> {
+         let i=0
+         _.times(response.data.length, ()=> this.reactions.push(new Reaction(response.data[`${i}`]["emoticon.name"],response.data[i++].count)))
+         })
+   },
+   createPieChart() {
+     this.chartSeries=[]
+     this.chartOptions.labels.length=0
+     const Today={
+                date:this.today,
+                settingsId:this.settingId
+            }
+     ApiService.createNewDaily(Today)
+                .then((response)=> {
+         let i=0,j=0
+         _.times(response.data.length, ()=> this.chartSeries.push(response.data[i++].count))
+         _.times(response.data.length, ()=> this.chartOptions.labels.push(response.data[`${j++}`]["emoticon.name"]))
+       });
+   },
+   countToday() {
+     let counter=0
+     const Today={
+                date:this.today,
+                settingsId:this.settingId
+            }
+     ApiService.createNewDaily(Today)
+                .then((response)=> {
+         let i=0
+         _.times(response.data.length, ()=> counter+=parseInt(response.data[i++].count))
+         this.todayCount = counter
+       });
+   },
+   getSetId() {
+     ApiService.getActiveSettings()
+       .then((response) => {
+         this.settingId=response.data.id
+         this.createToday()
+         this.countToday()
+         this.createPieChart()
+       })
+   }
     }
-	}
 }
 </script>
 
