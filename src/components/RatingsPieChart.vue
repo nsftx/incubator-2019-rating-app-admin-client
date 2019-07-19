@@ -1,12 +1,16 @@
 <template id="ratings-pie-chart">
-    <apexcharts type="pie" height="350" :options="chartOptions" :series="chartSeries"></apexcharts>
+  <apexcharts 
+    type="pie" 
+    height="350" 
+    :options="chartOptions" 
+    :series="chartSeries"
+  />
 </template>
 
 <script>
 import ApexCharts from "vue-apexcharts"
 
 export default {
-    template: "#ratings-pie-chart",
     components: {
         apexcharts: ApexCharts
     },
@@ -30,6 +34,7 @@ export default {
             },
         }
     },
+    template: "#ratings-pie-chart",
 }
 </script>
 

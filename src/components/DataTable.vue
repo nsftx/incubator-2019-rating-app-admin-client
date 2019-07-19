@@ -1,18 +1,22 @@
-<template id = "data-table-temp">
-    <v-data-table :headers="headers" :items="reactions" class="elevation-1" :dark="true">
-          <template v-slot:items="props">
-            <td>{{ props.item.name }}</td>
-            <td class="text-xs-right">{{ props.item.number }}</td>
-          </template>
-        </v-data-table>
+<template id="data-table-temp">
+  <v-data-table
+    :headers="headers"
+    :items="reactions"
+    class="elevation-1"
+    :dark="true"
+  >
+    <template v-slot:items="props">
+      <td>{{ props.item.name }}</td>
+      <td class="text-xs-right">
+        {{ props.item.number }}
+      </td>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
-import Vuetify from "vuetify"
 export default {
-    template: "#data-table-temp",
     components: {
-        vuetify: Vuetify
     },
     data() {
         return {
@@ -48,7 +52,8 @@ export default {
 				}
 			]
         }
-    }
+    },
+    template: "#data-table-temp"
 }
 </script>
 

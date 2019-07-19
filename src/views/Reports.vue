@@ -1,5 +1,6 @@
 <template>
   <div id="reports">
+    <br>
     <div id="pickerWrap">
       <v-layout
         row
@@ -11,11 +12,11 @@
           md4
         >
           <v-menu
-            ref="menu"
-            v-model="menu"
+            ref="menuBegin"
+            v-model="menuBegin"
             :close-on-content-click="false"
             :nudge-right="40"
-            :return-value.sync="date"
+            :return-value.sync="dateBegin"
             lazy
             transition="scale-transition"
             offset-y
@@ -24,16 +25,16 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="date"
+                v-model="dateBegin"
                 label="Beginning date..."
                 prepend-icon="event"
                 readonly
-                v-on="on"
                 :dark="dark"
+                v-on="on"
               />
             </template>
             <v-date-picker
-              v-model="date"
+              v-model="dateBegin"
               no-title
               scrollable
               :dark="dark"
@@ -43,14 +44,14 @@
               <v-btn
                 flat
                 color="primary"
-                @click="menu = false"
+                @click="menuBegin = false"
               >
                 Cancel
               </v-btn>
               <v-btn
                 flat
                 color="primary"
-                @click="$refs.menu.save(date)"
+                @click="$refs.menuBegin.save(dateBegin)"
               >
                 OK
               </v-btn>
@@ -70,11 +71,11 @@
           md4
         >
           <v-menu
-            ref="menu2"
-            v-model="menu2"
+            ref="menuEnd"
+            v-model="menuEnd"
             :close-on-content-click="false"
             :nudge-right="40"
-            :return-value.sync="date2"
+            :return-value.sync="dateEnd"
             lazy
             transition="scale-transition"
             offset-y
@@ -83,16 +84,16 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="date2"
+                v-model="dateEnd"
                 label="Ending date..."
                 prepend-icon="event"
                 readonly
-                v-on="on"
                 :dark="dark"
+                v-on="on"
               />
             </template>
             <v-date-picker
-              v-model="date2"
+              v-model="dateEnd"
               no-title
               scrollable
               :dark="dark"
@@ -102,14 +103,14 @@
               <v-btn
                 flat
                 color="primary"
-                @click="menu2 = false"
+                @click="menuEnd = false"
               >
                 Cancel
               </v-btn>
               <v-btn
                 flat
                 color="primary"
-                @click="$refs.menu2.save(date2)"
+                @click="$refs.menuEnd.save(dateEnd)"
               >
                 OK
               </v-btn>
@@ -119,42 +120,60 @@
       </v-layout>
     </div>
     <br>
-    <div id="spacer"></div>
-    <v-btn @click="createToday()" dark id="createBtn">Show me the reports</v-btn>
-    <div id="spacer"></div>
+    <div id="spacer" />
+    <v-btn
+      id="createBtn"
+      dark
+      @click="createRange()"
+    >
+      Show reports
+    </v-btn>
+    <div id="spacer" />
     <br>
-    <h2>Showing reports from {{ date }} to {{ date2 }}</h2>
+    <h2>Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
     <br>
     <div id="lineChart">
       <ratings-area-diagram v-bind:response="response"></ratings-area-diagram>
     </div>
     <div id="pieChart">
-      <apexcharts id="apexPie" type="pie" height="350" :options="chartOptions" :series="chartSeries"></apexcharts>
+      <apexcharts
+        id="apexPie"
+        type="pie"
+        height="350"
+        :options="chartOptions"
+        :series="chartSeries"
+      />
     </div>
     <br>
     <div id="dataTable">
       <div id="tableData">
-        <v-data-table :headers="headers" :items="reactions" class="elevation-1" :dark="true">
+        <v-data-table
+          :headers="headers"
+          :items="reactions"
+          class="elevation-1"
+          :dark="true"
+        >
           <template v-slot:items="props">
             <td>{{ props.item.name }}</td>
-            <td class="text-xs-right">{{ props.item.number }}</td>
+            <td class="text-xs-right">
+              {{ props.item.number }}
+            </td>
           </template>
         </v-data-table>
       </div>
-      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import RatingsPieChart from "../components/RatingsPieChart"
 import RatingsAreaDiagram from "../components/RatingsAreaDiagram"
 import ApiService from '@/services/ApiService'
 import ApexCharts from "vue-apexcharts"
-import { setTimeout } from 'timers';
+// eslint-disable-next-line
+import { setTimeout } from "timers"
 
 export default {
 	components: {
-		RatingsPieChart,
     RatingsAreaDiagram,
     apexcharts: ApexCharts
 	},
@@ -167,12 +186,13 @@ export default {
       response: {},
 			dark: true,
 			reactive: true,
-			logged: true,
-			menu: false,
-			password: "",
-      date: new Date().toISOString().substr(0, 10),
-      menu2: false,
-			date2: new Date().toISOString().substr(0, 10),
+      logged: true,
+      password: "",
+			menuBegin: false,
+      dateBegin: new Date().toISOString().substr(0, 10),
+      menuEnd: false,
+      dateEnd: new Date().toISOString().substr(0, 10),
+      settingId:12,
 			headers: [
 				{
 					text: "Reactions",
@@ -207,59 +227,58 @@ export default {
             },
     }
   },
+	created() {
+    this.getSetId()
+    this.createRange()
+	},
   methods: {
-		createToday(){
+		createRange() {
 			function Reaction(name, number) {
-			this.name = name;
-			this.number = number;
-			let that=this;
+			this.name = name,
+			this.number = number
 			}
-			const Today={
-        startDate:this.date,
-        endDate:this.date2,
-				settingsId:8
+			const Today = {
+        startDate:this.dateBegin,
+        endDate:this.dateEnd,
+				settingsId:this.settingId
 			}
 			ApiService.createNewReport(Today)
 				.then((response)=> {
-          console.log(response.data)
-					for(let i in response.data)
-					this.reactions.push(new Reaction(response.data[`${i}`].emoticon.name,response.data[i].count))
+          let i=0
+          _.times(response.data.length, ()=> this.reactions.push(new Reaction(response.data[`${i}`].emoticon.name,response.data[i++].count)))          
         })
-      this.createPieChart();
+      this.createPieChart()
     },
+
     getDiagramData() {
       ApiService.createReportForDays(Today).then(response => {
         this.response = response;
       })
     },
-    createPieChart(){
-      while(this.chartOptions.labels.length>0)
-      {
-        this.chartOptions.labels.pop();
-      }
+    createPieChart() {
+      this.chartOptions.labels.length=0
       this.reactions=[]
       this.chartSeries=[]
-      let temp = []
       const Today={
-				startDate:this.date,
-        endDate:this.date2,
-				settingsId:8
+				startDate:this.dateBegin,
+        endDate:this.dateEnd,
+				settingsId:this.settingId
 			}
       ApiService.createNewReport(Today)
 				.then((response)=> {
-          for(let i in response.data)
-          {
-            this.chartSeries.push(response.data[i].count)
-            this.chartOptions.labels[i]=(response.data[`${i}`].emoticon.name)
-          }
+          console.log(response)
+          let i=0,j=0
+          _.times(response.data.length, ()=> this.chartSeries.push(response.data[i++].count))
+          _.times(response.data.length, ()=> this.chartOptions.labels.push(response.data[`${j++}`].emoticon.name))
         })
-        
     },
-  },
-	created() {
-    this.getDiagramData()
-    this.createToday()
-	}
+    getSetId(){
+      ApiService.getActiveSettings()
+        .then((response) => {
+          this.settingId=response.data.id
+        })
+    }
+  }
 }
 
 </script>
@@ -299,7 +318,6 @@ export default {
 }
 #dataTable{
   float:left;
-  background:rgb(36, 40, 46);
   height:300px;
   width:45%;
   margin-left:150px;

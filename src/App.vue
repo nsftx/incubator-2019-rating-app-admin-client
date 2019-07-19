@@ -1,8 +1,12 @@
 <template>
-<div id="app">
-    <div id="login" v-show="!logged">
+  <div id="app">
+    <div
+      v-show="!logged"
+      id="login"
+    >
+      <br>
       <v-snackbar
-        v-model="snackbar2"
+        v-model="snackbarLoginFail"
         :bottom="y === 'bottom'"
         :left="x === 'left'"
         :multi-line="mode === 'multi-line'"
@@ -11,28 +15,53 @@
         :top="y === 'top'"
         :vertical="mode === 'vertical'"
       >
-        {{ text2 }}
+        {{ textLoginFail }}
         <v-btn
           color="pink"
           flat
-          @click="snackbar2 = false"
+          @click="snackbarLoginFail = false"
         >
           Close
         </v-btn>
       </v-snackbar>
-      <br>
       <h1>Login</h1>
       <br>
-      <p style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">Welcome to the Rating Dashboard! Please enter your credentials</p>
+      <p style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">
+        Welcome to the Rating Dashboard! Please enter your credentials<br>This view will be replaced with Google OAuth
+      </p>
       <br>
-      <h2 style="text-align:center; margin:0;">Password</h2><br>
-      <input type="password" v-model="password" style="font-size:24px; border: 1px solid rgb(190, 190, 190); padding: 10px 20px; border-radius: 5px; margin-right: 10px;">
-      <button @click="login()" style="font-size:24px; border: 1px solid rgb(190, 190, 190); padding: 10px 20px; border-radius: 5px;">Login</button>
-      
+      <v-flex
+        xs12
+        sm6
+      >
+        <v-text-field
+          v-model="password"
+          :append-icon="show1 ? 'visibility' : 'visibility_off'"
+          :rules="[rules.required, rules.min]"
+          :type="show1 ? 'text' : 'password'"
+          name="input-10-1"
+          label="Password"
+          hint="5 characters"
+          counter
+          dark
+          color="grey"
+          style="margin-left: 200px;"
+          @click:append="show1 = !show1"
+        />
+      </v-flex>
+      <router-link to="/">
+        <v-btn
+          dark
+          style="float: left; margin-left: 200px;"
+          @click="login()"
+        >
+          Login
+        </v-btn>
+      </router-link>
     </div>
-  <div v-show="logged">
-    <v-snackbar
-        v-model="snackbar"
+    <div v-show="logged">
+      <v-snackbar
+        v-model="snackbarLoginSuccess"
         :bottom="y === 'bottom'"
         :left="x === 'left'"
         :multi-line="mode === 'multi-line'"
@@ -41,69 +70,105 @@
         :top="y === 'top'"
         :vertical="mode === 'vertical'"
       >
-        {{ text }}
+        {{ textLoginSuccess }}
         <v-btn
           color="pink"
           flat
-          @click="snackbar = false"
+          @click="snackbarLoginSuccess = false"
         >
           Close
         </v-btn>
       </v-snackbar>
-    <div class="buttonUser">
-       <router-link to="/logout"><v-chip v-show="logged" :dark="true">
-          <v-avatar>
-            <img src="https://img.icons8.com/bubbles/2x/user.png" alt="admin">
-          </v-avatar><b>Administrator</b>
-        </v-chip></router-link>
+      <div class="buttonUser">
+        <router-link to="/logout">
+          <v-chip
+            v-show="logged"
+            :dark="true"
+          >
+            <v-avatar>
+              <img
+                src="https://img.icons8.com/bubbles/2x/user.png"
+                alt="admin"
+              >
+            </v-avatar><b>Administrator</b>
+          </v-chip>
+        </router-link>
       </div>
-      <br>
-    <div id="dash-nav" v-show="logged">
-       <router-link to="/"><div id="buttonToday">
-      <img src="./assets/today.png" class="icons">
-      <p style="text-align='center'">Today</p>
-      </div></router-link>
-      <router-link to="/reports"><div id="buttonReports">
-      <img src="./assets/report.png" class="icons">
-      <p style="text-align='center'">Reports</p>
-      </div></router-link>
-      <router-link to="/settings"><div id="buttonSettings">
-      <img src="./assets/settings.png" class="icons">
-      <p style="text-align='center'">Settings</p>
-      </div></router-link>
+      <div
+        v-show="logged"
+        id="dash-nav"
+      >
+        <router-link to="/">
+          <div id="buttonToday">
+            <img
+              src="./assets/today.png"
+              class="icons"
+            >
+            <p style="text-align='center'">
+              Today
+            </p>
+          </div>
+        </router-link>
+        <router-link to="/reports">
+          <div id="buttonReports">
+            <img
+              src="./assets/report.png"
+              class="icons"
+            >
+            <p style="text-align='center'">
+              Reports
+            </p>
+          </div>
+        </router-link>
+        <router-link to="/settings">
+          <div id="buttonSettings">
+            <img
+              src="./assets/settings.png"
+              class="icons"
+            >
+            <p style="text-align='center'">
+              Settings
+            </p>
+          </div>
+        </router-link>
+      </div>
+      <router-view /> 
     </div>
-    <router-view></router-view> 
   </div>
-</div>
 </template>
 <script>
 export default{
 	data() {
 		return {
+      show1: false,
+      rules: {
+        required: value => !!value || 'Required. Password: admin',
+        min: v => v.length >= 5 || 'Min 5 characters. Password: admin'
+      },
 			logged: false,
 			password: "",
-      snackbar: false,
-      snackbar2: false,
+      snackbarLoginSuccess: false,
+      snackbarLoginFail: false,
 			y: "top",
 			x: null,
 			mode: "",
 			timeout: 6000,
-			text: "Login success! Welcome administrator!",
-      text2: "You have entered wrong credentials, try again!"
+			textLoginSuccess: "Login success! Welcome administrator!",
+      textLoginFail: "You have entered wrong credentials, try again!"
 		}
 	},
 	methods: {
-		login(){
+		login() {
 			if(this.password==="admin")
 			{
 				this.logged=true
 			}
 			else
 			{
-				this.snackbar2=true;
+				this.snackbarLoginFail=true;
 			}
 			if(this.logged){
-				this.snackbar=true
+				this.snackbarLoginSuccess=true
 			}
 		}
 	}
@@ -113,11 +178,8 @@ export default{
 p {
   color:white;
 }
-#buttonToday{
-  margin-top:20px;
-}
 #buttonSettings{
-  margin-top:750px;
+  margin-top:810px;
 }
 #buttonToday:hover,
 #buttonReports:hover,
@@ -170,5 +232,19 @@ h1,h2{
     margin-right: 10px;
     margin-top:10px;
     margin-bottom:20px;
+}
+.elevation-1 > * {
+    border-radius: 5px !important;
+}
+.v-datatable__actions {
+    border-radius: 5px;
+}
+.buttonUser {
+  z-index:0;
+}
+@media screen and ( min-height: 1110px ){
+#buttonSettings{
+  margin-top:910px;
+}
 }
 </style>

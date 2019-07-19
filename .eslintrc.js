@@ -1,36 +1,25 @@
 module.exports = {
-	env: {
-		browser: true,
-		es6: true,
-	},
-	extends: "airbnb",
-	globals: {
-		Atomics: "readonly",
-		SharedArrayBuffer: "readonly",
-	},
-	parserOptions: {
-		ecmaVersion: 2018,
-		sourceType: "module",
-	},
-	plugins: [
-		"vue",
-	],
-	rules: {
-		indent: [
-			"error",
-			"tab",
-		],
-		"linebreak-style": [
-			"error",
-			"unix",
-		],
-		quotes: [
-			"error",
-			"double",
-		],
-		semi: [
-			"error",
-			"never",
-		],
-	},
-}
+    root: true,
+    env: {
+      // this section will be used to determine which APIs are available to us
+      // (i.e are we running in a browser environment or a node.js env)
+      node: true,
+      browser: true
+    },
+    parserOptions: {
+      parser: "babel-eslint",
+      // specifying a module sourcetype prevent eslint from marking import statements as errors
+      sourceType: "module"
+    },
+    extends: [
+      // use the recommended rule set for both plain javascript and vue
+      "eslint:recommended",
+      "plugin:vue/strongly-recommended"
+    ],
+    rules: {
+      // we should always disable console logs and debugging in production
+      "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
+      "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off"
+    },
+    "globals": { "_": true },
+  };

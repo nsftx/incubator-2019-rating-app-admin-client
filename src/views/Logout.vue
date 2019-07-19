@@ -1,27 +1,53 @@
 <template>
   <div id="logout">
     <br>
-    <h1 style="text-align='center'">Want to logout?</h1>
-    <button id="logoutBttn" @click="logout()">Logout</button>
+    <h2>Already leaving ☹</h2>
+    <h2>Press the button if you want to logout</h2>
+    <v-btn
+      dark
+      @click="snackbarLogoutConfirm=true"
+    >
+      Logout
+    </v-btn>
+    <v-snackbar
+      v-model="snackbarLogoutConfirm"
+      :bottom="y === 'bottom'"
+      :left="x === 'left'"
+      :multi-line="mode === 'multi-line'"
+      :right="x === 'right'"
+      :timeout="timeout"
+      :top="y === 'top'"
+      :vertical="mode === 'vertical'"
+    >
+      {{ textLogoutConfirm }}
+      <v-btn
+        color="pink"
+        flat
+        @click="logout()"
+      >
+        Confirm
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 
 <script>
 export default {
-	mounted: {
-		logged:false,
-	},
 	data() {
 		return{
-			password:""
+			confirmed: false,
+			password:"",
+			snackbarLogoutConfirm: false,
+			y: "top",
+			x: null,
+			mode: "",
+			timeout: 3000,
+			textLogoutConfirm: "One last confirmation...",
 		}
 	},
 	methods: {
 		logout() {
-			if(confirm("Are you sure you want to logout?"))
-			{
 				this.$parent.logged=false
-			}
 		}
 	}
 }

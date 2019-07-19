@@ -1,7 +1,10 @@
 <template id="ratings-area-diagram">
-  <div>
-    <apexcharts type="area" height="400" :options="diagramOptions" :series="diagramSeries"></apexcharts>
-  </div>
+  <apexcharts
+    type="area"
+    height="400"
+    :options="diagramOptions"
+    :series="diagramSeries"
+  />
 </template>
 
 <script>
@@ -9,6 +12,7 @@ import ApexCharts from "vue-apexcharts";
 import ApiService from "../services/ApiService";
 
 export default {
+
   template: "#ratings-area-diagram",
   components: {
     apexcharts: ApexCharts,

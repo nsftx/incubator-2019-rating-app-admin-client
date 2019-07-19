@@ -9,12 +9,14 @@ import store from "./store"
 
 import "vuetify/dist/vuetify.min.css"
 
-const _ = require('lodash');
+// eslint-disable-next-line no-unused-vars
+const _ = require("lodash")
 
 
 Vue.use(Vuetify)
 Vue.use(VueAxios, Axios)
 Vue.config.productionTip = false
+// eslint-disable-next-line no-unused-expressions
 Vue.com
 
 new Vue({

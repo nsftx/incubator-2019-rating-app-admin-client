@@ -5,29 +5,45 @@
       href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
       integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
       crossorigin="anonymous"
-    />
+    >
     <v-app>
       <v-form>
         <v-container fluid>
           <h3>Settings</h3>
-          <v-divider class="divider" dark />
+          <v-divider
+            class="divider"
+            dark
+          />
           <v-layout>
             <v-flex class="flex">
-              <label style="float:left;">Emotions preview</label>
-              <br />
-              <i
-                class="fa-2x fa-fw"
-                v-for="emoticon in emoticons.emoticons"
+              <v-select
+                v-model="emoticonName"
+                dark
+                color="grey"
+                label="Set active emotions"
+                :items="emoticonNames"
+                @change="previewEmoticon"
+              />
+            </v-flex>
+          </v-layout>
+          <v-layout>
+            <v-flex class="flex">
+              <label style="float:left;">Emotions preview</label> <br>
+              <v-icon
+                v-for="emoticon in emoticonPreview.emoticons"
                 :key="emoticon.id"
+                v-model="emoticon.symbol"
+                dark
+                class="fa-2x"
                 :class="[emoticon.symbol]"
-              ></i>
+              />
             </v-flex>
 
             <v-flex class="flex">
               <v-text-field
+                v-model="activeSettings.emoticonNumber"
                 dark
                 color="grey"
-                v-model="activeSettings.emoticonNumber"
                 :rules="emotionsRules"
                 label="Number of emotions"
                 hint="Enter number from 3-5"
@@ -35,36 +51,36 @@
                 type="number"
                 min="3"
                 max="5"
-              ></v-text-field>
+              />
             </v-flex>
           </v-layout>
           <v-layout>
             <v-flex class="flex">
               <v-text-field
                 v-show="!showMessages"
+                v-model="activeMessage.text"
                 dark
                 color="grey"
-                v-model="activeMessage.text"
                 label="Thank you message"
                 clearable
-              ></v-text-field>
+              />
               <v-select
                 v-show="showMessages"
+                v-model="activeSettings.message"
                 dark
                 color="grey"
-                v-model="activeSettings.message"
                 :items="messages"
                 return-object
                 hide-selected
                 label="Thank you message"
-              ></v-select>
+              />
             </v-flex>
 
             <v-flex class="flex">
               <v-text-field
+                v-model="activeSettings.messageTimeout"
                 dark
                 color="grey"
-                v-model="activeSettings.messageTimeout"
                 :rules="timeoutRules"
                 label="Mesage timeout"
                 hint="Can be from 0-10"
@@ -72,7 +88,7 @@
                 type="number"
                 min="1"
                 max="10"
-              ></v-text-field>
+              />
             </v-flex>
           </v-layout>
           <v-layout>
@@ -81,11 +97,19 @@
                 class="showMessages"
                 color="secondary"
                 @click="showExistingMessages"
-              >{{messagesBtnText}}</v-btn>
-              <br />
-              <v-btn class="update" color="secondary" @click="updateActiveSettings">Confirm</v-btn>
+              >
+                {{ messagesBtnText }}
+              </v-btn>
+              <br>
+              <v-btn
+                class="update"
+                color="secondary"
+                @click="updateCheck"
+              >
+                Confirm
+              </v-btn>
             </v-flex>
-            <v-flex></v-flex>
+            <v-flex />
           </v-layout>
         </v-container>
       </v-form>
@@ -103,7 +127,10 @@ export default {
       messages: [],
       activeMessage: {},
       showMessages: false,
-      emoticons: {},
+      emoticonPreview: [],
+      emoticons: [],
+      emoticonNames: [],
+      emoticonName: "",
       messagesBtnText: "Show all messages",
       emotionsRules: [
         v => v > 2 || "Min value is 3",
@@ -116,7 +143,15 @@ export default {
       ]
     };
   },
+  created() {
+    this.getActiveSettings(),
+    this.getThanksMessages(),
+    this.getEmoticonGroup()
+  },
   methods: {
+    updateEmoticon() {
+      console.log(4)
+    },
     validateSettings() {
       return (
         this.activeSettings.message.length > 0 &&
@@ -133,19 +168,35 @@ export default {
         this.activeMessage = this.activeSettings.message;
       });
     },
-    updateActiveSettings() { // TODO: Update if valid settings
-      if (this.showMessages) {
-        this.activeSettings.messageId = this.activeSettings.message.id;
-        ApiService.updateActiveSettings(
-          this.activeSettings,
-          this.activeSettings.id
-        );
-      } else if (!this.isMessageExisting(this.activeMessage.text)) {
-        this.createNewMessage(this.activeSettings.id, this.activeMessage);
+    updateCheck() {
+      if(!this.validateSettings) {
+      } else {
+        this.updateActiveSettings()
       }
     },
+    updateActiveSettings() {
+      if (!this.isMessageExisting(this.activeMessage.text)) {
+        this.createNewMessage(this.activeSettings.id, this.activeMessage);
+      }
+      this.activeSettings.messageId = this.activeSettings.message.id;
+      this.updateActiveEmoticons()
+      ApiService.updateActiveSettings(
+        this.activeSettings,
+        this.activeSettings.id
+      );
+    },
+    updateActiveEmoticons() {
+      for(let i = 0; i < this.emoticons.length; i++) {
+        for(let j= 0; j < this.emoticons[i].length; j++) {
+          if(this.emoticons[i][j].name == this.emoticonName) {
+            this.activeSettings.emoticonsGroupId = this.emoticons[i][j].id
+          }
+        }
+      }
+    },
+    // eslint-disable-next-line
     isMessageExisting(message) {
-      return _.some(this.messages, ["text", this.activeMessage.text]);
+      return _.some(this.messages, ["text", message]);
     },
     getThanksMessages() {
       ApiService.getThanksMessages().then(response => {
@@ -163,15 +214,27 @@ export default {
     },
     getEmoticonGroup() {
       ApiService.getEmoticonGroup().then(response => {
-        this.emoticons = response.data[0];  //TODO: Set selected emoticons from dropdown
+        let activeEmoticonsIndex = _.findIndex(response.data, [
+              "id", this.activeSettings.emoticonsGroupId
+            ]);
+        this.emoticonPreview = response.data[activeEmoticonsIndex];
+        this.emoticonName = this.emoticonPreview.name
+        this.emoticons.push(response.data);
+        for(let i = 0; i < response.data.length; i++) {
+          this.emoticonNames.push(response.data[i].name)
+        }
       });
-    }
+    },
+    previewEmoticon() {
+      for(let i = 0; i < this.emoticons.length; i++) {
+        for(let j= 0; j < this.emoticons[i].length; j++) {
+          if(this.emoticons[i][j].name == this.emoticonName) {
+            this.emoticonPreview = this.emoticons[i][j]
+          }
+        }
+      }
+    },
   },
-  created() {
-    this.getActiveSettings();
-    this.getThanksMessages();
-    this.getEmoticonGroup();
-  }
 };
 </script>
 
