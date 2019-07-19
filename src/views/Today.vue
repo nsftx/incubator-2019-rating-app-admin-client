@@ -81,7 +81,7 @@ export default {
 		}
 	},
 	methods: {
-    createNewRange() {
+    getDiagramData() {
       ApiService.createNewRange(this.range).then(response => {
         this.response = response;
       })
@@ -120,7 +120,7 @@ export default {
     },
 	},
 	created() {
-    this.createNewRange(),
+    this.getDiagramData(),
     this.createToday(),
     this.createPieChart()
 	}

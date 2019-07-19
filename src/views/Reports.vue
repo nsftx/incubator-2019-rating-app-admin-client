@@ -126,7 +126,7 @@
     <h2>Showing reports from {{ date }} to {{ date2 }}</h2>
     <br>
     <div id="lineChart">
-      <ratings-area-diagram></ratings-area-diagram>
+      <ratings-area-diagram v-bind:response="response"></ratings-area-diagram>
     </div>
     <div id="pieChart">
       <apexcharts id="apexPie" type="pie" height="350" :options="chartOptions" :series="chartSeries"></apexcharts>
@@ -160,6 +160,11 @@ export default {
 	},
 	data() {
 		return {
+      range: {
+        date: new Date().toISOString().substr(0, 10),
+        interval: 2
+      },
+      response: {},
 			dark: true,
 			reactive: true,
 			logged: true,
@@ -222,6 +227,11 @@ export default {
         })
       this.createPieChart();
     },
+    getDiagramData() {
+      ApiService.createReportForDays(Today).then(response => {
+        this.response = response;
+      })
+    },
     createPieChart(){
       while(this.chartOptions.labels.length>0)
       {
@@ -247,6 +257,7 @@ export default {
     },
   },
 	created() {
+    this.getDiagramData()
     this.createToday()
 	}
 }

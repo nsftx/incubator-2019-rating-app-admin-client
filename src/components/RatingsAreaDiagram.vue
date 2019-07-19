@@ -126,8 +126,10 @@ export default {
       return emoticons[index].name
     }
   },
-  created() {
-	this.populateDiagram();
+  watch: {
+    response() {
+      this.populateDiagram()
+    }
   }
 };
 </script>
