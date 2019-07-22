@@ -18,7 +18,7 @@
     <h2>check it on the dashboard.</h2>
     <br>
     <div id="lineChart">
-      <ratings-area-diagram v-bind:response="response"></ratings-area-diagram>
+      <ratings-area-diagram :response="response" />
     </div>
     <div id="pieChart">
       <apexcharts

@@ -133,7 +133,7 @@
     <h2>Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
     <br>
     <div id="lineChart">
-      <ratings-area-diagram v-bind:response="response"></ratings-area-diagram>
+      <ratings-area-diagram :response="response" />
     </div>
     <div id="pieChart">
       <apexcharts
@@ -251,7 +251,7 @@ export default {
     },
 
     getDiagramData() {
-      ApiService.createReportForDays(Today).then(response => {
+      ApiService.createReportForDays(this.Today).then(response => {
         this.response = response;
       })
     },

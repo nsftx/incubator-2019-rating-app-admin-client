@@ -9,14 +9,12 @@
 
 <script>
 import ApexCharts from "vue-apexcharts";
-import ApiService from "../services/ApiService";
 
 export default {
 
   template: "#ratings-area-diagram",
   components: {
     apexcharts: ApexCharts,
-    ApiService
   },
   props: ["response"],
   data() {
