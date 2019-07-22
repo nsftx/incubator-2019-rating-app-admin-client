@@ -149,9 +149,6 @@ export default {
     this.getEmoticonGroup()
   },
   methods: {
-    updateEmoticon() {
-      console.log(4)
-    },
     validateSettings() {
       return (
         this.activeSettings.message.length > 0 &&
