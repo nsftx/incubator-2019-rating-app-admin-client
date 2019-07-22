@@ -30,7 +30,7 @@
             <v-flex class="flex">
               <label style="float:left;">Emotions preview</label> <br>
               <v-icon
-                v-for="emoticon in emoticonPreview.emoticons"
+                v-for="emoticon in emoticonPreview"
                 :key="emoticon.id"
                 v-model="emoticon.symbol"
                 dark
@@ -162,6 +162,7 @@ export default {
       ApiService.getActiveSettings().then(response => {
         this.activeSettings = response.data;
         this.activeMessage = this.activeSettings.message;
+        this.emoticonPreview = response.emoticons;
         this.getEmoticonGroup()
       });
     },
@@ -210,12 +211,8 @@ export default {
     },
     getEmoticonGroup() {
       ApiService.getEmoticonGroup().then(response => {
-        let activeEmoticonsIndex = _.findIndex(response.data, [
-              "id", this.activeSettings.emoticonsGroupId
-            ]);
-        this.emoticonPreview = response.data[activeEmoticonsIndex];
-        this.emoticonName = this.emoticonPreview.name
         this.emoticons.push(response.data);
+        this.emoticonName = _.find(this.emoticons[0], ["id", this.activeSettings.emoticonsGroupId]).name;
         for(let i = 0; i < response.data.length; i++) {
           this.emoticonNames.push(response.data[i].name)
         }
