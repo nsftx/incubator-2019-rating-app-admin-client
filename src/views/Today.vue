@@ -67,7 +67,6 @@ export default {
         interval: 2
       },
       response: {},
-			todayCount:450,
       todayCount:0,
       settingId:14,
 			headers: [
