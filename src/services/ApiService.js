@@ -1,7 +1,7 @@
 /* eslint-disable no-tabs */
 import axios from "axios"
 
-const API_URL = "http://172.20.15.56:3000"
+const API_URL = "http://172.20.115.90:3000"
 
 export default {
 	getActiveSettings() {

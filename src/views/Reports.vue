@@ -248,10 +248,15 @@ export default {
           _.times(response.data.length, ()=> this.reactions.push(new Reaction(response.data[`${i}`].emoticon.name,response.data[i++].count)))          
         })
       this.createPieChart()
+      this.getDiagramData()
     },
 
     getDiagramData() {
-      ApiService.createReportForDays(this.Today).then(response => {
+      const Today = {
+        startDate:this.dateBegin,
+        endDate:this.dateEnd,
+			}
+      ApiService.createReportForDays(Today).then(response => {
         this.response = response;
       })
     },
