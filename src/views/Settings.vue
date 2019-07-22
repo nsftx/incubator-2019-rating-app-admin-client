@@ -145,8 +145,7 @@ export default {
   },
   created() {
     this.getActiveSettings(),
-    this.getThanksMessages(),
-    this.getEmoticonGroup()
+    this.getThanksMessages()
   },
   methods: {
     validateSettings() {
@@ -163,6 +162,7 @@ export default {
       ApiService.getActiveSettings().then(response => {
         this.activeSettings = response.data;
         this.activeMessage = this.activeSettings.message;
+        this.getEmoticonGroup()
       });
     },
     updateCheck() {
