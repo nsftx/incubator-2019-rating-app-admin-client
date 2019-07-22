@@ -18,7 +18,7 @@
     <h2>check it on the dashboard.</h2>
     <br>
     <div id="lineChart">
-      <ratings-area-diagram :response="response" />
+      <ratings-area-diagram :ratings="ratings" />
     </div>
     <div id="pieChart">
       <apexcharts
@@ -66,7 +66,7 @@ export default {
         date: new Date().toISOString().substr(0, 10),
         interval: 2
       },
-      response: {},
+      ratings: {},
       todayCount:0,
       settingId:14,
 			headers: [
@@ -100,12 +100,11 @@ export default {
 	},
 	created() {
    this.getSetId()
-   this.getDiagramData()
   },
     methods: {
       getDiagramData() {
         ApiService.createNewRange(this.range).then(response => {
-          this.response = response;
+          this.ratings = response;
         })
       },
         createToday(){
@@ -157,6 +156,7 @@ export default {
          this.createToday()
          this.countToday()
          this.createPieChart()
+         this.getDiagramData()
        })
    }
     }
