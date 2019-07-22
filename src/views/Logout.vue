@@ -19,6 +19,7 @@
       :top="y === 'top'"
       :vertical="mode === 'vertical'"
     >
+    <v-icon dark style="padding-right: 10px;">notification_important</v-icon>
       {{ textLogoutConfirm }}
       <v-btn
         color="pink"
