@@ -10,7 +10,6 @@ import store from "./store"
 import "vuetify/dist/vuetify.min.css"
 
 // eslint-disable-next-line no-unused-vars
-const _ = require("lodash")
 
 
 Vue.use(Vuetify)

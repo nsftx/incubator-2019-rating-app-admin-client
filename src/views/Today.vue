@@ -54,7 +54,7 @@
 import RatingsAreaDiagram from "../components/RatingsAreaDiagram"
 import ApiService from '@/services/ApiService'
 import ApexCharts from "vue-apexcharts"
-
+import {times,each} from "lodash"
 export default {
   components: {
     RatingsAreaDiagram,
@@ -120,7 +120,7 @@ export default {
             ApiService.createNewDaily(Today)
                 .then((response)=> {
          let i=0
-         _.times(response.data.length, ()=> this.reactions.push(new Reaction(response.data[`${i}`]["emoticon.name"],response.data[i++].count)))
+         times(response.data.length, ()=> this.reactions.push(new Reaction(response.data[`${i}`]["emoticon.name"],response.data[i++].count)))
          })
    },
    createPieChart() {
@@ -133,8 +133,8 @@ export default {
      ApiService.createNewDaily(Today)
                 .then((response)=> {
          let i=0,j=0
-         _.times(response.data.length, ()=> this.chartSeries.push(response.data[i++].count))
-         _.times(response.data.length, ()=> this.chartOptions.labels.push(response.data[`${j++}`]["emoticon.name"]))
+          times(response.data.length, ()=> this.chartSeries.push(response.data[i++].count))
+          times(response.data.length, ()=> this.chartOptions.labels.push(response.data[`${j++}`]["emoticon.name"]))
        });
    },
    countToday() {
@@ -146,7 +146,7 @@ export default {
      ApiService.createNewDaily(Today)
                 .then((response)=> {
          let i=0
-         _.times(response.data.length, ()=> counter+=parseInt(response.data[i++].count))
+         times(response.data.length, ()=> counter+=parseInt(response.data[i++].count))
          this.todayCount = counter
        });
    },
