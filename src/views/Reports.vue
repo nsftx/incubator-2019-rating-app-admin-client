@@ -139,7 +139,7 @@
     <h2>Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
     <br>
     <div id="lineChart">
-      <ratings-area-diagram :response="response" />
+      <ratings-area-diagram :ratings="ratings" />
     </div>
     <div id="pieChart">
       <apexcharts
@@ -189,7 +189,7 @@ export default {
         date: new Date().toISOString().substr(0, 10),
         interval: 2
       },
-      response: {},
+      ratings: {},
 			dark: true,
 			reactive: true,
       logged: true,
@@ -255,18 +255,17 @@ export default {
           _.times(response.data.length, ()=> this.reactions.push(new Reaction(response.data[`${i}`].emoticon.name,response.data[i++].count)))          
         })
       this.createPieChart()
+      this.getDiagramData()
     },
 
     getDiagramData() {
-      const Today={
-				startDate:this.dateBegin,
+      const Today = {
+        startDate:this.dateBegin,
         endDate:this.dateEnd,
 			}
       ApiService.createReportForDays(Today).then(response => {
-        this.response = response;
-        console.log('unutar:',response)
+        this.ratings = response;
       })
-      console.log('van:',this.response)
     },
     createPieChart() {
       this.chartOptions.labels.length=0
@@ -279,7 +278,6 @@ export default {
 			}
       ApiService.createNewReport(Today)
 				.then((response)=> {
-          console.log(response)
           let i=0,j=0
           _.times(response.data.length, ()=> this.chartSeries.push(response.data[i++].count))
           _.times(response.data.length, ()=> this.chartOptions.labels.push(response.data[`${j++}`].emoticon.name))

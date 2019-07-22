@@ -16,36 +16,18 @@ export default {
   components: {
     apexcharts: ApexCharts,
   },
-  props: ["response"],
+  props: ["ratings"],
   data() {
     return {
       range: {
         date: new Date().toISOString().substr(0, 10),
         interval: 2
       },
-      diagramSeries: [
-        {
-          name: "",
-          data: []
-        },
-        {
-          name: "",
-          data: []
-        },
-        {
-          name: "",
-          data: []
-        },
-        {
-          name: "",
-          data: []
-        },
-        {
-          name: "",
-          data: []
-        }
-      ],
+      diagramSeries: [],
       diagramOptions: {
+        chart: {
+        stacked: true,
+        },
         dataLabels: {
           enabled: false
         },
@@ -61,7 +43,6 @@ export default {
           }
         },
         xaxis: {
-          format: "HH/DD",
           labels: {
             style: {
               colors: "#444444"
@@ -91,31 +72,38 @@ export default {
       let index;
       let ids = [];
       let counts = [];
-        this.populateDiagramSeriesNames(this.response.emoticons);
-        this.populateDiagramOptionsCategories(this.response.data);
-        for(let i = 0; i < this.response.data.length; i++) {
-          for(let j = 0; j < this.response.data[i].ratings.length; j++) {
-            let name = this.getRatedName(this.response.emoticons, this.response.data[i].ratings[j].emoticonId)
-            index = _.findIndex(this.diagramSeries, ['name', name])
-            if(index != -1) {
-              ids.push(index);
-              counts.push(this.response.data[i].ratings[j].count)
-            }
+      this.diagramOptions.xaxis.categories.length = 0
+      this.diagramSeries.length = 0
+      this.populateDiagramSeriesNames(this.ratings.emoticons);
+      this.populateDiagramOptionsCategories(this.ratings.data);
+      for(let i = 0; i < this.ratings.data.length; i++) {
+        for(let j = 0; j < this.ratings.data[i].ratings.length; j++) {
+          let name = this.getRatedName(this.ratings.emoticons, this.ratings.data[i].ratings[j].emoticonId)
+          index = _.findIndex(this.diagramSeries, ['name', name])
+          if(index != -1) {
+            ids.push(index);
+            counts.push(this.ratings.data[i].ratings[j].count)
           }
-          for(let j = 0; j < this.diagramSeries.length; j++) {
-            index = _.indexOf(ids, j)
-            if (index != -1) {
-              this.diagramSeries[j].data.push(counts[index])
-            }
-              this.diagramSeries[j].data.push(0)
-          }
-          ids = []
-          counts = []
         }
+        for(let j = 0; j < this.diagramSeries.length; j++) {
+          index = _.indexOf(ids, j)
+          if (index != -1) {
+            this.diagramSeries[j].data.push(counts[index])
+          } else {
+            this.diagramSeries[j].data.push(0)
+          }
+        }
+        ids = []
+        counts = []
+      }
     },
     populateDiagramSeriesNames(emoticons) {
-      for (let i = 0; i < this.diagramSeries.length; i++) {
-        this.diagramSeries[i].name = (emoticons[i].name);
+      for (let i = 0; i < emoticons.length; i++) {
+        let Rating = {
+          name: emoticons[i].name,
+          data: []
+        }
+        this.diagramSeries.push(Rating)
       }
     },
     populateDiagramOptionsCategories(ratings) {
@@ -129,7 +117,7 @@ export default {
     }
   },
   watch: {
-    response() {
+    ratings() {
       this.populateDiagram()
     }
   }
