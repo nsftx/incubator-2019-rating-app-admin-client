@@ -15,7 +15,12 @@
         :top="y === 'top'"
         :vertical="mode === 'vertical'"
       >
-      <v-icon dark style="padding-right: 10px;">error</v-icon>
+        <v-icon
+          dark
+          style="padding-right: 10px;"
+        >
+          error
+        </v-icon>
         {{ textLoginFail }}
         <v-btn
           color="pink"
@@ -71,7 +76,12 @@
         :top="y === 'top'"
         :vertical="mode === 'vertical'"
       >
-      <v-icon dark style="padding-right:10px;">person</v-icon>
+        <v-icon
+          dark
+          style="padding-right:10px;"
+        >
+          person
+        </v-icon>
         {{ textLoginSuccess }}
         <v-btn
           color="pink"

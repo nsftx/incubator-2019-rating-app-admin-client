@@ -1,7 +1,10 @@
 <template>
   <div id="reports">
     <br>
-    <div id="pickerWrap" style="padding-left:30px;">
+    <div
+      id="pickerWrap"
+      style="padding-left:30px;"
+    >
       <v-layout
         row
         wrap
@@ -60,7 +63,10 @@
         </v-flex>
       </v-layout>
     </div>
-    <div id="pickerWrap" style="margin-left:0;">
+    <div
+      id="pickerWrap"
+      style="margin-left:0;"
+    >
       <v-layout
         row
         wrap
