@@ -23,7 +23,7 @@
         </v-icon>
         {{ textLoginFail }}
         <v-btn
-          color="pink"
+          color="white"
           flat
           @click="snackbarLoginFail = false"
         >
@@ -84,7 +84,7 @@
         </v-icon>
         {{ textLoginSuccess }}
         <v-btn
-          color="pink"
+          color="white"
           flat
           @click="snackbarLoginSuccess = false"
         >
