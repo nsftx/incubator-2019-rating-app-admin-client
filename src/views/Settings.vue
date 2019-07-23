@@ -111,6 +111,19 @@
             </v-flex>
             <v-flex />
           </v-layout>
+          <v-snackbar
+            v-model="snackbar"
+            :timeout="4000"
+          >
+            {{ snackbarMsg }}
+            <v-btn
+              color="pink"
+              flat
+              @click="snackbar = false"
+            >
+              Close
+            </v-btn>
+          </v-snackbar>
         </v-container>
       </v-form>
     </v-app>
@@ -119,10 +132,13 @@
 
 <script>
 import ApiService from "@/services/ApiService";
+import {some, find} from "lodash"
 
 export default {
   data() {
     return {
+      snackbar: false,
+      snackbarMsg: "",
       activeSettings: {},
       messages: [],
       activeMessage: {},
@@ -167,8 +183,11 @@ export default {
       });
     },
     updateCheck() {
-      if(!this.validateSettings) {
+      if(!this.validateSettings()) {
+        this.snackbarMsg = "Please enter valid data"
+        this.snackbar = true;
       } else {
+        this.snackbarMsg = "Settings successfully updated"
         this.updateActiveSettings()
       }
     },
@@ -181,6 +200,7 @@ export default {
         this.activeSettings,
         this.activeSettings.id
       );
+      this.snackbar = true;
     },
     updateActiveEmoticons() {
       for(let i = 0; i < this.emoticons.length; i++) {
@@ -193,7 +213,7 @@ export default {
     },
     // eslint-disable-next-line
     isMessageExisting(message) {
-      return _.some(this.messages, ["text", message]);
+      return some(this.messages, ["text", message]);
     },
     getThanksMessages() {
       ApiService.getThanksMessages().then(response => {
@@ -212,7 +232,7 @@ export default {
     getEmoticonGroup() {
       ApiService.getEmoticonGroup().then(response => {
         this.emoticons.push(response.data);
-        this.emoticonName = _.find(this.emoticons[0], ["id", this.activeSettings.emoticonsGroupId]).name;
+        this.emoticonName = find(this.emoticons[0], ["id", this.activeSettings.emoticonsGroupId]).name;
         for(let i = 0; i < response.data.length; i++) {
           this.emoticonNames.push(response.data[i].name)
         }

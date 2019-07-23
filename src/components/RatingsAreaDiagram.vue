@@ -9,6 +9,8 @@
 
 <script>
 import ApexCharts from "vue-apexcharts";
+import ApiService from "../services/ApiService"
+import {findIndex, indexOf} from "lodash"
 
 export default {
 
@@ -19,15 +21,13 @@ export default {
   props: ["ratings"],
   data() {
     return {
+      activeEmoticons: [],
       range: {
         date: new Date().toISOString().substr(0, 10),
         interval: 2
       },
       diagramSeries: [],
       diagramOptions: {
-        chart: {
-        stacked: true,
-        },
         dataLabels: {
           enabled: false
         },
@@ -35,9 +35,6 @@ export default {
           width: 2
         },
         legend: {
-          onItemClick: {
-            toggleDataSeries: false
-          },
           labels: {
             colors: "#444444"
           }
@@ -46,7 +43,7 @@ export default {
           labels: {
             style: {
               colors: "#444444"
-			},
+            },
           },
           type: "datetime",
           categories: []
@@ -67,6 +64,9 @@ export default {
       }
     };
   },
+  created() {
+    this.getActiveEmoticons()
+  },
   methods: {
     populateDiagram() {
       let index;
@@ -74,19 +74,19 @@ export default {
       let counts = [];
       this.diagramOptions.xaxis.categories.length = 0
       this.diagramSeries.length = 0
-      this.populateDiagramSeriesNames(this.ratings.emoticons);
+      this.populateDiagramSeriesNames();
       this.populateDiagramOptionsCategories(this.ratings.data);
       for(let i = 0; i < this.ratings.data.length; i++) {
         for(let j = 0; j < this.ratings.data[i].ratings.length; j++) {
           let name = this.getRatedName(this.ratings.emoticons, this.ratings.data[i].ratings[j].emoticonId)
-          index = _.findIndex(this.diagramSeries, ['name', name])
+          index = findIndex(this.diagramSeries, ['name', name])
           if(index != -1) {
             ids.push(index);
             counts.push(this.ratings.data[i].ratings[j].count)
           }
         }
         for(let j = 0; j < this.diagramSeries.length; j++) {
-          index = _.indexOf(ids, j)
+          index = indexOf(ids, j)
           if (index != -1) {
             this.diagramSeries[j].data.push(counts[index])
           } else {
@@ -97,10 +97,10 @@ export default {
         counts = []
       }
     },
-    populateDiagramSeriesNames(emoticons) {
-      for (let i = 0; i < emoticons.length; i++) {
+    populateDiagramSeriesNames() {
+      for (let i = 0; i < this.activeEmoticons.length; i++) {
         let Rating = {
-          name: emoticons[i].name,
+          name: this.activeEmoticons[i].name,
           data: []
         }
         this.diagramSeries.push(Rating)
@@ -112,9 +112,14 @@ export default {
       }
     },
     getRatedName(emoticons, id) {
-      let index = _.findIndex(emoticons, ["id", id])
+      let index = findIndex(emoticons, ["id", id])
       return emoticons[index].name
-    }
+    },
+    getActiveEmoticons() {
+      ApiService.getActiveSettings().then(response => {
+        this.activeEmoticons = response.emoticons
+      })
+    },
   },
   watch: {
     ratings() {

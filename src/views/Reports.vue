@@ -241,6 +241,14 @@ export default {
     this.getDiagramData()
 	},
   methods: {
+    getYesterdayDate() {
+      let todayTimeStamp = new Date; 
+      let oneDayTimeStamp = 1000 * 60 * 60 * 24;
+      let diff = todayTimeStamp - oneDayTimeStamp;
+      let yesterdayDate = new Date(diff);
+      this.dateBegin = yesterdayDate.getFullYear() + '-' + (yesterdayDate.getMonth() + 1) + '-' + yesterdayDate.getDate();
+
+    },
 		createRange() {
 			function Reaction(name, number) {
 			this.name = name,
@@ -261,6 +269,9 @@ export default {
     },
 
     getDiagramData() {
+      if(this.dateBegin >= this.dateEnd) {
+        this.getYesterdayDate()
+      }
       const Today = {
         startDate:this.dateBegin,
         endDate:this.dateEnd,
