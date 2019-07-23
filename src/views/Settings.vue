@@ -30,7 +30,7 @@
             <v-flex class="flex">
               <label style="float:left;">Emotions preview</label> <br>
               <v-icon
-                v-for="emoticon in emoticonPreview"
+                v-for="emoticon in emoticonPreview.emoticons"
                 :key="emoticon.id"
                 v-model="emoticon.symbol"
                 dark
@@ -166,10 +166,10 @@ export default {
   methods: {
     validateSettings() {
       return (
-        this.activeSettings.message.length > 0 &&
-        this.activeSettings.message.length < 121 &&
-        this.activeSettings.emotionsNum > 2 &&
-        this.activeSettings.emotionsNum < 6 &&
+        this.activeSettings.message.text.length > 0 &&
+        this.activeSettings.message.text.length < 121 &&
+        this.activeSettings.emoticonNumber > 2 &&
+        this.activeSettings.emoticonNumber < 6 &&
         this.activeSettings.messageTimeout > 0 &&
         this.activeSettings.messageTimeout < 11
       );
@@ -194,6 +194,9 @@ export default {
     updateActiveSettings() {
       if (!this.isMessageExisting(this.activeMessage.text)) {
         this.activeSettings.messageId = this.createNewMessage(this.activeSettings.id, this.activeMessage).data.id;
+      }
+      else {
+        this.activeSettings.messageId = this.activeSettings.message.id
       }
       this.updateActiveEmoticons()
       ApiService.updateActiveSettings(
@@ -246,6 +249,7 @@ export default {
           }
         }
       }
+      console.log(this.emoticonPreview)
     },
   },
 };

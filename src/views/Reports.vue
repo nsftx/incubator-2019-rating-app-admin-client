@@ -235,11 +235,13 @@ export default {
             },
     }
   },
-	created() {
+	mounted() {
     this.getSetId()
-    this.createRange()
     this.getDiagramData()
-	},
+  },
+  created(){
+    this.createRange()
+  },
   methods: {
     getYesterdayDate() {
       let todayTimeStamp = new Date; 
