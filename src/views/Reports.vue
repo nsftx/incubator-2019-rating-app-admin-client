@@ -245,9 +245,7 @@ export default {
       let todayTimeStamp = new Date; 
       let oneDayTimeStamp = 1000 * 60 * 60 * 24;
       let diff = todayTimeStamp - oneDayTimeStamp;
-      let yesterdayDate = new Date(diff);
-      this.dateBegin = yesterdayDate.getFullYear() + '-' + (yesterdayDate.getMonth() + 1) + '-' + yesterdayDate.getDate();
-
+      this.dateBegin = new Date(diff).toISOString().substr(0, 10);
     },
 		createRange() {
 			function Reaction(name, number) {
