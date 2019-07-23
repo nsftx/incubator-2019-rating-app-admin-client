@@ -33,7 +33,8 @@
       <h1>Login</h1>
       <br>
       <p style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">
-        Welcome to the Rating Dashboard! Please enter your credentials<br>This view will be replaced with Google OAuth
+        Welcome to the Rating Dashboard! Please enter your credentials<br>
+        This view will be replaced with Google OAuth
       </p>
       <br>
       <v-flex
@@ -144,54 +145,54 @@
           </div>
         </router-link>
       </div>
-      <router-view /> 
+      <router-view />
     </div>
   </div>
 </template>
 <script>
-export default{
-	data() {
-		return {
+export default {
+  data() {
+    return {
       show1: false,
       rules: {
         required: value => !!value || 'Required. Password: admin',
-        min: v => v.length >= 5 || 'Min 5 characters. Password: admin'
+        min: v => v.length >= 5 || 'Min 5 characters. Password: admin',
       },
-			logged: false,
-			password: "",
+      logged: false,
+      password: '',
       snackbarLoginSuccess: false,
       snackbarLoginFail: false,
-			y: "top",
-			x: null,
-			mode: "",
-			timeout: 6000,
-			textLoginSuccess: "Login success! Welcome administrator!",
-      textLoginFail: "You have entered wrong credentials, try again!"
-		}
-	},
-	methods: {
-		login() {
-			if(this.password==="admin")
-			{
-				this.logged=true
-			}
-			else
-			{
-				this.snackbarLoginFail=true;
-			}
-			if(this.logged){
-				this.snackbarLoginSuccess=true
-			}
-		}
-	}
-}
+      y: 'top',
+      x: null,
+      mode: '',
+      timeout: 6000,
+      textLoginSuccess: 'Login success! Welcome administrator!',
+      textLoginFail: 'You have entered wrong credentials, try again!',
+    };
+  },
+  methods: {
+    login() {
+      if (this.password === 'admin') {
+        this.logged = true;
+      } else {
+        this.snackbarLoginFail = true;
+      }
+      if (this.logged) {
+        this.snackbarLoginSuccess = true;
+      }
+    },
+  },
+};
 </script>
 <style lang="less">
 p {
   color:white;
 }
 #buttonSettings{
-  margin-top:810px;
+  bottom: 0;
+  left:0;
+  position: fixed;
+  width:6%;
 }
 #buttonToday:hover,
 #buttonReports:hover,
@@ -218,13 +219,13 @@ p {
   height: 100%;
   position: fixed;
   background: #444444;
-  
+
 }
 body {
   background: rgb(18, 20, 22);
 }
 .icons{
-height:30px; 
+height:30px;
 width:auto;
 margin-top:20px;
 }
@@ -253,10 +254,5 @@ h1,h2{
 }
 .buttonUser {
   z-index:0;
-}
-@media screen and ( min-height: 1110px ){
-#buttonSettings{
-  margin-top:910px;
-}
 }
 </style>

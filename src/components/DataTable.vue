@@ -16,45 +16,45 @@
 
 <script>
 export default {
-    components: {
-    },
-    data() {
-        return {
-            headers: [
-				{
-					text: "Reactions",
-					align: "left",
-					sortable: true,
-					value: "name"
-				},
-				{ text: "Number of reactions", value: "number" }
-            ],
-            reactions: [
-				{
-					name: "Happy",
-					number: 200
-				},
-				{
-					name: "Happy-Meh",
-					number: 100
-				},
-				{
-					name: "Meh",
-					number: 75
-				},
-				{
-					name: "Meh-Sad",
-					number: 50
-				},
-				{
-					name: "Sad",
-					number: 25
-				}
-			]
-        }
-    },
-    template: "#data-table-temp"
-}
+  components: {
+  },
+  data() {
+    return {
+      headers: [
+        {
+          text: 'Reactions',
+          align: 'left',
+          sortable: true,
+          value: 'name',
+        },
+        { text: 'Number of reactions', value: 'number' },
+      ],
+      reactions: [
+        {
+          name: 'Happy',
+          number: 200,
+        },
+        {
+          name: 'Happy-Meh',
+          number: 100,
+        },
+        {
+          name: 'Meh',
+          number: 75,
+        },
+        {
+          name: 'Meh-Sad',
+          number: 50,
+        },
+        {
+          name: 'Sad',
+          number: 25,
+        },
+      ],
+    };
+  },
+  template: '#data-table-temp',
+};
 </script>
 
 <style>
