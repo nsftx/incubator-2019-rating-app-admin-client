@@ -195,6 +195,9 @@ export default {
       if (!this.isMessageExisting(this.activeMessage.text)) {
         this.activeSettings.messageId = this.createNewMessage(this.activeSettings.id, this.activeMessage).data.id;
       }
+      else {
+        this.activeSettings.messageId = this.activeSettings.message.id
+      }
       this.updateActiveEmoticons()
       ApiService.updateActiveSettings(
         this.activeSettings,
