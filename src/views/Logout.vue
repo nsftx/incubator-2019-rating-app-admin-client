@@ -39,24 +39,24 @@
 
 <script>
 export default {
-	data() {
-		return{
-			confirmed: false,
-			password:"",
-			snackbarLogoutConfirm: false,
-			y: "top",
-			x: null,
-			mode: "",
-			timeout: 3000,
-			textLogoutConfirm: "One last confirmation...",
-		}
-	},
-	methods: {
-		logout() {
-				this.$parent.logged=false
-		}
-	}
-}
+  data() {
+    return {
+      confirmed: false,
+      password: '',
+      snackbarLogoutConfirm: false,
+      y: 'top',
+      x: null,
+      mode: '',
+      timeout: 3000,
+      textLogoutConfirm: 'One last confirmation...',
+    };
+  },
+  methods: {
+    logout() {
+      this.$parent.logged = false;
+    },
+  },
+};
 </script>
 
 <style>

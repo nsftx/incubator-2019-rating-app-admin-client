@@ -172,138 +172,140 @@
 </template>
 
 <script>
-import RatingsAreaDiagram from "../components/RatingsAreaDiagram"
-import ApiService from '@/services/ApiService'
-import ApexCharts from "vue-apexcharts"
+import ApexCharts from 'vue-apexcharts';
+import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
+import ApiService from '@/services/ApiService';
 // eslint-disable-next-line
 import { setTimeout } from "timers"
 
 export default {
-	components: {
+  components: {
     RatingsAreaDiagram,
-    apexcharts: ApexCharts
-	},
-	data() {
-		return {
+    apexcharts: ApexCharts,
+  },
+  data() {
+    return {
       range: {
         date: new Date().toISOString().substr(0, 10),
-        interval: 2
+        interval: 2,
       },
       ratings: {},
-			dark: true,
-			reactive: true,
+      dark: true,
+      reactive: true,
       logged: true,
-      password: "",
-			menuBegin: false,
+      password: '',
+      menuBegin: false,
       dateBegin: new Date().toISOString().substr(0, 10),
       menuEnd: false,
       dateEnd: new Date().toISOString().substr(0, 10),
-      settingId:12,
-			headers: [
-				{
-					text: "Reactions",
-					align: "center",
-					sortable: true,
-					value: "name"
-				},
-        { text: "Number of reactions",
-          value: "number",
-          align: "center" }
+      settingId: 12,
+      headers: [
+        {
+          text: 'Reactions',
+          align: 'center',
+          sortable: true,
+          value: 'name',
+        },
+        {
+          text: 'Number of reactions',
+          value: 'number',
+          align: 'center',
+        },
       ],
       reactions: [],
       chartSeries: [],
-            chartOptions: {
-                labels: [],
-                noData: {
-                    text: "No data for selected date interval",
-                    style: {
-                      color: "#fff"
-                    },
-                },
-                legend: {
-                    position: "bottom",
-                    labels: {
-                        colors: "#fff",
-                    },
-                },
-                title: {
-                    text: "Ratings",
-                    style: {
-                        color: "#fff"
-                    },
-                },
-            },
-    }
+      chartOptions: {
+        labels: [],
+        noData: {
+          text: 'No data for selected date interval',
+          style: {
+            color: '#fff',
+          },
+        },
+        legend: {
+          position: 'bottom',
+          labels: {
+            colors: '#fff',
+          },
+        },
+        title: {
+          text: 'Ratings',
+          style: {
+            color: '#fff',
+          },
+        },
+      },
+    };
   },
-	mounted() {
-    this.getSetId()
-    this.getDiagramData()
+  mounted() {
+    this.getSetId();
+    this.getDiagramData();
   },
-  created(){
-    this.createRange()
+  created() {
+    this.createRange();
   },
   methods: {
     getYesterdayDate() {
-      let todayTimeStamp = new Date; 
-      let oneDayTimeStamp = 1000 * 60 * 60 * 24;
-      let diff = todayTimeStamp - oneDayTimeStamp;
+      const todayTimeStamp = new Date();
+      const oneDayTimeStamp = 1000 * 60 * 60 * 24;
+      const diff = todayTimeStamp - oneDayTimeStamp;
       this.dateBegin = new Date(diff).toISOString().substr(0, 10);
     },
-		createRange() {
-			function Reaction(name, number) {
-			this.name = name,
-			this.number = number
-			}
-			const Today = {
-        startDate:this.dateBegin,
-        endDate:this.dateEnd,
-				settingsId:this.settingId
-			}
-			ApiService.createNewReport(Today)
-				.then((response)=> {
-          let i=0
-          _.times(response.data.length, ()=> this.reactions.push(new Reaction(response.data[`${i}`].emoticon.name,response.data[i++].count)))          
-        })
-      this.createPieChart()
-      this.getDiagramData()
+    createRange() {
+      function Reaction(name, number) {
+        this.name = name;
+        this.number = number;
+      }
+      const Today = {
+        startDate: this.dateBegin,
+        endDate: this.dateEnd,
+        settingsId: this.settingId,
+      };
+      ApiService.createNewReport(Today)
+        .then((response) => {
+          let i = 0;
+          _.times(response.data.length, () => this.reactions.push(new Reaction(response.data[`${i}`].emoticon.name, response.data[i++].count)));
+        });
+      this.createPieChart();
+      this.getDiagramData();
     },
 
     getDiagramData() {
-      if(this.dateBegin >= this.dateEnd) {
-        this.getYesterdayDate()
+      if (this.dateBegin >= this.dateEnd) {
+        this.getYesterdayDate();
       }
       const Today = {
-        startDate:this.dateBegin,
-        endDate:this.dateEnd,
-			}
-      ApiService.createReportForDays(Today).then(response => {
+        startDate: this.dateBegin,
+        endDate: this.dateEnd,
+      };
+      ApiService.createReportForDays(Today).then((response) => {
         this.ratings = response;
-      })
+      });
     },
     createPieChart() {
-      this.chartOptions.labels.length=0
-      this.reactions=[]
-      this.chartSeries=[]
-      const Today={
-				startDate:this.dateBegin,
-        endDate:this.dateEnd,
-				settingsId:this.settingId
-			}
+      this.chartOptions.labels.length = 0;
+      this.reactions = [];
+      this.chartSeries = [];
+      const Today = {
+        startDate: this.dateBegin,
+        endDate: this.dateEnd,
+        settingsId: this.settingId,
+      };
       ApiService.createNewReport(Today)
-				.then((response)=> {
-          let i=0,j=0
-          _.times(response.data.length, ()=> this.chartSeries.push(response.data[i++].count))
-          _.times(response.data.length, ()=> this.chartOptions.labels.push(response.data[`${j++}`].emoticon.name))
-        })
+        .then((response) => {
+          let i = 0; let j = 0;
+          _.times(response.data.length, () => this.chartSeries.push(response.data[i++].count));
+          _.times(response.data.length, () => this.chartOptions.labels.push(response.data[`${j++}`].emoticon.name));
+        });
     },
-    getSetId(){
+    getSetId() {
       ApiService.getActiveSettings()
         .then((response) => {
-          this.settingId=response.data.id
-        })
-    }
-  }
-}
+          this.settingId = response.data.id;
+        });
+    },
+  },
+};
 
 </script>
 
@@ -319,7 +321,7 @@ export default {
 #pickerWrap input{
     color:rgb(36, 36, 36);
     background:none;
-    width:150px;    
+    width:150px;
 }
 #lineChart{
   background:#444444;
@@ -354,7 +356,7 @@ export default {
   fill:white !important;
 }
 input[type="text"]{
-	color:rgb(190, 190, 190) !important;
+  color:rgb(190, 190, 190) !important;
 }
 #spacer{
   width:100%;

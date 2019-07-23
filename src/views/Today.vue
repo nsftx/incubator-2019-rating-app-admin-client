@@ -1,7 +1,7 @@
 <template>
   <div id="today">
     <div id="parentImages">
-      <img 
+      <img
         id="artworkBg"
         src="../assets/Oval.svg"
       >
@@ -51,119 +51,121 @@
 </template>
 
 <script>
-import RatingsAreaDiagram from "../components/RatingsAreaDiagram"
-import ApiService from '@/services/ApiService'
-import ApexCharts from "vue-apexcharts"
-import {times,each} from "lodash"
+import ApexCharts from 'vue-apexcharts';
+import { times } from 'lodash';
+import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
+import ApiService from '@/services/ApiService';
+
 export default {
   components: {
     RatingsAreaDiagram,
-    apexcharts: ApexCharts
+    apexcharts: ApexCharts,
   },
-	data() {
-		return{
+  data() {
+    return {
       range: {
         date: new Date().toISOString().substr(0, 10),
-        interval: 2
+        interval: 2,
       },
       ratings: {},
-      todayCount:0,
-      settingId:14,
-			headers: [
-				{
-					text: "Reactions",
-					align: "center",
-					sortable: true,
-					value: "name"
-				},
-				{ 
-          text: "Number of reactions",
-          value: "number",
-          align: "center" }
-			],
+      todayCount: 0,
+      settingId: 14,
+      headers: [
+        {
+          text: 'Reactions',
+          align: 'center',
+          sortable: true,
+          value: 'name',
+        },
+        {
+          text: 'Number of reactions',
+          value: 'number',
+          align: 'center',
+        },
+      ],
       reactions: [],
       today: new Date().toISOString().substr(0, 10),
       chartSeries: [],
-            chartOptions: {
-                labels: [],
-                legend: {
-                    position: "bottom",
-                    labels: {
-                        colors: "#fff",
-                    },
-                },
-                title: {
-                    text: "Ratings",
-                    style: {
-                        color: "#fff"
-                    },
-                },
-            },
-		}
-	},
-	created() {
-   this.getSetId()
-  },
-    methods: {
-      getDiagramData() {
-        ApiService.createNewRange(this.range).then(response => {
-          this.ratings = response;
-        })
+      chartOptions: {
+        labels: [],
+        legend: {
+          position: 'bottom',
+          labels: {
+            colors: '#fff',
+          },
+        },
+        title: {
+          text: 'Ratings',
+          style: {
+            color: '#fff',
+          },
+        },
       },
-        createToday(){
-            function Reaction(name, number) {
-            this.name = name,
-            this.number = number
-            }
-            const Today={
-                date:this.today,
-                settingsId:this.settingId
-            }
-            ApiService.createNewDaily(Today)
-                .then((response)=> {
-         let i=0
-         times(response.data.length, ()=> this.reactions.push(new Reaction(response.data[`${i}`]["emoticon.name"],response.data[i++].count)))
-         })
-   },
-   createPieChart() {
-     this.chartSeries=[]
-     this.chartOptions.labels.length=0
-     const Today={
-                date:this.today,
-                settingsId:this.settingId
-            }
-     ApiService.createNewDaily(Today)
-                .then((response)=> {
-         let i=0,j=0
-          times(response.data.length, ()=> this.chartSeries.push(response.data[i++].count))
-          times(response.data.length, ()=> this.chartOptions.labels.push(response.data[`${j++}`]["emoticon.name"]))
-       });
-   },
-   countToday() {
-     let counter=0
-     const Today={
-                date:this.today,
-                settingsId:this.settingId
-            }
-     ApiService.createNewDaily(Today)
-                .then((response)=> {
-         let i=0
-         times(response.data.length, ()=> counter+=parseInt(response.data[i++].count))
-         this.todayCount = counter
-       });
-   },
-   getSetId() {
-     ApiService.getActiveSettings()
-       .then((response) => {
-         this.settingId=response.data.id
-         this.createToday()
-         this.countToday()
-         this.createPieChart()
-         this.getDiagramData()
-       })
-   }
-    }
-}
+    };
+  },
+  created() {
+    this.getSetId();
+  },
+  methods: {
+    getDiagramData() {
+      ApiService.createNewRange(this.range).then((response) => {
+        this.ratings = response;
+      });
+    },
+    createToday() {
+      function Reaction(name, number) {
+        this.name = name;
+        this.number = number;
+      }
+      const Today = {
+        date: this.today,
+        settingsId: this.settingId,
+      };
+      ApiService.createNewDaily(Today)
+        .then((response) => {
+          let i = 0;
+          times(response.data.length, () => this.reactions.push(new Reaction(response.data[`${i}`]['emoticon.name'], response.data[i++].count)));
+        });
+    },
+    createPieChart() {
+      this.chartSeries = [];
+      this.chartOptions.labels.length = 0;
+      const Today = {
+        date: this.today,
+        settingsId: this.settingId,
+      };
+      ApiService.createNewDaily(Today)
+        .then((response) => {
+          let i = 0; let j = 0;
+          times(response.data.length, () => this.chartSeries.push(response.data[i++].count));
+          times(response.data.length, () => this.chartOptions.labels.push(response.data[`${j++}`]['emoticon.name']));
+        });
+    },
+    countToday() {
+      let counter = 0;
+      const Today = {
+        date: this.today,
+        settingsId: this.settingId,
+      };
+      ApiService.createNewDaily(Today)
+        .then((response) => {
+          let i = 0;
+          times(response.data.length, () => counter += parseInt(response.data[i++].count));
+          this.todayCount = counter;
+        });
+    },
+    getSetId() {
+      ApiService.getActiveSettings()
+        .then((response) => {
+          this.settingId = response.data.id;
+          this.createToday();
+          this.countToday();
+          this.createPieChart();
+          this.getDiagramData();
+        });
+    },
+  },
+};
 </script>
 
 <style>
@@ -189,21 +191,21 @@ export default {
   margin-top:25px;
 }
 #tableData, #pieChart, #lineChart{
-	border-radius: 5px;
+  border-radius: 5px;
 }
 #parentImages {
   position: relative;
   left:0;
   top:0;
-	margin-right: 20px;
-	margin-bottom: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
   z-index: -1;
   float:right;
 }
 #artwork{
   top:0;
   right:0;
-	position: relative;
+  position: relative;
 }
 #artworkBg{
   position: absolute;
