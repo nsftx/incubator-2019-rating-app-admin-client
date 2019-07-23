@@ -161,7 +161,7 @@
         >
           <template v-slot:items="props">
             <td>{{ props.item.name }}</td>
-            <td class="text-xs-right">
+            <td class="text-xs-center">
               {{ props.item.number }}
             </td>
           </template>
@@ -202,11 +202,13 @@ export default {
 			headers: [
 				{
 					text: "Reactions",
-					align: "left",
+					align: "center",
 					sortable: true,
 					value: "name"
 				},
-				{ text: "Number of reactions", value: "number" }
+        { text: "Number of reactions",
+          value: "number",
+          align: "center" }
       ],
       reactions: [],
       chartSeries: [],
