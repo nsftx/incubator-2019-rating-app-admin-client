@@ -30,7 +30,7 @@
             <v-flex class="flex">
               <label style="float:left;">Emotions preview</label> <br>
               <v-icon
-                v-for="emoticon in emoticonPreview"
+                v-for="emoticon in emoticonPreview.emoticons"
                 :key="emoticon.id"
                 v-model="emoticon.symbol"
                 dark
@@ -246,6 +246,7 @@ export default {
           }
         }
       }
+      console.log(this.emoticonPreview)
     },
   },
 };
