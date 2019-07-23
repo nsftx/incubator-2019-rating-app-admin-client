@@ -166,10 +166,10 @@ export default {
   methods: {
     validateSettings() {
       return (
-        this.activeSettings.message.length > 0 &&
-        this.activeSettings.message.length < 121 &&
-        this.activeSettings.emotionsNum > 2 &&
-        this.activeSettings.emotionsNum < 6 &&
+        this.activeSettings.message.text.length > 0 &&
+        this.activeSettings.message.text.length < 121 &&
+        this.activeSettings.emoticonNumber > 2 &&
+        this.activeSettings.emoticonNumber < 6 &&
         this.activeSettings.messageTimeout > 0 &&
         this.activeSettings.messageTimeout < 11
       );
