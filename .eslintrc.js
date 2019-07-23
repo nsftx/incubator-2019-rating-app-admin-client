@@ -13,8 +13,8 @@ module.exports = {
     },
     extends: [
       // use the recommended rule set for both plain javascript and vue
-      "eslint:recommended",
-      "plugin:vue/strongly-recommended"
+      'plugin:vue/essential',
+      '@vue/airbnb',
     ],
     rules: {
       // we should always disable console logs and debugging in production
