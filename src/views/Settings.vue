@@ -30,11 +30,11 @@
             <v-flex class="flex">
               <label style="float:left;">Emotions preview</label> <br>
               <v-icon
-                v-for="emoticon in emoticonPreview.emoticons"
+                v-for="emoticon in emoticonPreview"
                 :key="emoticon.id"
                 v-model="emoticon.symbol"
                 dark
-                class="fa-2x"
+                class="fa-2x fa-fw"
                 :class="[emoticon.symbol]"
               />
             </v-flex>
@@ -143,6 +143,7 @@ export default {
       messages: [],
       activeMessage: {},
       showMessages: false,
+      selectedEmoticons: {},
       emoticonPreview: [],
       emoticons: [],
       emoticonNames: [],
@@ -238,22 +239,50 @@ export default {
     },
     getEmoticonGroup() {
       ApiService.getEmoticonGroup().then((response) => {
-        this.emoticons.push(response.data);
-        this.emoticonName = find(this.emoticons[0], ['id', this.activeSettings.emoticonsGroupId]).name;
+        this.emoticons = response.data;
+        this.emoticonName = find(this.emoticons, ['id', this.activeSettings.emoticonsGroupId]).name;
         for (let i = 0; i < response.data.length; i++) {
           this.emoticonNames.push(response.data[i].name);
         }
+        this.previewEmoticon();
       });
     },
     previewEmoticon() {
       for (let i = 0; i < this.emoticons.length; i++) {
-        for (let j = 0; j < this.emoticons[i].length; j++) {
-          if (this.emoticons[i][j].name === this.emoticonName) {
-            this.emoticonPreview = this.emoticons[i][j];
-          }
+        if (this.emoticons[i].name === this.emoticonName) {
+          this.selectedEmoticons = this.emoticons[i];
         }
       }
+    },
+    updateEmoticonPreview() {
+      this.emoticonPreview = [];
+      if (this.activeSettings.emoticonNumber == 3) {
+        for (let i = 0; i < this.selectedEmoticons.emoticons.length; i++) {
+          if (i % 2 == 0) {
+            this.emoticonPreview.push(this.selectedEmoticons.emoticons[i]);
+          }
+        }
+      } else if (this.activeSettings.emoticonNumber == 4) {
+        for (let i = 0; i < this.selectedEmoticons.emoticons.length; i++) {
+          if (i !== 2) {
+            this.emoticonPreview.push(this.selectedEmoticons.emoticons[i]);
+          }
+        }
+      } else {
+        this.emoticonPreview = this.selectedEmoticons.emoticons;
+      }
       console.log(this.emoticonPreview);
+    },
+  },
+  watch: {
+    activeSettings: {
+      handler() {
+        this.updateEmoticonPreview();
+      },
+      deep: true,
+    },
+    emoticonName() {
+      this.updateEmoticonPreview();
     },
   },
 };
