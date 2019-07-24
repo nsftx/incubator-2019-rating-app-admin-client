@@ -21,6 +21,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-plusplus': 'off',
+    'eqeqeq' : 'off'
   },
   globals: { _: true },
 };
