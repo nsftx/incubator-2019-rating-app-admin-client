@@ -52,4 +52,8 @@ export default {
     return axios.post(`${API_URL}/ratings/days`, date)
       .then(response => response.data);
   },
+  newUser(user) {
+    return axios.post(`${API_URL}/users/login`, user)
+      .then(response => response.data);
+  },
 };

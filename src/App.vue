@@ -134,6 +134,7 @@
   </div>
 </template>
 <script>
+import ApiService from '@/services/ApiService';
 export default {
   data() {
     return {
@@ -169,9 +170,22 @@ export default {
           // GoogleUser.getBasicProfile() : Get the user's basic profile information.
           // GoogleUser.getAuthResponse() : Get the response object from the user's auth session. access_token and so on
           this.isSignIn = this.$gAuth.isAuthorized;
-          that.logged = true;
+          const userInfo = {
+            "sub":GoogleUser.w3.Eea,
+            "given_name":GoogleUser.w3.ofa,
+            "family_name":GoogleUser.w3.wea,
+            "picture":GoogleUser.w3.Paa,
+            "email":GoogleUser.w3.U3,
+          }
+          ApiService.newUser(userInfo);
+          if(this.isSignIn)
+          {
+            that.logged = true;
+            that.snackbarLoginSuccess=true;
+          }
         })
         .catch((error) => {
+          that.snackbarLoginFail=true;
         // on fail do something
         });
     },
