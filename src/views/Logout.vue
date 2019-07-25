@@ -1,14 +1,21 @@
 <template>
   <div id="logout">
     <br>
-    <h2>Already leaving ☹</h2>
-    <h2>Press the button if you want to logout</h2>
-    <v-btn
-      dark
-      @click="snackbarLogoutConfirm=true"
-    >
-      Logout
-    </v-btn>
+    <h2>These are your profile preferences</h2>
+    <br>
+    <h2>Want to invite a new user?</h2>
+    <br>
+    <v-text-field
+                v-model="inviteMail"
+                dark
+                color="grey"
+                label="e-mail address"
+                type="email"
+                min="3"
+                max="5"
+                style="width: 50%; margin-right: 50px; float: right;"
+              />
+    <v-btn dark @click="invite()" style="float:left;margin-left:200px;">Invite user</v-btn> 
     <v-snackbar
       v-model="snackbarLogoutConfirm"
       :bottom="y === 'bottom'"
@@ -34,10 +41,20 @@
         Confirm
       </v-btn>
     </v-snackbar>
+    <h2 style="margin-top:75px;">Press the button if you want to logout</h2>
+    <br>
+    <v-btn
+      dark
+      @click="snackbarLogoutConfirm=true"
+      style="float:left;margin-left:200px;"
+    >
+      Logout
+    </v-btn>
   </div>
 </template>
 
 <script>
+import ApiService from '@/services/ApiService';
 export default {
   data() {
     return {
@@ -49,6 +66,7 @@ export default {
       mode: '',
       timeout: 3000,
       textLogoutConfirm: 'One last confirmation...',
+      inviteMail: ''
     };
   },
   methods: {
@@ -62,6 +80,12 @@ export default {
         });
       this.$parent.logged = false;
     },
+    invite() {
+      const userMail = {
+        "email":this.inviteMail
+      };
+      ApiService.inviteUser(userMail);
+    }
   },
 };
 </script>
