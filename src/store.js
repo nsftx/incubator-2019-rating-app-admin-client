@@ -6,10 +6,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-
+    diagramData: {},
   },
   mutations: {
-
+    setDiagramData(state, data) {
+      state.diagramData = data;
+    },
+  },
+  getters: {
+    diagramData: state => state.diagramData,
   },
   actions: {
 
