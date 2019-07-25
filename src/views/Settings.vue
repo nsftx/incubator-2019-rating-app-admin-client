@@ -271,7 +271,6 @@ export default {
       } else {
         this.emoticonPreview = this.selectedEmoticons.emoticons;
       }
-      console.log(this.emoticonPreview);
     },
   },
   watch: {
