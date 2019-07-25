@@ -67,7 +67,7 @@
         >
           person
         </v-icon>
-        {{ textLoginSuccess }}
+        {{ textLoginSuccess }}{{ firstName }}
         <v-btn
           color="white"
           flat
@@ -138,6 +138,7 @@ import ApiService from '@/services/ApiService';
 export default {
   data() {
     return {
+      firstName: '',
       imgAvatar: '',
       nameAvatar: '',
       show1: false,
@@ -153,7 +154,7 @@ export default {
       x: null,
       mode: '',
       timeout: 6000,
-      textLoginSuccess: 'Login success! Welcome administrator!',
+      textLoginSuccess: 'Login success! Welcome ',
       textLoginFail: 'You have entered wrong credentials, try again!',
     };
   },
@@ -166,6 +167,7 @@ export default {
           console.log('user', GoogleUser);
           that.imgAvatar = GoogleUser.w3.Paa;
           that.nameAvatar = GoogleUser.w3.ig;
+          that.firstName = GoogleUser.w3.ofa;
           // GoogleUser.getId() : Get the user's unique ID string.
           // GoogleUser.getBasicProfile() : Get the user's basic profile information.
           // GoogleUser.getAuthResponse() : Get the response object from the user's auth session. access_token and so on

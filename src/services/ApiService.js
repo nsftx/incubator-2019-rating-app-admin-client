@@ -56,4 +56,8 @@ export default {
     return axios.post(`${API_URL}/users/login`, user)
       .then(response => response.data);
   },
+  inviteUser(user) {
+    return axios.post(`${API_URL}/invites`, user)
+      .then(response => response.data);
+  },
 };
