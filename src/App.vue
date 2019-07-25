@@ -186,6 +186,9 @@ export default {
                 that.logged = true;
                 that.snackbarLoginSuccess = true;
               }
+              else {
+                that.snackbarLoginFail = true; 
+              }
             });
          
         })
