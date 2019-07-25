@@ -139,7 +139,7 @@
     <h2>Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
     <br>
     <div id="lineChart">
-      <ratings-area-diagram :ratings="ratings" />
+      <ratings-area-diagram />
     </div>
     <div id="pieChart">
       <apexcharts
@@ -189,7 +189,6 @@ export default {
         date: new Date().toISOString().substr(0, 10),
         interval: 2,
       },
-      ratings: {},
       dark: true,
       reactive: true,
       logged: true,
@@ -279,7 +278,7 @@ export default {
         endDate: this.dateEnd,
       };
       ApiService.createReportForDays(Today).then((response) => {
-        this.ratings = response;
+        this.$store.commit('setDiagramData', response);
       });
     },
     createPieChart() {

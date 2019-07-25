@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import ApexCharts from 'vue-apexcharts';
 import { findIndex, indexOf, forEach } from 'lodash';
 import ApiService from '../services/ApiService';
@@ -18,10 +19,8 @@ export default {
   components: {
     apexcharts: ApexCharts,
   },
-  props: ['ratings'],
   data() {
     return {
-      activeEmoticons: [],
       range: {
         date: new Date().toISOString().substr(0, 10),
         interval: 2,
@@ -41,9 +40,6 @@ export default {
       },
     };
   },
-  created() {
-    this.getActiveEmoticons();
-  },
   methods: {
     populateDiagram() {
       this.diagramOptions.xaxis.categories.length = 0;
@@ -54,7 +50,7 @@ export default {
     },
     populateDiagramSeriesNames() {
       let Rating = {};
-      forEach(this.activeEmoticons, (ratings) => {
+      forEach(this.ratings.emoticons, (ratings) => {
         Rating = {
           name: ratings.name,
           data: [],
@@ -99,16 +95,19 @@ export default {
       const index = findIndex(emoticons, ['id', id]);
       return emoticons[index].name;
     },
-    getActiveEmoticons() {
-      ApiService.getActiveSettings().then((response) => {
-        this.activeEmoticons = response.emoticons;
-      });
-    },
   },
   watch: {
-    ratings() {
-      this.populateDiagram();
+    ratings: {
+      handler() {
+        this.populateDiagram();
+      },
+      deep: true,
     },
+  },
+  computed: {
+    ...mapGetters({
+      ratings: 'diagramData',
+    }),
   },
 };
 </script>
