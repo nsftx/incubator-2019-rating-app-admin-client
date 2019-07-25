@@ -53,6 +53,13 @@ export default {
   },
   methods: {
     logout() {
+      this.$gAuth.signOut()
+        .then(() => {
+        // things to do when sign-out succeeds
+        })
+        .catch((error) => {
+        // things to do when sign-out fails
+        });
       this.$parent.logged = false;
     },
   },

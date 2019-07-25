@@ -30,41 +30,25 @@
           Close
         </v-btn>
       </v-snackbar>
+      <h1>Ratings app - Dashboard</h1>
       <h1>Login</h1>
       <br>
       <p style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">
         Welcome to the Rating Dashboard! Please enter your credentials<br>
-        This view will be replaced with Google OAuth
+        Please login with OAuth
       </p>
       <br>
-      <v-flex
-        xs12
-        sm6
-      >
-        <v-text-field
-          v-model="password"
-          :append-icon="show1 ? 'visibility' : 'visibility_off'"
-          :rules="[rules.required, rules.min]"
-          :type="show1 ? 'text' : 'password'"
-          name="input-10-1"
-          label="Password"
-          hint="5 characters"
-          counter
-          dark
-          color="grey"
-          style="margin-left: 200px;"
-          @click:append="show1 = !show1"
-        />
-      </v-flex>
       <router-link to="/">
-        <v-btn
-          dark
-          style="float: left; margin-left: 200px;"
-          @click="login()"
-        >
-          Login
+        <v-btn 
+        color="error"
+        dark
+        large
+        style="float: left; margin-left: 200px;"
+        @click="login()">
+          Login with Google+
         </v-btn>
       </router-link>
+      <img src="./assets/Artwork.svg" style="margin-right: 5px; float:right; top: 10px ; position: fixed;">
     </div>
     <div v-show="logged">
       <v-snackbar
@@ -100,10 +84,10 @@
           >
             <v-avatar>
               <img
-                src="https://img.icons8.com/bubbles/2x/user.png"
+                :src="imgAvatar"
                 alt="admin"
               >
-            </v-avatar><b>Administrator</b>
+            </v-avatar><b>{{nameAvatar}}</b>
           </v-chip>
         </router-link>
       </div>
@@ -153,6 +137,8 @@
 export default {
   data() {
     return {
+      imgAvatar: '',
+      nameAvatar: '',
       show1: false,
       rules: {
         required: value => !!value || 'Required. Password: admin',
@@ -172,14 +158,22 @@ export default {
   },
   methods: {
     login() {
-      if (this.password === 'admin') {
-        this.logged = true;
-      } else {
-        this.snackbarLoginFail = true;
-      }
-      if (this.logged) {
-        this.snackbarLoginSuccess = true;
-      }
+      const that = this;
+      this.$gAuth.signIn()
+        .then((GoogleUser) => {
+        // On success do something, refer to https://developers.google.com/api-client-library/javascript/reference/referencedocs#googleusergetid
+          console.log('user', GoogleUser);
+          that.imgAvatar = GoogleUser.w3.Paa;
+          that.nameAvatar = GoogleUser.w3.ig;
+          // GoogleUser.getId() : Get the user's unique ID string.
+          // GoogleUser.getBasicProfile() : Get the user's basic profile information.
+          // GoogleUser.getAuthResponse() : Get the response object from the user's auth session. access_token and so on
+          this.isSignIn = this.$gAuth.isAuthorized;
+          that.logged = true;
+        })
+        .catch((error) => {
+        // on fail do something
+        });
     },
   },
 };
@@ -254,5 +248,8 @@ h1,h2{
 }
 .buttonUser {
   z-index:0;
+}
+.theme--dark.v-btn:not(.v-btn--icon):not(.v-btn--flat){
+  background:rgb(231, 72, 72) !important;
 }
 </style>
