@@ -136,18 +136,15 @@ export default {
       this.$parent.logged = false;
     },
     invite() {
-      let that = this;
+      const that = this;
       const userMail = {
         email: this.inviteMail,
       };
       ApiService.inviteUser(userMail)
-        .then(response => {
-          if(response.error)
-          {
+        .then((response) => {
+          if (response.error) {
             that.snackbarInviteExisting = true;
-          }
-          else
-          {
+          } else {
             that.snackbarInviteSuccess = true;
           }
         });

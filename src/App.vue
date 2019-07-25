@@ -170,7 +170,8 @@ export default {
           that.firstName = GoogleUser.w3.ofa;
           // GoogleUser.getId() : Get the user's unique ID string.
           // GoogleUser.getBasicProfile() : Get the user's basic profile information.
-          // GoogleUser.getAuthResponse() : Get the response object from the user's auth session. access_token and so on
+          // GoogleUser.getAuthResponse()
+          //Get the response object from the user's auth session. access_token and so on
           this.isSignIn = this.$gAuth.isAuthorized;
           const userInfo = {
             sub: GoogleUser.w3.Eea,
@@ -181,16 +182,13 @@ export default {
           };
           ApiService.newUser(userInfo)
             .then((response) => {
-              console.log(response)
-              if (response.error==false) {
+              if (response.error == false) {
                 that.logged = true;
                 that.snackbarLoginSuccess = true;
-              }
-              else {
-                that.snackbarLoginFail = true; 
+              } else {
+                that.snackbarLoginFail = true;
               }
             });
-         
         })
         .catch((error) => {
           that.snackbarLoginFail = true;
