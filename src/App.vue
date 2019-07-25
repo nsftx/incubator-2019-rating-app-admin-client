@@ -39,7 +39,7 @@
       </p>
       <br>
       <router-link to="/">
-        <v-btn 
+        <v-btn
         color="error"
         dark
         large
@@ -135,6 +135,7 @@
 </template>
 <script>
 import ApiService from '@/services/ApiService';
+
 export default {
   data() {
     return {
@@ -164,7 +165,6 @@ export default {
       this.$gAuth.signIn()
         .then((GoogleUser) => {
         // On success do something, refer to https://developers.google.com/api-client-library/javascript/reference/referencedocs#googleusergetid
-          console.log('user', GoogleUser);
           that.imgAvatar = GoogleUser.w3.Paa;
           that.nameAvatar = GoogleUser.w3.ig;
           that.firstName = GoogleUser.w3.ofa;
@@ -173,21 +173,24 @@ export default {
           // GoogleUser.getAuthResponse() : Get the response object from the user's auth session. access_token and so on
           this.isSignIn = this.$gAuth.isAuthorized;
           const userInfo = {
-            "sub":GoogleUser.w3.Eea,
-            "given_name":GoogleUser.w3.ofa,
-            "family_name":GoogleUser.w3.wea,
-            "picture":GoogleUser.w3.Paa,
-            "email":GoogleUser.w3.U3,
-          }
-          ApiService.newUser(userInfo);
-          if(this.isSignIn)
-          {
-            that.logged = true;
-            that.snackbarLoginSuccess=true;
-          }
+            sub: GoogleUser.w3.Eea,
+            given_name: GoogleUser.w3.ofa,
+            family_name: GoogleUser.w3.wea,
+            picture: GoogleUser.w3.Paa,
+            email: GoogleUser.w3.U3,
+          };
+          ApiService.newUser(userInfo)
+            .then((response) => {
+              console.log(response)
+              if (response.error==false) {
+                that.logged = true;
+                that.snackbarLoginSuccess = true;
+              }
+            });
+         
         })
         .catch((error) => {
-          that.snackbarLoginFail=true;
+          that.snackbarLoginFail = true;
         // on fail do something
         });
     },

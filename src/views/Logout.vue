@@ -15,7 +15,7 @@
                 max="5"
                 style="width: 50%; margin-right: 50px; float: right;"
               />
-    <v-btn dark @click="invite()" style="float:left;margin-left:200px;">Invite user</v-btn> 
+    <v-btn dark @click="invite()" style="float:left;margin-left:200px;">Invite user</v-btn>
     <v-snackbar
       v-model="snackbarLogoutConfirm"
       :bottom="y === 'bottom'"
@@ -55,6 +55,7 @@
 
 <script>
 import ApiService from '@/services/ApiService';
+
 export default {
   data() {
     return {
@@ -66,7 +67,7 @@ export default {
       mode: '',
       timeout: 3000,
       textLogoutConfirm: 'One last confirmation...',
-      inviteMail: ''
+      inviteMail: '',
     };
   },
   methods: {
@@ -82,10 +83,10 @@ export default {
     },
     invite() {
       const userMail = {
-        "email":this.inviteMail
+        email: this.inviteMail,
       };
       ApiService.inviteUser(userMail);
-    }
+    },
   },
 };
 </script>
