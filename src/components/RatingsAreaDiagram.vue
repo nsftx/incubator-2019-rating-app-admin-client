@@ -1,12 +1,10 @@
 <template id="ratings-area-diagram">
-<div>
   <apexcharts
     type="area"
     height="400"
     :options="diagramOptions"
     :series="diagramSeries"
   />
-</div>
 </template>
 
 <script>
