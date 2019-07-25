@@ -9,7 +9,7 @@
 
 <script>
 import ApexCharts from 'vue-apexcharts';
-import { findIndex, indexOf } from 'lodash';
+import { findIndex, indexOf, forEach } from 'lodash';
 import ApiService from '../services/ApiService';
 
 export default {
@@ -34,32 +34,9 @@ export default {
         stroke: {
           width: 2,
         },
-        legend: {
-          labels: {
-            colors: '#444444',
-          },
-        },
         xaxis: {
-          labels: {
-            style: {
-              colors: '#444444',
-            },
-          },
           type: 'datetime',
           categories: [],
-        },
-        yaxis: {
-          labels: {
-            style: {
-              color: '#444444',
-            },
-          },
-        },
-        title: {
-          text: 'Ratings',
-          style: {
-            color: '#444444',
-          },
         },
       },
     };
@@ -69,16 +46,32 @@ export default {
   },
   methods: {
     populateDiagram() {
-      let index;
-      let ids = [];
-      let counts = [];
       this.diagramOptions.xaxis.categories.length = 0;
       this.diagramSeries.length = 0;
       this.populateDiagramSeriesNames();
-      this.populateDiagramOptionsCategories(this.ratings.data);
+      this.populateDiagramSeriesData();
+      this.populateDiagramOptionsCategories();
+    },
+    populateDiagramSeriesNames() {
+      let Rating = {};
+      forEach(this.activeEmoticons, (ratings) => {
+        Rating = {
+          name: ratings.name,
+          data: [],
+        };
+        this.diagramSeries.push(Rating);
+      });
+    },
+    populateDiagramSeriesData() {
+      let index;
+      let ids = [];
+      let counts = [];
       for (let i = 0; i < this.ratings.data.length; i++) {
         for (let j = 0; j < this.ratings.data[i].ratings.length; j++) {
-          const name = this.getRatedName(this.ratings.emoticons, this.ratings.data[i].ratings[j].emoticonId);
+          const name = this.getRatedName(
+            this.ratings.emoticons,
+            this.ratings.data[i].ratings[j].emoticonId,
+          );
           index = findIndex(this.diagramSeries, ['name', name]);
           if (index != -1) {
             ids.push(index);
@@ -97,19 +90,10 @@ export default {
         counts = [];
       }
     },
-    populateDiagramSeriesNames() {
-      for (let i = 0; i < this.activeEmoticons.length; i++) {
-        const Rating = {
-          name: this.activeEmoticons[i].name,
-          data: [],
-        };
-        this.diagramSeries.push(Rating);
-      }
-    },
-    populateDiagramOptionsCategories(ratings) {
-      for (let i = 0; i < ratings.length; i++) {
-        this.diagramOptions.xaxis.categories.push(ratings[i].time);
-      }
+    populateDiagramOptionsCategories() {
+      forEach(this.ratings.data, (ratings) => {
+        this.diagramOptions.xaxis.categories.push(ratings.time);
+      });
     },
     getRatedName(emoticons, id) {
       const index = findIndex(emoticons, ['id', id]);
