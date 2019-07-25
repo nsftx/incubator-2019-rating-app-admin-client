@@ -11,7 +11,6 @@
 import { mapGetters } from 'vuex';
 import ApexCharts from 'vue-apexcharts';
 import { findIndex, indexOf, forEach } from 'lodash';
-import ApiService from '../services/ApiService';
 
 export default {
 
@@ -21,10 +20,6 @@ export default {
   },
   data() {
     return {
-      range: {
-        date: new Date().toISOString().substr(0, 10),
-        interval: 2,
-      },
       diagramSeries: [],
       diagramOptions: {
         dataLabels: {
