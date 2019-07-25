@@ -41,6 +41,56 @@
         Confirm
       </v-btn>
     </v-snackbar>
+    <v-snackbar
+      v-model="snackbarInviteExisting"
+      :bottom="y === 'bottom'"
+      :left="x === 'left'"
+      :multi-line="mode === 'multi-line'"
+      :right="x === 'right'"
+      :timeout="timeout"
+      :top="y === 'top'"
+      :vertical="mode === 'vertical'"
+    >
+      <v-icon
+        dark
+        style="padding-right: 10px;"
+      >
+        error
+      </v-icon>
+      {{ textInviteExisting }}
+      <v-btn
+        color="white"
+        flat
+        @click="snackbarInviteExisting = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+    <v-snackbar
+      v-model="snackbarInviteSuccess"
+      :bottom="y === 'bottom'"
+      :left="x === 'left'"
+      :multi-line="mode === 'multi-line'"
+      :right="x === 'right'"
+      :timeout="timeout"
+      :top="y === 'top'"
+      :vertical="mode === 'vertical'"
+    >
+      <v-icon
+        dark
+        style="padding-right: 10px;"
+      >
+        error
+      </v-icon>
+      {{ textInviteSuccess }}
+      <v-btn
+        color="white"
+        flat
+        @click="snackbarInviteSuccess = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
     <h2 style="margin-top:75px;">Press the button if you want to logout</h2>
     <br>
     <v-btn
@@ -68,6 +118,10 @@ export default {
       timeout: 3000,
       textLogoutConfirm: 'One last confirmation...',
       inviteMail: '',
+      snackbarInviteExisting: false,
+      textInviteExisting: 'Invite is already sent',
+      snackbarInviteSuccess: false,
+      textInviteSuccess: 'Invite successfully sent',
     };
   },
   methods: {
@@ -82,10 +136,21 @@ export default {
       this.$parent.logged = false;
     },
     invite() {
+      let that = this;
       const userMail = {
         email: this.inviteMail,
       };
-      ApiService.inviteUser(userMail);
+      ApiService.inviteUser(userMail)
+        .then(response => {
+          if(response.error)
+          {
+            that.snackbarInviteExisting = true;
+          }
+          else
+          {
+            that.snackbarInviteSuccess = true;
+          }
+        });
     },
   },
 };
