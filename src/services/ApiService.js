@@ -60,4 +60,8 @@ export default {
     return axios.post(`${API_URL}/invites`, user)
       .then(response => response.data);
   },
+  authUser(idToken) {
+    return axios.post(`${API_URL}/users/auth`, idToken)
+      .then(response => response.data);
+  },
 };
