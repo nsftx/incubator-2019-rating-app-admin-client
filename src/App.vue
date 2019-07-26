@@ -66,7 +66,7 @@
         >
           person
         </v-icon>
-        {{ textLoginSuccess }}{{ firstName }}
+        {{ textLoginSuccess }}{{ firstName }}!
         <v-btn
           color="white"
           flat
@@ -166,13 +166,11 @@ export default {
       const that = this;
       this.$gAuth.signIn()
         .then((GoogleUser) => {
-        // On success do something, refer to https://developers.google.com/api-client-library/javascript/reference/referencedocs#googleusergetid
           that.imgAvatar = GoogleUser.w3.Paa;
           that.nameAvatar = GoogleUser.w3.ig;
           that.firstName = GoogleUser.w3.ofa;
           that.lastName = GoogleUser.w3.wea;
           that.email = GoogleUser.w3.U3;
-          console.log(GoogleUser);
           const uid = GoogleUser.getId();
           this.isSignIn = this.$gAuth.isAuthorized;
           const userInfo = {
@@ -182,17 +180,16 @@ export default {
             picture: GoogleUser.w3.Paa,
             email: GoogleUser.w3.U3,
           };
-          ApiService.newUser(userInfo)
+          const id_token = GoogleUser.getAuthResponse().id_token;
+          const tokenId = {
+                  idToken: id_token,
+                };
+          ApiService.newUser(tokenId)
             .then((response) => {
               if (response.error == false) {
                 that.logged = true;
                 that.snackbarLoginSuccess = true;
-                const id_token = GoogleUser.getAuthResponse().id_token;
-                const tokenId = {
-                  idToken: id_token,
-                };
                 this.$router.push({ path: '/today' });
-                ApiService.authUser(tokenId);
               } else {
                 that.snackbarLoginFail = true;
                 this.$router.push({ path: '/' });
@@ -201,7 +198,6 @@ export default {
         })
         .catch((error) => {
           this.$router.push({ path: '/' });
-        // on fail do something
         });
     },
   },
