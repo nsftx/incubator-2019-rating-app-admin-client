@@ -38,7 +38,6 @@
         Please login with OAuth
       </p>
       <br>
-      <router-link to="/">
         <v-btn
         color="error"
         dark
@@ -47,8 +46,8 @@
         @click="login()">
           Login with Google+
         </v-btn>
-      </router-link>
-      <img src="./assets/Artwork.svg" style="margin-right: 5px; float:right; top: 10px ; position: fixed;">
+      <img src="./assets/Artwork.svg"
+      style="margin-right: 5px; float:right; top: 10px ; position: fixed;">
     </div>
     <div v-show="logged">
       <v-snackbar
@@ -95,7 +94,7 @@
         v-show="logged"
         id="dash-nav"
       >
-        <router-link to="/">
+        <router-link to="/today">
           <div id="buttonToday">
             <img
               src="./assets/today.png"
@@ -139,6 +138,7 @@ import ApiService from '@/services/ApiService';
 export default {
   data() {
     return {
+      path: '/',
       firstName: '',
       imgAvatar: '',
       nameAvatar: '',
@@ -156,7 +156,7 @@ export default {
       mode: '',
       timeout: 6000,
       textLoginSuccess: 'Login success! Welcome ',
-      textLoginFail: 'You have entered wrong credentials, try again!',
+      textLoginFail: 'Oops. You are a non-existing user. Please ask for an invite.',
     };
   },
   methods: {
@@ -168,10 +168,7 @@ export default {
           that.imgAvatar = GoogleUser.w3.Paa;
           that.nameAvatar = GoogleUser.w3.ig;
           that.firstName = GoogleUser.w3.ofa;
-          // GoogleUser.getId() : Get the user's unique ID string.
-          // GoogleUser.getBasicProfile() : Get the user's basic profile information.
-          // GoogleUser.getAuthResponse()
-          //Get the response object from the user's auth session. access_token and so on
+          const uid = GoogleUser.getId();
           this.isSignIn = this.$gAuth.isAuthorized;
           const userInfo = {
             sub: GoogleUser.w3.Eea,
@@ -185,13 +182,20 @@ export default {
               if (response.error == false) {
                 that.logged = true;
                 that.snackbarLoginSuccess = true;
+                const id_token = GoogleUser.getAuthResponse().id_token;
+                const tokenId = {
+                  idToken: id_token,
+                };
+                this.$router.push({ path: '/today' });
+                ApiService.authUser(tokenId);
               } else {
                 that.snackbarLoginFail = true;
+                this.$router.push({ path: '/' });
               }
             });
         })
         .catch((error) => {
-          that.snackbarLoginFail = true;
+          this.$router.push({ path: '/' });
         // on fail do something
         });
     },

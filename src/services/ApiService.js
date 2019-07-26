@@ -1,7 +1,7 @@
 /* eslint-disable no-tabs */
 import axios from 'axios';
 
-const API_URL = 'http://172.20.116.122:3000';
+const API_URL = 'http://172.20.116.250:3000';
 
 export default {
   getActiveSettings() {
@@ -58,6 +58,10 @@ export default {
   },
   inviteUser(user) {
     return axios.post(`${API_URL}/invites`, user)
+      .then(response => response.data);
+  },
+  authUser(idToken) {
+    return axios.post(`${API_URL}/users/auth`, idToken)
       .then(response => response.data);
   },
 };
