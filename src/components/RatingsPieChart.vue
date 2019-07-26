@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { times } from 'lodash';
 import ApexCharts from 'vue-apexcharts';
 
 export default {
@@ -34,6 +36,33 @@ export default {
         },
       },
     };
+  },
+  methods: {
+    createPieChart() {
+      this.chartSeries = [];
+      this.chartOptions.labels.length = 0;
+      let i = 0;
+      let j = 0;
+      times(this.ratings.data.length, () => this.chartSeries.push(
+        this.ratings.data[i++].count,
+      ));
+      times(this.ratings.data.length, () => this.chartOptions.labels.push(
+        this.ratings.data[`${j++}`]['emoticon.name'],
+      ));
+    },
+  },
+  watch: {
+    ratings: {
+      handler() {
+        this.createPieChart();
+      },
+      deep: true,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      ratings: 'pieChartData',
+    }),
   },
 };
 </script>

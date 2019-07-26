@@ -236,6 +236,7 @@ export default {
     };
   },
   created() {
+    this.getYesterdayDate()
     this.createRange();
   },
   methods: {
@@ -246,9 +247,6 @@ export default {
       this.dateBegin = new Date(diff).toISOString().substr(0, 10);
     },
     createRange() {
-      if (this.dateBegin >= this.dateEnd) {
-        this.getYesterdayDate();
-      }
       function Reaction(name, number) {
         this.name = name;
         this.number = number;

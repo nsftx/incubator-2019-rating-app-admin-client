@@ -7,7 +7,7 @@
     <br />
     <br />
     <h1>Today is a new day.</h1>
-    <h1>Check your ratings!</h1>
+    <h1>Check your ratings</h1>
     <br />
     <h2>Graphs present your rating results. Today you have {{ todayCount }} rates,</h2>
     <h2>check it on the dashboard.</h2>
@@ -16,7 +16,7 @@
       <ratings-area-diagram />
     </div>
     <div id="pieChart">
-      <apexcharts type="pie" height="350" :options="chartOptions" :series="chartSeries" />
+      <ratings-pie-chart />
     </div>
     <br />
     <div id="dataTable">
@@ -33,15 +33,15 @@
 </template>
 
 <script>
-import ApexCharts from 'vue-apexcharts';
+import { mapGetters } from 'vuex';
 import { times } from 'lodash';
 import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
-import ApiService from '@/services/ApiService';
+import RatingsPieChart from '../components/RatingsPieChart.vue';
 
 export default {
   components: {
     RatingsAreaDiagram,
-    apexcharts: ApexCharts,
+    RatingsPieChart,
   },
   data() {
     return {
@@ -84,9 +84,7 @@ export default {
     };
   },
   created() {
-    this.createToday();
-    this.countToday();
-    this.createPieChart();
+    this.$store.dispatch('getPieChartToday', this.Today);
     this.$store.dispatch('getDiagramToday', this.interval);
   },
   methods: {
@@ -95,39 +93,37 @@ export default {
         this.name = name;
         this.number = number;
       }
-      ApiService.createNewDaily(this.Today).then((response) => {
-        let i = 0;
-        times(response.data.length, () => this.reactions.push(
-          new Reaction(
-            response.data[`${i}`]['emoticon.name'],
-            response.data[i++].count,
-          ),
-        ));
-      });
-    },
-    createPieChart() {
-      this.chartSeries = [];
-      this.chartOptions.labels.length = 0;
-      ApiService.createNewDaily(this.Today).then((response) => {
-        let i = 0;
-        let j = 0;
-        times(response.data.length, () => this.chartSeries.push(response.data[i++].count));
-        times(response.data.length, () => this.chartOptions.labels.push(
-          response.data[`${j++}`]['emoticon.name'],
-        ));
-      });
+      let i = 0;
+      times(this.ratings.data.length, () => this.reactions.push(
+        new Reaction(
+          this.ratings.data[`${i}`]['emoticon.name'],
+          this.ratings.data[i++].count,
+        ),
+      ));
     },
     countToday() {
       let counter = 0;
-      ApiService.createNewDaily(this.Today).then((response) => {
-        let i = 0;
-        times(
-          response.data.length,
-          () => (counter += parseInt(response.data[i++].count)),
-        );
-        this.todayCount = counter;
-      });
+      let i = 0;
+      times(
+        this.ratings.data.length,
+        () => (counter += parseInt(this.ratings.data[i++].count)),
+      );
+      this.todayCount = counter;
     },
+  },
+  watch: {
+    ratings: {
+      handler() {
+        this.createToday();
+        this.countToday();
+      },
+      deep: true,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      ratings: 'pieChartData',
+    }),
   },
 };
 </script>
