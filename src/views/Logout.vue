@@ -1,8 +1,15 @@
 <template>
   <div id="logout">
-    <br>
-    <h2>These are your profile preferences</h2>
-    <br>
+    <br><br>
+    <h1 style="font-size: 40px;">Welcome to your profile</h1>
+    <br><br>
+    <div class = "profileInfo">
+      <h2>First name: {{this.$parent.firstName}}</h2>
+      <h2>Last name: {{this.$parent.lastName}}</h2>
+      <h2>E-mail address: {{this.$parent.email}}</h2>
+      <img :src="this.$parent.imgAvatar" class="profileAvatar">
+    </div>
+    <br><br>
     <h2>Want to invite a new user?</h2>
     <br>
     <v-text-field
@@ -13,7 +20,7 @@
                 type="email"
                 min="3"
                 max="5"
-                style="width: 50%; margin-right: 50px; float: right;"
+                style="width: 50%; margin-right: 180px; float: right;"
               />
     <v-btn dark @click="invite()" style="float:left;margin-left:200px;">Invite user</v-btn>
     <v-snackbar
@@ -159,5 +166,23 @@ export default {
   border: 1px solid rgb(190, 190, 190);
   padding: 10px 20px;
   border-radius: 5px;
+}
+.profileInfo{
+  border: 1px solid grey;
+  width: 80%;
+  padding-top:25px;
+  padding-bottom:25px;
+  margin-left:auto;
+  margin-right:auto;
+  border-radius: 3px;
+}
+.profileAvatar{
+  float:right;
+  margin-top: -85px;
+  margin-right:15px;
+  border-radius:3px;
+}
+.profileInfo h2{
+  font-weight: normal;
 }
 </style>

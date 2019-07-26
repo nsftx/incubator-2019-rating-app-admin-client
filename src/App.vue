@@ -142,6 +142,8 @@ export default {
       firstName: '',
       imgAvatar: '',
       nameAvatar: '',
+      lastName: '',
+      email:'',
       show1: false,
       rules: {
         required: value => !!value || 'Required. Password: admin',
@@ -168,6 +170,9 @@ export default {
           that.imgAvatar = GoogleUser.w3.Paa;
           that.nameAvatar = GoogleUser.w3.ig;
           that.firstName = GoogleUser.w3.ofa;
+          that.lastName = GoogleUser.w3.wea;
+          that.email = GoogleUser.w3.U3;
+          console.log(GoogleUser);
           const uid = GoogleUser.getId();
           this.isSignIn = this.$gAuth.isAuthorized;
           const userInfo = {
