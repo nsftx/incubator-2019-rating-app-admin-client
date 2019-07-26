@@ -64,7 +64,7 @@ export default {
         },
       ],
       reactions: [],
-      Today: {date: new Date().toISOString().substr(0, 10)},
+      Today: { date: new Date().toISOString().substr(0, 10) },
       chartSeries: [],
       chartOptions: {
         labels: [],

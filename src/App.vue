@@ -171,7 +171,7 @@ export default {
           // GoogleUser.getId() : Get the user's unique ID string.
           // GoogleUser.getBasicProfile() : Get the user's basic profile information.
           // GoogleUser.getAuthResponse()
-          //Get the response object from the user's auth session. access_token and so on
+          // Get the response object from the user's auth session. access_token and so on
           this.isSignIn = this.$gAuth.isAuthorized;
           const userInfo = {
             sub: GoogleUser.w3.Eea,
