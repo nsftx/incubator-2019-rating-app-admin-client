@@ -20,14 +20,7 @@
     </div>
     <br />
     <div id="dataTable">
-      <div id="tableData">
-        <v-data-table :headers="headers" :items="reactions" class="elevation-1" :dark="true">
-          <template v-slot:items="props">
-            <td>{{ props.item.name }}</td>
-            <td class="text-xs-center">{{ props.item.number }}</td>
-          </template>
-        </v-data-table>
-      </div>
+      <data-table />
     </div>
   </div>
 </template>
@@ -37,11 +30,13 @@ import { mapGetters } from 'vuex';
 import { times } from 'lodash';
 import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
 import RatingsPieChart from '../components/RatingsPieChart.vue';
+import DataTable from '../components/DataTable'
 
 export default {
   components: {
     RatingsAreaDiagram,
     RatingsPieChart,
+    DataTable,
   },
   data() {
     return {
@@ -50,37 +45,7 @@ export default {
         interval: 2,
       },
       todayCount: 0,
-      headers: [
-        {
-          text: 'Reactions',
-          align: 'center',
-          sortable: true,
-          value: 'name',
-        },
-        {
-          text: 'Number of reactions',
-          value: 'number',
-          align: 'center',
-        },
-      ],
-      reactions: [],
       Today: { date: new Date().toISOString().substr(0, 10) },
-      chartSeries: [],
-      chartOptions: {
-        labels: [],
-        legend: {
-          position: 'bottom',
-          labels: {
-            colors: '#fff',
-          },
-        },
-        title: {
-          text: 'Ratings',
-          style: {
-            color: '#fff',
-          },
-        },
-      },
     };
   },
   created() {
@@ -88,19 +53,6 @@ export default {
     this.$store.dispatch('getDiagramToday', this.interval);
   },
   methods: {
-    createToday() {
-      function Reaction(name, number) {
-        this.name = name;
-        this.number = number;
-      }
-      let i = 0;
-      times(this.ratings.data.length, () => this.reactions.push(
-        new Reaction(
-          this.ratings.data[`${i}`]['emoticon.name'],
-          this.ratings.data[i++].count,
-        ),
-      ));
-    },
     countToday() {
       let counter = 0;
       let i = 0;
@@ -114,7 +66,6 @@ export default {
   watch: {
     ratings: {
       handler() {
-        this.createToday();
         this.countToday();
       },
       deep: true,

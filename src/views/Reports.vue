@@ -146,7 +146,7 @@
     </div>
     <br>
     <div id="dataTable">
-      <data-table-temp />
+      <data-table />
     </div>
   </div>
 </template>
@@ -155,15 +155,12 @@
 import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
 import RatingsPieChart from '../components/RatingsPieChart.vue';
 import DataTable from '../components/DataTable.vue';
-import ApiService from '@/services/ApiService';
-import { setTimeout } from "timers";
 
 export default {
   components: {
     RatingsAreaDiagram,
     RatingsPieChart,
     DataTable,
-    apexcharts: ApexCharts,
   },
   data() {
     return {
@@ -199,7 +196,7 @@ export default {
       };
       this.$store.dispatch('getPieChartReport', Today);
       this.$store.dispatch('getDiagramRange', Today);
-    },  
+    },
   },
 };
 </script>

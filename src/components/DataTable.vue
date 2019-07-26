@@ -1,27 +1,24 @@
-<template id="data-table-temp">
-  <div id="dataTable">
-    <div id="tableData">
-      <v-data-table
-        :headers="headers"
-        :items="reactions"
-        class="elevation-1"
-        :dark="true"
-      >
-        <template v-slot:items="props">
-          <td>{{ props.item.name }}</td>
-          <td class="text-xs-center">
-            {{ props.item.number }}
-          </td>
-        </template>
-      </v-data-table>
-    </div>
-  </div>
+<template id="data-table">
+  <v-data-table
+    :headers="headers"
+    :items="reactions"
+    class="elevation-1"
+    :dark="true"
+  >
+    <template v-slot:items="props">
+      <td>{{ props.item.name }}</td>
+      <td class="text-xs-center">
+        {{ props.item.number }}
+      </td>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+
 export default {
-  template: '#data-table-temp',
+  template: '#data-table',
   data() {
     return {
       headers: [
@@ -54,7 +51,7 @@ export default {
           this.ratings.data[i++].count,
         ),
       ));
-    },  
+    },
   },
   watch: {
     ratings: {
