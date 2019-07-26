@@ -1,4 +1,4 @@
-<template id="data-table-temp">
+<template id="data-table">
   <v-data-table
     :headers="headers"
     :items="reactions"
@@ -7,7 +7,7 @@
   >
     <template v-slot:items="props">
       <td>{{ props.item.name }}</td>
-      <td class="text-xs-right">
+      <td class="text-xs-center">
         {{ props.item.number }}
       </td>
     </template>
@@ -15,45 +15,57 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-  components: {
-  },
+  template: '#data-table',
   data() {
     return {
       headers: [
         {
           text: 'Reactions',
-          align: 'left',
+          align: 'center',
           sortable: true,
           value: 'name',
         },
-        { text: 'Number of reactions', value: 'number' },
-      ],
-      reactions: [
         {
-          name: 'Happy',
-          number: 200,
-        },
-        {
-          name: 'Happy-Meh',
-          number: 100,
-        },
-        {
-          name: 'Meh',
-          number: 75,
-        },
-        {
-          name: 'Meh-Sad',
-          number: 50,
-        },
-        {
-          name: 'Sad',
-          number: 25,
+          text: 'Number of reactions',
+          value: 'number',
+          align: 'center',
         },
       ],
+      reactions: [],
     };
   },
-  template: '#data-table-temp',
+  methods: {
+    populateTable() {
+      this.reactions = [];
+      function Reaction(name, number) {
+        this.name = name;
+        this.number = number;
+      }
+      let i = 0;
+      _.times(this.ratings.data.length, () => this.reactions.push(
+        new Reaction(
+          this.ratings.data[i].emoticon.name,
+          this.ratings.data[i++].count,
+        ),
+      ));
+    },
+  },
+  watch: {
+    ratings: {
+      handler() {
+        this.populateTable();
+      },
+      deep: true,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      ratings: 'pieChartData',
+    }),
+  },
 };
 </script>
 

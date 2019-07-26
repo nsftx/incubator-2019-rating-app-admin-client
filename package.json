@@ -16,6 +16,7 @@
     "eslint-config-airbnb": "^17.1.1",
     "lodash": "^4.17.14",
     "lodash.some": "^4.6.0",
+    "socket.io-client": "^2.2.0",
     "vue": "^2.6.10",
     "vue-apexcharts": "^1.4.0",
     "vue-axios": "^2.1.4",

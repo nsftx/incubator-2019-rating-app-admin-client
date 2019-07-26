@@ -142,46 +142,25 @@
       <ratings-area-diagram />
     </div>
     <div id="pieChart">
-      <apexcharts
-        id="apexPie"
-        type="pie"
-        height="350"
-        :options="chartOptions"
-        :series="chartSeries"
-      />
+      <ratings-pie-chart />
     </div>
     <br>
     <div id="dataTable">
-      <div id="tableData">
-        <v-data-table
-          :headers="headers"
-          :items="reactions"
-          class="elevation-1"
-          :dark="true"
-        >
-          <template v-slot:items="props">
-            <td>{{ props.item.name }}</td>
-            <td class="text-xs-center">
-              {{ props.item.number }}
-            </td>
-          </template>
-        </v-data-table>
-      </div>
+      <data-table />
     </div>
   </div>
 </template>
 
 <script>
-import ApexCharts from 'vue-apexcharts';
 import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
-import ApiService from '@/services/ApiService';
-// eslint-disable-next-line
-import { setTimeout } from "timers"
+import RatingsPieChart from '../components/RatingsPieChart.vue';
+import DataTable from '../components/DataTable.vue';
 
 export default {
   components: {
     RatingsAreaDiagram,
-    apexcharts: ApexCharts,
+    RatingsPieChart,
+    DataTable,
   },
   data() {
     return {
@@ -197,50 +176,10 @@ export default {
       dateBegin: new Date().toISOString().substr(0, 10),
       menuEnd: false,
       dateEnd: new Date().toISOString().substr(0, 10),
-      settingId: 12,
-      headers: [
-        {
-          text: 'Reactions',
-          align: 'center',
-          sortable: true,
-          value: 'name',
-        },
-        {
-          text: 'Number of reactions',
-          value: 'number',
-          align: 'center',
-        },
-      ],
-      reactions: [],
-      chartSeries: [],
-      chartOptions: {
-        labels: [],
-        noData: {
-          text: 'No data for selected date interval',
-          style: {
-            color: '#fff',
-          },
-        },
-        legend: {
-          position: 'bottom',
-          labels: {
-            colors: '#fff',
-          },
-        },
-        title: {
-          text: 'Ratings',
-          style: {
-            color: '#fff',
-          },
-        },
-      },
     };
   },
-  mounted() {
-    this.getSetId();
-    this.getDiagramData();
-  },
   created() {
+    this.getYesterdayDate();
     this.createRange();
   },
   methods: {
@@ -251,117 +190,71 @@ export default {
       this.dateBegin = new Date(diff).toISOString().substr(0, 10);
     },
     createRange() {
-      if (this.dateBegin >= this.dateEnd) {
-        this.getYesterdayDate();
-      }
-      function Reaction(name, number) {
-        this.name = name;
-        this.number = number;
-      }
-      const Today = {
-        startDate: this.dateBegin,
-        endDate: this.dateEnd,
-        settingsId: this.settingId,
-      };
-      ApiService.createNewReport(Today)
-        .then((response) => {
-          let i = 0;
-          _.times(response.data.length, () => this.reactions.push(new Reaction(response.data[`${i}`].emoticon.name, response.data[i++].count)));
-        });
-      this.createPieChart();
-      this.getDiagramData();
-    },
-
-    getDiagramData() {
       const Today = {
         startDate: this.dateBegin,
         endDate: this.dateEnd,
       };
-      ApiService.createReportForDays(Today).then((response) => {
-        this.$store.commit('setDiagramData', response);
-      });
-    },
-    createPieChart() {
-      this.chartOptions.labels.length = 0;
-      this.reactions = [];
-      this.chartSeries = [];
-      const Today = {
-        startDate: this.dateBegin,
-        endDate: this.dateEnd,
-        settingsId: this.settingId,
-      };
-      ApiService.createNewReport(Today)
-        .then((response) => {
-          let i = 0; let j = 0;
-          _.times(response.data.length, () => this.chartSeries.push(response.data[i++].count));
-          _.times(response.data.length, () => this.chartOptions.labels.push(response.data[`${j++}`].emoticon.name));
-        });
-    },
-    getSetId() {
-      ApiService.getActiveSettings()
-        .then((response) => {
-          this.settingId = response.data.id;
-        });
+      this.$store.dispatch('getPieChartReport', Today);
+      this.$store.dispatch('getDiagramRange', Today);
     },
   },
 };
-
 </script>
 
 <style>
 #pickerWrap {
-    height: 50px;
-    background:none;
-    width:200px;
-    margin-left:120px;
-    border-radius: 5px;
-    float:left;
+  height: 50px;
+  background: none;
+  width: 200px;
+  margin-left: 120px;
+  border-radius: 5px;
+  float: left;
 }
-#pickerWrap input{
-    color:rgb(36, 36, 36);
-    background:none;
-    width:150px;
+#pickerWrap input {
+  color: rgb(36, 36, 36);
+  background: none;
+  width: 150px;
 }
-#lineChart{
-  background:#444444;
-  height:400px;
-  width:55%;
-  float:left;
-  margin-left:150px;
-  margin-right:20px;
+#lineChart {
+  background: #444444;
+  height: 400px;
+  width: 55%;
+  float: left;
+  margin-left: 150px;
+  margin-right: 20px;
 }
-#createBtn{
-  float:left;
-  margin-left:150px;
-
+#createBtn {
+  float: left;
+  margin-left: 150px;
 }
-#pieChart{
-  background:#444444;
-  width:30%;
-  height:400px;
-  float:left;
+#pieChart {
+  background: #444444;
+  width: 30%;
+  height: 400px;
+  float: left;
 }
-#dataTable{
-  float:left;
-  height:300px;
-  width:45%;
-  margin-left:150px;
-  margin-top:25px;
+#dataTable {
+  float: left;
+  height: 300px;
+  width: 45%;
+  margin-left: 150px;
+  margin-top: 25px;
 }
-.apexcharts-legend-text{
-  color:white !important;
+.apexcharts-legend-text {
+  color: white !important;
 }
-.apexcharts-yaxis-texts-g text,.apexcharts-xaxis-texts-g text{
-  fill:white !important;
+.apexcharts-yaxis-texts-g text,
+.apexcharts-xaxis-texts-g text {
+  fill: white !important;
 }
-input[type="text"]{
-  color:rgb(190, 190, 190) !important;
+input[type="text"] {
+  color: rgb(190, 190, 190) !important;
 }
-#spacer{
-  width:100%;
-  height:50px;
+#spacer {
+  width: 100%;
+  height: 50px;
 }
-#createBtn{
+#createBtn {
   background: rgb(36, 36, 36) !important;
 }
 </style>

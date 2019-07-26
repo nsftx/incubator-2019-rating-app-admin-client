@@ -1,213 +1,127 @@
 <template>
   <div id="today">
     <div id="parentImages">
-      <img
-        id="artworkBg"
-        src="../assets/Oval.svg"
-      >
-      <img
-        id="artwork"
-        src="../assets/Artwork.svg"
-      >
+      <img id="artworkBg" src="../assets/Oval.svg" />
+      <img id="artwork" src="../assets/Artwork.svg" />
     </div>
-    <br><br>
+    <br />
+    <br />
     <h1>Today is a new day.</h1>
-    <h1>Check your ratings!</h1>
-    <br>
+    <h1>Check your ratings</h1>
+    <br />
     <h2>Graphs present your rating results. Today you have {{ todayCount }} rates,</h2>
     <h2>check it on the dashboard.</h2>
-    <br>
+    <br />
     <div id="lineChart">
       <ratings-area-diagram />
     </div>
     <div id="pieChart">
-      <apexcharts
-        type="pie"
-        height="350"
-        :options="chartOptions"
-        :series="chartSeries"
-      />
+      <ratings-pie-chart />
     </div>
-    <br>
+    <br />
     <div id="dataTable">
-      <div id="tableData">
-        <v-data-table
-          :headers="headers"
-          :items="reactions"
-          class="elevation-1"
-          :dark="true"
-        >
-          <template v-slot:items="props">
-            <td>{{ props.item.name }}</td>
-            <td class="text-xs-center">
-              {{ props.item.number }}
-            </td>
-          </template>
-        </v-data-table>
-      </div>
-      <br><br>
+      <data-table />
     </div>
   </div>
 </template>
 
 <script>
-import ApexCharts from 'vue-apexcharts';
+import { mapGetters } from 'vuex';
 import { times } from 'lodash';
 import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
-import ApiService from '@/services/ApiService';
+import RatingsPieChart from '../components/RatingsPieChart.vue';
+import DataTable from '../components/DataTable'
 
 export default {
   components: {
     RatingsAreaDiagram,
-    apexcharts: ApexCharts,
+    RatingsPieChart,
+    DataTable,
   },
   data() {
     return {
-      range: {
+      interval: {
         date: new Date().toISOString().substr(0, 10),
         interval: 2,
       },
       todayCount: 0,
-      settingId: 14,
-      headers: [
-        {
-          text: 'Reactions',
-          align: 'center',
-          sortable: true,
-          value: 'name',
-        },
-        {
-          text: 'Number of reactions',
-          value: 'number',
-          align: 'center',
-        },
-      ],
-      reactions: [],
-      today: new Date().toISOString().substr(0, 10),
-      chartSeries: [],
-      chartOptions: {
-        labels: [],
-        legend: {
-          position: 'bottom',
-          labels: {
-            colors: '#fff',
-          },
-        },
-        title: {
-          text: 'Ratings',
-          style: {
-            color: '#fff',
-          },
-        },
-      },
+      Today: { date: new Date().toISOString().substr(0, 10) },
     };
   },
   created() {
-    this.getSetId();
+    this.$store.dispatch('getPieChartToday', this.Today);
+    this.$store.dispatch('getDiagramToday', this.interval);
   },
   methods: {
-    getDiagramData() {
-      ApiService.createNewRange(this.range).then((response) => {
-        this.$store.commit('setDiagramData', response);
-      });
-    },
-    createToday() {
-      function Reaction(name, number) {
-        this.name = name;
-        this.number = number;
-      }
-      const Today = {
-        date: this.today,
-        settingsId: this.settingId,
-      };
-      ApiService.createNewDaily(Today)
-        .then((response) => {
-          let i = 0;
-          times(response.data.length, () => this.reactions.push(new Reaction(response.data[`${i}`]['emoticon.name'], response.data[i++].count)));
-        });
-    },
-    createPieChart() {
-      this.chartSeries = [];
-      this.chartOptions.labels.length = 0;
-      const Today = {
-        date: this.today,
-        settingsId: this.settingId,
-      };
-      ApiService.createNewDaily(Today)
-        .then((response) => {
-          let i = 0; let j = 0;
-          times(response.data.length, () => this.chartSeries.push(response.data[i++].count));
-          times(response.data.length, () => this.chartOptions.labels.push(response.data[`${j++}`]['emoticon.name']));
-        });
-    },
     countToday() {
       let counter = 0;
-      const Today = {
-        date: this.today,
-        settingsId: this.settingId,
-      };
-      ApiService.createNewDaily(Today)
-        .then((response) => {
-          let i = 0;
-          times(response.data.length, () => counter += parseInt(response.data[i++].count));
-          this.todayCount = counter;
-        });
+      let i = 0;
+      times(
+        this.ratings.data.length,
+        () => (counter += parseInt(this.ratings.data[i++].count)),
+      );
+      this.todayCount = counter;
     },
-    getSetId() {
-      ApiService.getActiveSettings()
-        .then((response) => {
-          this.settingId = response.data.id;
-          this.createToday();
-          this.countToday();
-          this.createPieChart();
-          this.getDiagramData();
-        });
+  },
+  watch: {
+    ratings: {
+      handler() {
+        this.countToday();
+      },
+      deep: true,
     },
+  },
+  computed: {
+    ...mapGetters({
+      ratings: 'pieChartData',
+    }),
   },
 };
 </script>
 
 <style>
-#lineChart{
-  background:#444444;
-  height:400px;
-  width:55%;
-  float:left;
-  margin-left:150px;
-  margin-right:20px;
+#lineChart {
+  background: #444444;
+  height: 400px;
+  width: 55%;
+  float: left;
+  margin-left: 150px;
+  margin-right: 20px;
 }
-#pieChart{
-  background:#444444;
-  width:30%;
-  height:400px;
-  float:left;
+#pieChart {
+  background: #444444;
+  width: 30%;
+  height: 400px;
+  float: left;
 }
-#dataTable{
-  float:left;
-  height:300px;
-  width:45%;
-  margin-left:150px;
-  margin-top:25px;
+#dataTable {
+  float: left;
+  height: 300px;
+  width: 45%;
+  margin-left: 150px;
+  margin-top: 25px;
 }
-#tableData, #pieChart, #lineChart{
+#tableData,
+#pieChart,
+#lineChart {
   border-radius: 5px;
 }
 #parentImages {
   position: relative;
-  left:0;
-  top:0;
+  left: 0;
+  top: 0;
   margin-right: 20px;
   margin-bottom: 20px;
   z-index: -1;
-  float:right;
+  float: right;
 }
-#artwork{
-  top:0;
-  right:0;
+#artwork {
+  top: 0;
+  right: 0;
   position: relative;
 }
-#artworkBg{
+#artworkBg {
   position: absolute;
-  right:-250px;
+  right: -250px;
 }
 </style>
