@@ -46,8 +46,8 @@ export default {
       times(this.ratings.data.length, () => this.chartSeries.push(
         this.ratings.data[i++].count,
       ));
-      times(this.ratings.data.length, () => this.chartOptions.labels.push(
-        this.ratings.data[`${j++}`]['emoticon.name'],
+      times(this.ratings.emoticons.length, () => this.chartOptions.labels.push(
+        this.ratings.emoticons[j++].name,
       ));
     },
   },

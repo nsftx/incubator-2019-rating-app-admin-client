@@ -142,45 +142,27 @@
       <ratings-area-diagram />
     </div>
     <div id="pieChart">
-      <apexcharts
-        id="apexPie"
-        type="pie"
-        height="350"
-        :options="chartOptions"
-        :series="chartSeries"
-      />
+      <ratings-pie-chart />
     </div>
     <br>
     <div id="dataTable">
-      <div id="tableData">
-        <v-data-table
-          :headers="headers"
-          :items="reactions"
-          class="elevation-1"
-          :dark="true"
-        >
-          <template v-slot:items="props">
-            <td>{{ props.item.name }}</td>
-            <td class="text-xs-center">
-              {{ props.item.number }}
-            </td>
-          </template>
-        </v-data-table>
-      </div>
+      <data-table-temp />
     </div>
   </div>
 </template>
 
 <script>
-import ApexCharts from 'vue-apexcharts';
 import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
+import RatingsPieChart from '../components/RatingsPieChart.vue';
+import DataTable from '../components/DataTable.vue';
 import ApiService from '@/services/ApiService';
-// eslint-disable-next-line
 import { setTimeout } from "timers";
 
 export default {
   components: {
     RatingsAreaDiagram,
+    RatingsPieChart,
+    DataTable,
     apexcharts: ApexCharts,
   },
   data() {
@@ -197,46 +179,10 @@ export default {
       dateBegin: new Date().toISOString().substr(0, 10),
       menuEnd: false,
       dateEnd: new Date().toISOString().substr(0, 10),
-      headers: [
-        {
-          text: 'Reactions',
-          align: 'center',
-          sortable: true,
-          value: 'name',
-        },
-        {
-          text: 'Number of reactions',
-          value: 'number',
-          align: 'center',
-        },
-      ],
-      reactions: [],
-      chartSeries: [],
-      chartOptions: {
-        labels: [],
-        noData: {
-          text: 'No data for selected date interval',
-          style: {
-            color: '#fff',
-          },
-        },
-        legend: {
-          position: 'bottom',
-          labels: {
-            colors: '#fff',
-          },
-        },
-        title: {
-          text: 'Ratings',
-          style: {
-            color: '#fff',
-          },
-        },
-      },
     };
   },
   created() {
-    this.getYesterdayDate()
+    this.getYesterdayDate();
     this.createRange();
   },
   methods: {
@@ -247,41 +193,13 @@ export default {
       this.dateBegin = new Date(diff).toISOString().substr(0, 10);
     },
     createRange() {
-      function Reaction(name, number) {
-        this.name = name;
-        this.number = number;
-      }
       const Today = {
         startDate: this.dateBegin,
         endDate: this.dateEnd,
       };
-      ApiService.createNewReport(Today).then((response) => {
-        let i = 0;
-        _.times(response.data.length, () => this.reactions.push(
-          new Reaction(
-            response.data[`${i}`].emoticon.name,
-            response.data[i++].count,
-          ),
-        ));
-      });
-      this.createPieChart();
-    },
-    createPieChart() {
-      this.chartOptions.labels.length = 0;
-      this.reactions = [];
-      this.chartSeries = [];
-      const Today = {
-        startDate: this.dateBegin,
-        endDate: this.dateEnd,
-      };
-      ApiService.createNewReport(Today).then((response) => {
-        let i = 0;
-        let j = 0;
-        _.times(response.data.length, () => this.chartSeries.push(response.data[i++].count));
-        _.times(response.data.length, () => this.chartOptions.labels.push(response.data[`${j++}`].emoticon.name));
-      });
+      this.$store.dispatch('getPieChartReport', Today);
       this.$store.dispatch('getDiagramRange', Today);
-    },
+    },  
   },
 };
 </script>
