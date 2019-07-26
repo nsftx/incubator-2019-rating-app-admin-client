@@ -176,7 +176,7 @@ import ApexCharts from 'vue-apexcharts';
 import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
 import ApiService from '@/services/ApiService';
 // eslint-disable-next-line
-import { setTimeout } from "timers"
+import { setTimeout } from "timers";
 
 export default {
   components: {
@@ -197,7 +197,6 @@ export default {
       dateBegin: new Date().toISOString().substr(0, 10),
       menuEnd: false,
       dateEnd: new Date().toISOString().substr(0, 10),
-      settingId: 12,
       headers: [
         {
           text: 'Reactions',
@@ -236,10 +235,6 @@ export default {
       },
     };
   },
-  mounted() {
-    this.getSetId();
-    this.getDiagramData();
-  },
   created() {
     this.createRange();
   },
@@ -261,25 +256,17 @@ export default {
       const Today = {
         startDate: this.dateBegin,
         endDate: this.dateEnd,
-        settingsId: this.settingId,
       };
-      ApiService.createNewReport(Today)
-        .then((response) => {
-          let i = 0;
-          _.times(response.data.length, () => this.reactions.push(new Reaction(response.data[`${i}`].emoticon.name, response.data[i++].count)));
-        });
-      this.createPieChart();
-      this.getDiagramData();
-    },
-
-    getDiagramData() {
-      const Today = {
-        startDate: this.dateBegin,
-        endDate: this.dateEnd,
-      };
-      ApiService.createReportForDays(Today).then((response) => {
-        this.$store.commit('setDiagramData', response);
+      ApiService.createNewReport(Today).then((response) => {
+        let i = 0;
+        _.times(response.data.length, () => this.reactions.push(
+          new Reaction(
+            response.data[`${i}`].emoticon.name,
+            response.data[i++].count,
+          ),
+        ));
       });
+      this.createPieChart();
     },
     createPieChart() {
       this.chartOptions.labels.length = 0;
@@ -288,80 +275,73 @@ export default {
       const Today = {
         startDate: this.dateBegin,
         endDate: this.dateEnd,
-        settingsId: this.settingId,
       };
-      ApiService.createNewReport(Today)
-        .then((response) => {
-          let i = 0; let j = 0;
-          _.times(response.data.length, () => this.chartSeries.push(response.data[i++].count));
-          _.times(response.data.length, () => this.chartOptions.labels.push(response.data[`${j++}`].emoticon.name));
-        });
-    },
-    getSetId() {
-      ApiService.getActiveSettings()
-        .then((response) => {
-          this.settingId = response.data.id;
-        });
+      ApiService.createNewReport(Today).then((response) => {
+        let i = 0;
+        let j = 0;
+        _.times(response.data.length, () => this.chartSeries.push(response.data[i++].count));
+        _.times(response.data.length, () => this.chartOptions.labels.push(response.data[`${j++}`].emoticon.name));
+      });
+      this.$store.dispatch('getDiagramRange', Today);
     },
   },
 };
-
 </script>
 
 <style>
 #pickerWrap {
-    height: 50px;
-    background:none;
-    width:200px;
-    margin-left:120px;
-    border-radius: 5px;
-    float:left;
+  height: 50px;
+  background: none;
+  width: 200px;
+  margin-left: 120px;
+  border-radius: 5px;
+  float: left;
 }
-#pickerWrap input{
-    color:rgb(36, 36, 36);
-    background:none;
-    width:150px;
+#pickerWrap input {
+  color: rgb(36, 36, 36);
+  background: none;
+  width: 150px;
 }
-#lineChart{
-  background:#444444;
-  height:400px;
-  width:55%;
-  float:left;
-  margin-left:150px;
-  margin-right:20px;
+#lineChart {
+  background: #444444;
+  height: 400px;
+  width: 55%;
+  float: left;
+  margin-left: 150px;
+  margin-right: 20px;
 }
-#createBtn{
-  float:left;
-  margin-left:150px;
-
+#createBtn {
+  float: left;
+  margin-left: 150px;
 }
-#pieChart{
-  background:#444444;
-  width:30%;
-  height:400px;
-  float:left;
+#pieChart {
+  background: #444444;
+  width: 30%;
+  height: 400px;
+  float: left;
 }
-#dataTable{
-  float:left;
-  height:300px;
-  width:45%;
-  margin-left:150px;
-  margin-top:25px;
+#dataTable {
+  float: left;
+  height: 300px;
+  width: 45%;
+  margin-left: 150px;
+  margin-top: 25px;
 }
-.apexcharts-legend-text{
-  color:white !important;
+.apexcharts-legend-text {
+  color: white !important;
 }
-.apexcharts-yaxis-texts-g text,.apexcharts-xaxis-texts-g text{
-  fill:white !important;
+.apexcharts-yaxis-texts-g text,
+.apexcharts-xaxis-texts-g text {
+  fill: white !important;
 }
-input[type="text"]{
-  color:rgb(190, 190, 190) !important;
+input[type="text"] {
+  color: rgb(190, 190, 190) !important;
 }
-#spacer{
-  width:100%;
-  height:50px;
+#spacer {
+  width: 100%;
+  height: 50px;
 }
-#createBtn{
+#createBtn {
   background: rgb(36, 36, 36) !important;
 }
 </style>

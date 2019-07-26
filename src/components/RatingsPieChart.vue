@@ -14,6 +14,7 @@ export default {
   components: {
     apexcharts: ApexCharts,
   },
+  template: '#ratings-pie-chart',
   data() {
     return {
       chartSeries: [],
@@ -34,7 +35,6 @@ export default {
       },
     };
   },
-  template: '#ratings-pie-chart',
 };
 </script>
 
