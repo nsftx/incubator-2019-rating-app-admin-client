@@ -178,10 +178,7 @@ export default {
           // eslint-disable-next-line camelcase
           const id_token = GoogleUser.getAuthResponse().id_token;
           // eslint-disable-next-line camelcase
-          this.$store.dispatch('getToken',id_token);
-          const tokenId = {
-            idToken: id_token,
-          };
+          this.$store.dispatch('getToken', id_token);
           ApiService.newUser(id_token)
             .then((response) => {
               if (response.error == false) {
