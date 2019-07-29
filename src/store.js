@@ -40,8 +40,8 @@ export default new Vuex.Store({
     },
     getPieChartReport(context, date) {
       ApiService.createNewReport(date).then((response) => {
-        context.commit('setPieChartData', response)
-      })
-    }
+        context.commit('setPieChartData', response);
+      });
+    },
   },
 });
