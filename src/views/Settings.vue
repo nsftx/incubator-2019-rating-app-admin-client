@@ -131,6 +131,7 @@
 </template>
 
 <script>
+/* eslint-disable prefer-destructuring */
 import { some, find } from 'lodash';
 import ApiService from '@/services/ApiService';
 
