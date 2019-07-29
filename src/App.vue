@@ -143,7 +143,7 @@ export default {
       imgAvatar: '',
       nameAvatar: '',
       lastName: '',
-      email:'',
+      email: '',
       show1: false,
       rules: {
         required: value => !!value || 'Required. Password: admin',
@@ -171,8 +171,9 @@ export default {
           that.firstName = GoogleUser.w3.ofa;
           that.lastName = GoogleUser.w3.wea;
           that.email = GoogleUser.w3.U3;
-          const uid = GoogleUser.getId();
+          // const uid = GoogleUser.getId();
           this.isSignIn = this.$gAuth.isAuthorized;
+          // eslint-disable-next-line no-unused-vars
           const userInfo = {
             sub: GoogleUser.w3.Eea,
             given_name: GoogleUser.w3.ofa,
@@ -180,10 +181,11 @@ export default {
             picture: GoogleUser.w3.Paa,
             email: GoogleUser.w3.U3,
           };
+          // eslint-disable-next-line camelcase
           const id_token = GoogleUser.getAuthResponse().id_token;
           const tokenId = {
-                  idToken: id_token,
-                };
+            idToken: id_token,
+          };
           ApiService.newUser(tokenId)
             .then((response) => {
               if (response.error == false) {
@@ -196,6 +198,7 @@ export default {
               }
             });
         })
+        // eslint-disable-next-line no-unused-vars
         .catch((error) => {
           this.$router.push({ path: '/' });
         });
