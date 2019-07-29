@@ -145,13 +145,7 @@ export default {
       lastName: '',
       email: '',
       token: '',
-      show1: false,
-      rules: {
-        required: value => !!value || 'Required. Password: admin',
-        min: v => v.length >= 5 || 'Min 5 characters. Password: admin',
-      },
       logged: false,
-      password: '',
       snackbarLoginSuccess: false,
       snackbarLoginFail: false,
       y: 'top',
@@ -184,6 +178,7 @@ export default {
           };
           // eslint-disable-next-line camelcase
           const id_token = GoogleUser.getAuthResponse().id_token;
+          // eslint-disable-next-line camelcase
           that.token = id_token;
           const tokenId = {
             idToken: id_token,
