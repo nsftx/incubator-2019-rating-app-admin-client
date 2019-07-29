@@ -12,20 +12,40 @@ export default {
     return axios.post(`${API_URL}/settings`, settings)
       .then(response => response.data);
   },
-  getThanksMessages() {
-    return axios.get(`${API_URL}/messages`)
+  getThanksMessages(token) {
+    const config = {
+      headers: {
+        authorization: token,
+      },
+    };
+    return axios.get(`${API_URL}/messages`, config)
       .then(response => response.data);
   },
-  createNewMessage(settingsId, message) {
-    return axios.post(`${API_URL}/messages/${settingsId}`, message)
+  createNewMessage(settingsId, message, token) {
+    const config = {
+      headers: {
+        authorization: token,
+      },
+    };
+    return axios.post(`${API_URL}/messages/${settingsId}`, message, config)
       .then(response => response.data);
   },
-  getEmoticonGroup() {
-    return axios.get(`${API_URL}/emoticonsGroups`)
+  getEmoticonGroup(token) {
+    const config = {
+      headers: {
+        authorization: token,
+      },
+    };
+    return axios.get(`${API_URL}/emoticonsGroups`, config)
       .then(response => response.data);
   },
-  updateActiveSettings(settings, id) {
-    return axios.put(`${API_URL}/settings/${id}`, settings)
+  updateActiveSettings(settings, id, token) {
+    const config = {
+      headers: {
+        authorization: token,
+      },
+    };
+    return axios.put(`${API_URL}/settings/${id}`, settings, config)
       .then(response => response.data);
   },
   getRatingsByInterval() {

@@ -196,9 +196,11 @@ export default {
       this.activeSettings.emoticonNumber = Number(this.activeSettings.emoticonNumber);
       this.setMessageId();
       this.updateActiveEmoticons();
+      const token = this.$store.getters.token;
       ApiService.updateActiveSettings(
         this.activeSettings,
         this.activeSettings.id,
+        token,
       );
       this.snackbar = true;
     },
@@ -216,14 +218,16 @@ export default {
       return some(this.messages, ['text', message]);
     },
     createNewMessage(settingsId, newMessage) {
-      ApiService.createNewMessage(settingsId, newMessage);
+      const token = this.$store.getters.token;
+      ApiService.createNewMessage(settingsId, newMessage, token);
     },
     updateActiveEmoticons() {
       const id = find(this.emoticons, ['name', this.emoticonName]).id;
       this.activeSettings.emoticonsGroupId = id;
     },
     getThanksMessages() {
-      ApiService.getThanksMessages().then((response) => {
+      const token = this.$store.getters.token;
+      ApiService.getThanksMessages(token).then((response) => {
         this.messages = response.data;
       });
     },
@@ -234,7 +238,8 @@ export default {
         : 'Show all messages';
     },
     getEmoticonGroup() {
-      ApiService.getEmoticonGroup().then((response) => {
+      const token = this.$store.getters.token;
+      ApiService.getEmoticonGroup(token).then((response) => {
         this.emoticons = response.data;
         this.emoticonName = find(this.emoticons, ['id', this.activeSettings.emoticonsGroupId]).name;
         for (let i = 0; i < response.data.length; i++) {
