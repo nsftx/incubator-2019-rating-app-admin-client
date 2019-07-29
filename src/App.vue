@@ -144,7 +144,6 @@ export default {
       nameAvatar: '',
       lastName: '',
       email: '',
-      token: '',
       logged: false,
       snackbarLoginSuccess: false,
       snackbarLoginFail: false,
@@ -179,7 +178,7 @@ export default {
           // eslint-disable-next-line camelcase
           const id_token = GoogleUser.getAuthResponse().id_token;
           // eslint-disable-next-line camelcase
-          that.token = id_token;
+          this.$store.dispatch('getToken',id_token);
           const tokenId = {
             idToken: id_token,
           };
