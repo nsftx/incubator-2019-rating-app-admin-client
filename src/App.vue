@@ -144,6 +144,7 @@ export default {
       nameAvatar: '',
       lastName: '',
       email: '',
+      token: '',
       show1: false,
       rules: {
         required: value => !!value || 'Required. Password: admin',
@@ -183,10 +184,11 @@ export default {
           };
           // eslint-disable-next-line camelcase
           const id_token = GoogleUser.getAuthResponse().id_token;
+          that.token = id_token;
           const tokenId = {
             idToken: id_token,
           };
-          ApiService.newUser(tokenId)
+          ApiService.newUser(id_token)
             .then((response) => {
               if (response.error == false) {
                 that.logged = true;

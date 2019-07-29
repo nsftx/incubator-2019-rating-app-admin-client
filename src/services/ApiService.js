@@ -52,8 +52,14 @@ export default {
     return axios.post(`${API_URL}/ratings/days`, date)
       .then(response => response.data);
   },
-  newUser(user) {
-    return axios.post(`${API_URL}/users/login`, user)
+  newUser(token) {
+    const config = {
+      headers: {
+        authorization: token,
+      },
+    };
+    const body = {};
+    return axios.post(`${API_URL}/users/login`, body, config)
       .then(response => response.data);
   },
   inviteUser(user) {
