@@ -193,9 +193,9 @@ export default {
       }
     },
     updateActiveSettings() {
+      this.activeSettings.emoticonNumber = Number(this.activeSettings.emoticonNumber);
       this.setMessageId();
       this.updateActiveEmoticons();
-      this.activeSettings.emoticonNumber = Number(this.activeSettings.emoticonNumber);
       ApiService.updateActiveSettings(
         this.activeSettings,
         this.activeSettings.id,
@@ -219,13 +219,8 @@ export default {
       ApiService.createNewMessage(settingsId, newMessage);
     },
     updateActiveEmoticons() {
-      for (let i = 0; i < this.emoticons.length; i++) {
-        for (let j = 0; j < this.emoticons[i].length; j++) {
-          if (this.emoticons[i][j].name === this.emoticonName) {
-            this.activeSettings.emoticonsGroupId = this.emoticons[i][j].id;
-          }
-        }
-      }
+      const id = find(this.emoticons, ['name', this.emoticonName]).id;
+      this.activeSettings.emoticonsGroupId = id;
     },
     getThanksMessages() {
       ApiService.getThanksMessages().then((response) => {
@@ -277,14 +272,14 @@ export default {
   watch: {
     activeSettings: {
       handler() {
-        if(Object.getOwnPropertyNames(this.selectedEmoticons).length > 1) {
+        if (Object.getOwnPropertyNames(this.selectedEmoticons).length > 1) {
           this.updateEmoticonPreview();
         }
       },
       deep: true,
     },
     emoticonName() {
-      if(Object.getOwnPropertyNames(this.selectedEmoticons).length > 0) {
+      if (Object.getOwnPropertyNames(this.selectedEmoticons).length > 0) {
         this.updateEmoticonPreview();
       }
     },
