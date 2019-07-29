@@ -195,6 +195,7 @@ export default {
     updateActiveSettings() {
       this.setMessageId();
       this.updateActiveEmoticons();
+      this.activeSettings.emoticonNumber = Number(this.activeSettings.emoticonNumber);
       ApiService.updateActiveSettings(
         this.activeSettings,
         this.activeSettings.id,
