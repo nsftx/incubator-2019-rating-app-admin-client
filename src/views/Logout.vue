@@ -144,10 +144,11 @@ export default {
     },
     invite() {
       const that = this;
+      const token = this.$parent.token;
       const userMail = {
         email: this.inviteMail,
       };
-      ApiService.inviteUser(userMail)
+      ApiService.inviteUser(userMail, token)
         .then((response) => {
           if (response.error) {
             that.snackbarInviteExisting = true;

@@ -5,7 +5,7 @@ const API_URL = 'http://172.20.15.9:3000';
 
 export default {
   getActiveSettings() {
-    return axios.get(`${API_URL}/settings/last`)
+    return axios.get(`${API_URL}/settings/last`) // ne treba token
       .then(response => response.data);
   },
   createSettings(settings) {
@@ -36,20 +36,40 @@ export default {
     return axios.get(`${API_URL}/ratings/count`)
       .then(response => response.data);
   },
-  createNewRange(dateWithInterval) {
-    return axios.post(`${API_URL}/ratings/range`, dateWithInterval)
+  createNewRange(dateWithInterval, token) {
+    const config = {
+      headers: {
+        authorization: token,
+      },
+    };
+    return axios.post(`${API_URL}/ratings/range`, dateWithInterval, config)
       .then(response => response.data);
   },
-  createNewDaily(date) {
-    return axios.post(`${API_URL}/ratings/count`, date)
+  createNewDaily(date, token) {
+    const config = {
+      headers: {
+        authorization: token,
+      },
+    };
+    return axios.post(`${API_URL}/ratings/count`, date, config)
       .then(response => response.data);
   },
-  createNewReport(date) {
-    return axios.post(`${API_URL}/ratings/report`, date)
+  createNewReport(date, token) {
+    const config = {
+      headers: {
+        authorization: token,
+      },
+    };
+    return axios.post(`${API_URL}/ratings/report`, date, config)
       .then(response => response.data);
   },
-  createReportForDays(date) {
-    return axios.post(`${API_URL}/ratings/days`, date)
+  createReportForDays(date, token) {
+    const config = {
+      headers: {
+        authorization: token,
+      },
+    };
+    return axios.post(`${API_URL}/ratings/days`, date, config)
       .then(response => response.data);
   },
   newUser(token) {
@@ -62,8 +82,13 @@ export default {
     return axios.post(`${API_URL}/users/login`, body, config)
       .then(response => response.data);
   },
-  inviteUser(user) {
-    return axios.post(`${API_URL}/invites`, user)
+  inviteUser(user, token) {
+    const config = {
+      headers: {
+        authorization: token,
+      },
+    };
+    return axios.post(`${API_URL}/invites`, user, config)
       .then(response => response.data);
   },
   authUser(idToken) {
