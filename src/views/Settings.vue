@@ -277,12 +277,16 @@ export default {
   watch: {
     activeSettings: {
       handler() {
-        this.updateEmoticonPreview();
+        if(Object.getOwnPropertyNames(this.selectedEmoticons).length > 1) {
+          this.updateEmoticonPreview();
+        }
       },
       deep: true,
     },
     emoticonName() {
-      this.updateEmoticonPreview();
+      if(Object.getOwnPropertyNames(this.selectedEmoticons).length > 0) {
+        this.updateEmoticonPreview();
+      }
     },
   },
 };
