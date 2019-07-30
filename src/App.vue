@@ -94,6 +94,9 @@
         v-show="logged"
         id="dash-nav"
       >
+        <div id="logo">
+          <img src="./assets/logo_white1.png" class="logoWhite">
+        </div>
         <router-link to="/today">
           <div id="buttonToday"
             @click="active = 'today'" :class="{activeBtn: active === 'today' }">
@@ -279,5 +282,10 @@ h1,h2{
 }
 .theme--dark.v-btn:not(.v-btn--icon):not(.v-btn--flat){
   background:rgb(231, 72, 72) !important;
+}
+.logoWhite {
+  width: 35%;
+  margin-top: 20px;
+  margin-bottom: 15px;
 }
 </style>
