@@ -83,7 +83,7 @@ export default {
     },
     populateDiagramOptionsCategories() {
       forEach(this.ratings.data, (ratings) => {
-        this.diagramOptions.xaxis.categories.push(ratings.time);
+        this.diagramOptions.xaxis.categories.push(ratings.time + ' UTC-4');
       });
     },
     getRatedName(emoticons, id) {

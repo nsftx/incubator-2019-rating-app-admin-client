@@ -58,7 +58,7 @@
             <v-flex class="flex">
               <v-text-field
                 v-show="!showMessages"
-                v-model="activeMessage.text"
+                v-model="newMessage.text"
                 dark
                 color="grey"
                 label="Thank you message"
@@ -117,7 +117,7 @@
           >
             {{ snackbarMsg }}
             <v-btn
-              color="pink"
+              color="white"
               flat
               @click="snackbar = false"
             >
@@ -132,7 +132,7 @@
 
 <script>
 /* eslint-disable prefer-destructuring */
-import { some, find } from 'lodash';
+import { some, find, forEach } from 'lodash';
 import ApiService from '@/services/ApiService';
 
 export default {
@@ -142,7 +142,7 @@ export default {
       snackbarMsg: '',
       activeSettings: {},
       messages: [],
-      activeMessage: {},
+      newMessage: {},
       showMessages: false,
       selectedEmoticons: {},
       emoticonPreview: [],
@@ -166,23 +166,27 @@ export default {
     this.getThanksMessages();
   },
   methods: {
-    validateSettings() {
-      return (
-        this.activeSettings.message.text.length > 0
-        && this.activeSettings.message.text.length < 121
-        && this.activeSettings.emoticonNumber > 2
-        && this.activeSettings.emoticonNumber < 6
-        && this.activeSettings.messageTimeout > 0
-        && this.activeSettings.messageTimeout < 11
-      );
-    },
     getActiveSettings() {
       ApiService.getActiveSettings().then((response) => {
         this.activeSettings = response.data;
-        this.activeMessage = this.activeSettings.message;
+        this.newMessage = this.activeSettings.message;
         this.emoticonPreview = response.emoticons;
         this.getEmoticonGroup();
       });
+    },
+    getEmoticonGroup() {
+      const token = this.$store.getters.token;
+      ApiService.getEmoticonGroup(token).then((response) => {
+        this.emoticons = response.data;
+        this.emoticonName = find(this.emoticons, ['id', this.activeSettings.emoticonsGroupId]).name;
+        forEach(response.data, (data) => {
+          this.emoticonNames.push(data.name);
+        });
+        this.previewEmoticon();
+      });
+    },
+    previewEmoticon() {
+      this.selectedEmoticons = find(this.emoticons, ['name', this.emoticonName]);
     },
     updateCheck() {
       if (!this.validateSettings()) {
@@ -192,6 +196,16 @@ export default {
         this.snackbarMsg = 'Settings successfully updated';
         this.updateActiveSettings();
       }
+    },
+    validateSettings() {
+      return (
+        this.activeSettings.message.text.length > 0
+        && this.activeSettings.message.text.length < 121
+        && this.activeSettings.emoticonNumber > 2
+        && this.activeSettings.emoticonNumber < 6
+        && this.activeSettings.messageTimeout > 0
+        && this.activeSettings.messageTimeout < 11
+      );
     },
     updateActiveSettings() {
       this.activeSettings.emoticonNumber = Number(this.activeSettings.emoticonNumber);
@@ -206,11 +220,8 @@ export default {
       this.snackbar = true;
     },
     setMessageId() {
-      if (!this.isMessageExisting(this.activeMessage.text)) {
-        this.activeSettings.messageId = this.createNewMessage(
-          this.activeSettings.id,
-          this.activeMessage,
-        ).data.id;
+      if (!(this.showMessages) && !(this.isMessageExisting(this.newMessage.text))) {
+        this.createNewMessage(this.activeSettings.id, this.newMessage);
       } else {
         this.activeSettings.messageId = this.activeSettings.message.id;
       }
@@ -238,38 +249,20 @@ export default {
         ? 'Create new message'
         : 'Show all messages';
     },
-    getEmoticonGroup() {
-      const token = this.$store.getters.token;
-      ApiService.getEmoticonGroup(token).then((response) => {
-        this.emoticons = response.data;
-        this.emoticonName = find(this.emoticons, ['id', this.activeSettings.emoticonsGroupId]).name;
-        for (let i = 0; i < response.data.length; i++) {
-          this.emoticonNames.push(response.data[i].name);
-        }
-        this.previewEmoticon();
-      });
-    },
-    previewEmoticon() {
-      for (let i = 0; i < this.emoticons.length; i++) {
-        if (this.emoticons[i].name === this.emoticonName) {
-          this.selectedEmoticons = this.emoticons[i];
-        }
-      }
-    },
     updateEmoticonPreview() {
       this.emoticonPreview = [];
       if (this.activeSettings.emoticonNumber == 3) {
-        for (let i = 0; i < this.selectedEmoticons.emoticons.length; i++) {
-          if (i % 2 == 0) {
-            this.emoticonPreview.push(this.selectedEmoticons.emoticons[i]);
+        forEach(this.selectedEmoticons.emoticons, (emoticon) => {
+          if(emoticon.value % 2 !== 0) {
+            this.emoticonPreview.push(emoticon);
           }
-        }
+        });
       } else if (this.activeSettings.emoticonNumber == 4) {
-        for (let i = 0; i < this.selectedEmoticons.emoticons.length; i++) {
-          if (i !== 2) {
-            this.emoticonPreview.push(this.selectedEmoticons.emoticons[i]);
+        forEach(this.selectedEmoticons.emoticons, (emoticon) => {
+          if (emoticon.value !== 3) {
+            this.emoticonPreview.push(emoticon);
           }
-        }
+        });
       } else {
         this.emoticonPreview = this.selectedEmoticons.emoticons;
       }
