@@ -25,6 +25,7 @@
                 @change="previewEmoticon"
               />
             </v-flex>
+            <v-flex></v-flex>
           </v-layout>
           <v-layout>
             <v-flex class="flex">
@@ -297,6 +298,12 @@ h3 {
 }
 .divider {
   margin: 20px 0;
+}
+.v-list__tile__title {
+   color: white !important;
+}
+.v-list.theme--light {
+   background: #444444 !important;
 }
 .showMessages,
 .update {

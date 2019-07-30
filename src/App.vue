@@ -95,7 +95,8 @@
         id="dash-nav"
       >
         <router-link to="/today">
-          <div id="buttonToday">
+          <div id="buttonToday"
+            @click="active = 'today'" :class="{active: active === 'today' }">
             <img
               src="./assets/today.png"
               class="icons"
@@ -106,7 +107,8 @@
           </div>
         </router-link>
         <router-link to="/reports">
-          <div id="buttonReports">
+          <div id="buttonReports"
+            @click="active = 'reports'" :class="{active: active === 'reports' }">
             <img
               src="./assets/report.png"
               class="icons"
@@ -117,7 +119,8 @@
           </div>
         </router-link>
         <router-link to="/settings">
-          <div id="buttonSettings">
+          <div id="buttonSettings"
+            @click="active = 'settings'" :class="{active: active === 'settings' }">
             <img
               src="./assets/settings.png"
               class="icons"
@@ -138,6 +141,7 @@ import ApiService from '@/services/ApiService';
 export default {
   data() {
     return {
+      active: 'today',
       path: '/',
       firstName: '',
       imgAvatar: '',
@@ -219,6 +223,9 @@ p {
 #buttonReports,
 #buttonSettings{
   height: 100px;
+}
+.active{
+  background-color:#616161;
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
