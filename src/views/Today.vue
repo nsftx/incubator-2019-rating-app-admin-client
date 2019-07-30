@@ -30,7 +30,7 @@ import { mapGetters } from 'vuex';
 import { times } from 'lodash';
 import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
 import RatingsPieChart from '../components/RatingsPieChart.vue';
-import DataTable from '../components/DataTable'
+import DataTable from '../components/DataTable';
 
 export default {
   components: {

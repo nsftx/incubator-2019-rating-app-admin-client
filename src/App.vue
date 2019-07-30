@@ -158,6 +158,7 @@ export default {
       x: null,
       mode: '',
       timeout: 6000,
+      inLocal: false,
       textLoginSuccess: 'Login success! Welcome ',
       textLoginFail: 'Oops. You are a non-existing user. Please ask for an invite.',
     };
@@ -172,6 +173,11 @@ export default {
           that.firstName = GoogleUser.w3.ofa;
           that.lastName = GoogleUser.w3.wea;
           that.email = GoogleUser.w3.U3;
+          localStorage.setItem('imgAvatar', that.imgAvatar);
+          localStorage.setItem('nameAvatar', that.nameAvatar);
+          localStorage.setItem('firstName', that.firstName);
+          localStorage.setItem('lastName', that.lastName);
+          localStorage.setItem('email', that.email);
           // const uid = GoogleUser.getId();
           this.isSignIn = this.$gAuth.isAuthorized;
           // eslint-disable-next-line no-unused-vars
@@ -182,8 +188,11 @@ export default {
             picture: GoogleUser.w3.Paa,
             email: GoogleUser.w3.U3,
           };
-          // eslint-disable-next-line camelcase
-          const id_token = GoogleUser.getAuthResponse().id_token;
+            // eslint-disable-next-line camelcase
+          const { id_token } = GoogleUser.getAuthResponse();
+          localStorage.setItem('token', id_token);
+          that.inLocal = true;
+          localStorage.setItem('inLocal', that.inLocal);
           // eslint-disable-next-line camelcase
           this.$store.dispatch('getToken', id_token);
           ApiService.newUser(id_token)
@@ -198,11 +207,22 @@ export default {
               }
             });
         })
-        // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars
         .catch((error) => {
           this.$router.push({ path: '/' });
         });
     },
+  },
+  created() {
+    if (localStorage.getItem('inLocal')) {
+      this.$store.dispatch('getToken', localStorage.getItem('token'));
+      this.logged = true;
+      this.imgAvatar = localStorage.getItem('imgAvatar');
+      this.nameAvatar = localStorage.getItem('nameAvatar');
+      this.firstName = localStorage.getItem('firstName');
+      this.lastName = localStorage.getItem('lastName');
+      this.email = localStorage.getItem('email');
+    }
   },
 };
 </script>

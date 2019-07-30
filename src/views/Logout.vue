@@ -135,6 +135,7 @@ export default {
     logout() {
       this.$gAuth.signOut()
         .then(() => {
+          localStorage.clear();
         // things to do when sign-out succeeds
         })
         .catch((error) => {
@@ -144,7 +145,7 @@ export default {
     },
     invite() {
       const that = this;
-      const token = this.$parent.token;
+      const { token } = this.$parent;
       const userMail = {
         email: this.inviteMail,
       };
