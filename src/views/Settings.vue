@@ -252,17 +252,17 @@ export default {
     updateEmoticonPreview() {
       this.emoticonPreview = [];
       if (this.activeSettings.emoticonNumber == 3) {
-        for (let i = 0; i < this.selectedEmoticons.emoticons.length; i++) {
-          if (i % 2 == 0) {
-            this.emoticonPreview.push(this.selectedEmoticons.emoticons[i]);
+        forEach(this.selectedEmoticons.emoticons, (emoticon) => {
+          if (emoticon.value % 2 !== 0) {
+            this.emoticonPreview.push(emoticon);
           }
-        }
+        });
       } else if (this.activeSettings.emoticonNumber == 4) {
-        for (let i = 0; i < this.selectedEmoticons.emoticons.length; i++) {
-          if (i !== 2) {
-            this.emoticonPreview.push(this.selectedEmoticons.emoticons[i]);
+        forEach(this.selectedEmoticons.emoticons, (emoticon) => {
+          if (emoticon.value !== 3) {
+            this.emoticonPreview.push(emoticon);
           }
-        }
+        });
       } else {
         this.emoticonPreview = this.selectedEmoticons.emoticons;
       }
