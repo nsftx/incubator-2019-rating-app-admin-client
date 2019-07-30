@@ -145,7 +145,7 @@ export default {
     },
     invite() {
       const that = this;
-      const { token } = this.$parent;
+      const token = this.$parent.token;
       const userMail = {
         email: this.inviteMail,
       };
