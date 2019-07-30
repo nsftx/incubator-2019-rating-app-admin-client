@@ -46,14 +46,14 @@
               <v-spacer />
               <v-btn
                 flat
-                color="primary"
+                color="white"
                 @click="menuBegin = false"
               >
                 Cancel
               </v-btn>
               <v-btn
                 flat
-                color="primary"
+                color="white"
                 @click="$refs.menuBegin.save(dateBegin)"
               >
                 OK
@@ -108,14 +108,14 @@
               <v-spacer />
               <v-btn
                 flat
-                color="primary"
+                color="white"
                 @click="menuEnd = false"
               >
                 Cancel
               </v-btn>
               <v-btn
                 flat
-                color="primary"
+                color="white"
                 @click="$refs.menuEnd.save(dateEnd)"
               >
                 OK
