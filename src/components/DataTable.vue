@@ -70,5 +70,10 @@ export default {
 </script>
 
 <style>
-
+.v-menu__content.theme--dark.v-menu__content--auto.menuable__content__active{
+    transform-origin: left top;
+    z-index: 8;
+    top: 0 !important;
+    left: 0 !important;
+}
 </style>
