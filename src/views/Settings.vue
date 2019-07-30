@@ -117,7 +117,7 @@
           >
             {{ snackbarMsg }}
             <v-btn
-              color="pink"
+              color="white"
               flat
               @click="snackbar = false"
             >
