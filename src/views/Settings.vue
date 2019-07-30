@@ -253,7 +253,7 @@ export default {
       this.emoticonPreview = [];
       if (this.activeSettings.emoticonNumber == 3) {
         forEach(this.selectedEmoticons.emoticons, (emoticon) => {
-          if(emoticon.value % 2 !== 0) {
+          if (emoticon.value % 2 !== 0) {
             this.emoticonPreview.push(emoticon);
           }
         });
