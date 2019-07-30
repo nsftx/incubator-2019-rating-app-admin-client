@@ -82,10 +82,8 @@ export default {
       }
     },
     populateDiagramOptionsCategories() {
-      let time;
       forEach(this.ratings.data, (ratings) => {
-        time = ratings.time + ' UTC-4';
-        this.diagramOptions.xaxis.categories.push(time);
+        this.diagramOptions.xaxis.categories.push(ratings.time);
       });
     },
     getRatedName(emoticons, id) {

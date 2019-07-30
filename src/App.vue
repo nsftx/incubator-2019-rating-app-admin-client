@@ -96,7 +96,7 @@
       >
         <router-link to="/today">
           <div id="buttonToday"
-            @click="active = 'today'" :class="{active: active === 'today' }">
+            @click="active = 'today'" :class="{activeBtn: active === 'today' }">
             <img
               src="./assets/today.png"
               class="icons"
@@ -108,7 +108,7 @@
         </router-link>
         <router-link to="/reports">
           <div id="buttonReports"
-            @click="active = 'reports'" :class="{active: active === 'reports' }">
+            @click="active = 'reports'" :class="{activeBtn: active === 'reports' }">
             <img
               src="./assets/report.png"
               class="icons"
@@ -120,7 +120,7 @@
         </router-link>
         <router-link to="/settings">
           <div id="buttonSettings"
-            @click="active = 'settings'" :class="{active: active === 'settings' }">
+            @click="active = 'settings'" :class="{activeBtn: active === 'settings' }">
             <img
               src="./assets/settings.png"
               class="icons"
@@ -224,7 +224,7 @@ p {
 #buttonSettings{
   height: 100px;
 }
-.active{
+.activeBtn{
   background-color:#616161;
 }
 #app {
