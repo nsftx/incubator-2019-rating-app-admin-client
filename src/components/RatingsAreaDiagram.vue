@@ -57,29 +57,31 @@ export default {
       let index;
       let ids = [];
       let counts = [];
-      for (let i = 0; i < this.ratings.data.length; i++) {
-        for (let j = 0; j < this.ratings.data[i].ratings.length; j++) {
+      forEach(this.ratings.data, (data) => {
+        forEach(data.ratings, (ratings) => {
           const name = this.getRatedName(
             this.ratings.emoticons,
-            this.ratings.data[i].ratings[j].emoticonId,
+            ratings.emoticonId,
           );
           index = findIndex(this.diagramSeries, ['name', name]);
           if (index != -1) {
             ids.push(index);
-            counts.push(this.ratings.data[i].ratings[j].count);
+            counts.push(ratings.count);
           }
-        }
-        for (let j = 0; j < this.diagramSeries.length; j++) {
-          index = indexOf(ids, j);
+        });
+        let count = 0;
+        forEach(this.diagramSeries, (series) => {
+          index = indexOf(ids, count);
           if (index != -1) {
-            this.diagramSeries[j].data.push(counts[index]);
+            series.data.push(counts[index]);
           } else {
-            this.diagramSeries[j].data.push(0);
+            series.data.push(0);
           }
-        }
+          count++;
+        });
         ids = [];
         counts = [];
-      }
+      });
     },
     populateDiagramOptionsCategories() {
       forEach(this.ratings.data, (ratings) => {
