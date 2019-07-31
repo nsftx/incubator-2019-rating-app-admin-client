@@ -2,7 +2,6 @@
 import axios from 'axios';
 
 const API_URL = 'http://172.20.15.9:3000';
-
 export default {
   getActiveSettings() {
     return axios.get(`${API_URL}/settings/last`) // ne treba token
@@ -21,13 +20,13 @@ export default {
     return axios.get(`${API_URL}/messages`, config)
       .then(response => response.data);
   },
-  createNewMessage(settingsId, message, token) {
+  createNewMessage(message, token) {
     const config = {
       headers: {
         authorization: token,
       },
     };
-    return axios.post(`${API_URL}/messages/${settingsId}`, message, config)
+    return axios.post(`${API_URL}/messages`, message, config)
       .then(response => response.data);
   },
   getEmoticonGroup(token) {

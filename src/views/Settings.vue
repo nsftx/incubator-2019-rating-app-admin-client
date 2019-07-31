@@ -17,7 +17,7 @@
           <v-layout>
             <v-flex class="flex">
               <v-select
-                v-model="emoticonName"
+                v-model="activeGroupName"
                 dark
                 color="grey"
                 label="Set active emotions"
@@ -93,32 +93,66 @@
             </v-flex>
           </v-layout>
           <v-layout>
-            <v-flex>
-              <v-btn
-                class="showMessages"
-                color="secondary"
-                @click="showExistingMessages"
-              >
-                {{ messagesBtnText }}
-              </v-btn>
-              <br>
-              <v-btn
-                class="update"
-                color="secondary"
-                @click="updateCheck"
-              >
-                Confirm
-              </v-btn>
-            </v-flex>
-            <v-flex />
+
+            <v-dialog
+              v-model="dialog"
+              width="500"
+            >
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  v-on="on"
+                >
+                  Create new message
+                </v-btn>
+              </template>
+
+              <v-card>
+                <v-card-title
+                  class="dialog-title headline"
+                  primary-title
+                >
+                  New message
+                </v-card-title>
+
+                <v-card-text class="dialog">
+                  <v-text-field
+                  v-model="newMessage.text"
+                  dark
+                  color="black"
+                  label="Thank you message"
+                  clearable
+                />
+                </v-card-text>
+
+                <v-card-actions class="dialog-footer">
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    @click="dialog = false"
+                  >
+                    Close
+                  </v-btn>
+                  <v-btn
+                    @click="createNewMessage"
+                  >
+                    Confirm
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-layout>
+
+            <v-btn
+              class="update"
+              @click="updateCheck"
+            >
+              Confirm
+            </v-btn>
           <v-snackbar
             v-model="snackbar"
             :timeout="4000"
           >
             {{ snackbarMsg }}
             <v-btn
-              color="white"
               flat
               @click="snackbar = false"
             >
@@ -149,8 +183,7 @@ export default {
       emoticonPreview: [],
       emoticons: [],
       emoticonNames: [],
-      emoticonName: '',
-      messagesBtnText: 'Show all messages',
+      activeGroupName: '',
       emotionsRules: [
         v => v > 2 || 'Min value is 3',
         v => v < 6 || 'Max value is 5',
@@ -165,6 +198,7 @@ export default {
   created() {
     this.getActiveSettings();
     this.getThanksMessages();
+    this.getEmoticonGroup();
   },
   methods: {
     getActiveSettings() {
@@ -172,22 +206,24 @@ export default {
         this.activeSettings = response.data;
         this.newMessage = this.activeSettings.message;
         this.emoticonPreview = response.emoticons;
-        this.getEmoticonGroup();
       });
     },
     getEmoticonGroup() {
       const token = this.$store.getters.token;
       ApiService.getEmoticonGroup(token).then((response) => {
         this.emoticons = response.data;
-        this.emoticonName = find(this.emoticons, ['id', this.activeSettings.emoticonsGroupId]).name;
-        forEach(response.data, (data) => {
-          this.emoticonNames.push(data.name);
-        });
+        this.activeGroupName = find(this.emoticons, ['id', this.activeSettings.emoticonsGroupId]).name;
+        this.getEmoticonGroupNames();
         this.previewEmoticon();
       });
     },
+    getEmoticonGroupNames() {
+      forEach(this.emoticons, (group) => {
+        this.emoticonNames.push(group.name);
+      });
+    },
     previewEmoticon() {
-      this.selectedEmoticons = find(this.emoticons, ['name', this.emoticonName]);
+      this.selectedEmoticons = find(this.emoticons, ['name', this.activeGroupName]);
     },
     updateCheck() {
       if (!this.validateSettings()) {
@@ -220,23 +256,24 @@ export default {
       );
       this.snackbar = true;
     },
-    setMessageId() {
-      if (!(this.showMessages) && !(this.isMessageExisting(this.newMessage.text))) {
-        this.createNewMessage(this.activeSettings.id, this.newMessage);
-      } else {
-        this.activeSettings.messageId = this.activeSettings.message.id;
+    updateActiveEmoticons() {
+      const id = find(this.emoticons, ['name', this.activeGroupName]).id;
+      this.activeSettings.emoticonsGroupId = id;
+    },
+    createNewMessage() {
+      if (!this.isMessageExisting(this.newMessage)) {
+        const token = this.$store.getters.token;
+        ApiService.createNewMessage(this.newMessage, token)
+          .then((response) => {
+            this.activeSettings.message = response.data;
+            this.updateCheck();
+            this.getThanksMessages();
+          });
+        this.dialog = false;
       }
     },
     isMessageExisting(message) {
-      return some(this.messages, ['text', message]);
-    },
-    createNewMessage(settingsId, newMessage) {
-      const token = this.$store.getters.token;
-      ApiService.createNewMessage(settingsId, newMessage, token);
-    },
-    updateActiveEmoticons() {
-      const id = find(this.emoticons, ['name', this.emoticonName]).id;
-      this.activeSettings.emoticonsGroupId = id;
+      return some(this.messages, ['text', message.text]);
     },
     getThanksMessages() {
       const token = this.$store.getters.token;
@@ -278,8 +315,8 @@ export default {
       },
       deep: true,
     },
-    emoticonName() {
-      if (Object.getOwnPropertyNames(this.selectedEmoticons).length > 0) {
+    activeGroupName() {
+      if (Object.getOwnPropertyNames(this.selectedEmoticons).length > 1) {
         this.updateEmoticonPreview();
       }
     },
@@ -290,7 +327,7 @@ export default {
 <style>
 .settings {
   width: 80%;
-  background: rgb(18, 20, 22);
+  background: #1B1E24;
 }
 h3 {
   text-align: left;
@@ -313,12 +350,22 @@ h3 {
   float: left;
   margin-left: 150px;
   width: calc(100% - 200px);
-  background: rgb(18, 20, 22);
+  background: #1B1E24;
 }
 .flex {
   width: 45%;
 }
+.dialog-title {
+  background: #1B1E24;
+  color: white;
+}
+.dialog {
+  background: #2D3038;
+}
+.dialog-footer {
+  background: #1B1E24;
+}
 .application--wrap {
-  background: rgb(18, 20, 22);
+  background: #1B1E24;
 }
 </style>
