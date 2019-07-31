@@ -21,13 +21,13 @@ export default {
     return axios.get(`${API_URL}/messages`, config)
       .then(response => response.data);
   },
-  createNewMessage(settingsId, message, token) {
+  createNewMessage(message, token) {
     const config = {
       headers: {
         authorization: token,
       },
     };
-    return axios.post(`${API_URL}/messages/${settingsId}`, message, config)
+    return axios.post(`${API_URL}/messages`, message, config)
       .then(response => response.data);
   },
   getEmoticonGroup(token) {
