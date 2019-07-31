@@ -269,7 +269,7 @@ p {
 
 }
 body {
-  background: rgb(18, 20, 22);
+  background: #1B1E24;
 }
 .icons{
 height:30px;

@@ -90,7 +90,6 @@
             >
               <template v-slot:activator="{ on }">
                 <v-btn
-                  color="secondary"
                   v-on="on"
                 >
                   Create new message
@@ -118,13 +117,11 @@
                 <v-card-actions class="dialog-footer">
                   <v-spacer></v-spacer>
                   <v-btn
-                    color="secondary"
                     @click="dialog = false"
                   >
                     Close
                   </v-btn>
                   <v-btn
-                    color="secondary"
                     @click="createNewMessage"
                   >
                     Confirm
@@ -136,7 +133,6 @@
 
             <v-btn
               class="update"
-              color="secondary"
               @click="updateCheck"
             >
               Confirm
@@ -147,7 +143,6 @@
           >
             {{ snackbarMsg }}
             <v-btn
-              color="white"
               flat
               @click="snackbar = false"
             >
@@ -316,7 +311,7 @@ export default {
 <style>
 .settings {
   width: 80%;
-  background: rgb(18, 20, 22);
+  background: #1B1E24;
 }
 h3 {
   text-align: left;
@@ -338,22 +333,22 @@ h3 {
   float: left;
   margin-left: 150px;
   width: calc(100% - 200px);
-  background: rgb(18, 20, 22);
+  background: #1B1E24;
 }
 .flex {
   width: 45%;
 }
 .dialog-title {
-  background: #423f3f;
+  background: #1B1E24;
   color: white;
 }
 .dialog {
-  background: #444444
+  background: #2D3038;
 }
 .dialog-footer {
-  background: #423f3f
+  background: #1B1E24;
 }
 .application--wrap {
-  background: rgb(18, 20, 22);
+  background: #1B1E24;
 }
 </style>
