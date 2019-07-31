@@ -80,6 +80,7 @@
           <v-chip
             v-show="logged"
             :dark="true"
+            @click="active = 'logout'" :class="{activeBtn: active === 'logout' }"
           >
             <v-avatar>
               <img
