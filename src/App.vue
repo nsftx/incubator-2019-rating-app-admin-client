@@ -43,6 +43,7 @@
         dark
         large
         style="float: left; margin-left: 200px;"
+        class="GAuth"
         @click="login()">
           Login with Google+
         </v-btn>
@@ -301,7 +302,7 @@ h1,h2{
 .buttonUser {
   z-index:0;
 }
-.theme--dark.v-btn:not(.v-btn--icon):not(.v-btn--flat){
+.GAuth{
   background:rgb(231, 72, 72) !important;
 }
 .logoWhite {

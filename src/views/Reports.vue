@@ -254,7 +254,4 @@ input[type="text"] {
   width: 100%;
   height: 50px;
 }
-#createBtn {
-  background: rgb(36, 36, 36) !important;
-}
 </style>
