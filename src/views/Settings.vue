@@ -104,7 +104,7 @@
                   <v-text-field
                   v-model="newMessage.text"
                   dark
-                  color="black"
+                  color="white"
                   label="Thank you message"
                   clearable
                 />
@@ -253,6 +253,9 @@ export default {
             this.getThanksMessages();
           });
         this.dialog = false;
+      } else {
+        this.snackbarMsg = 'Message already exists !';
+        this.snackbar = true;
       }
     },
     isMessageExisting(message) {
