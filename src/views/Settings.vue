@@ -238,6 +238,7 @@ export default {
     updateActiveSettings() {
       this.activeSettings.messageId = this.activeSettings.message.id;
       this.activeSettings.emoticonNumber = Number(this.activeSettings.emoticonNumber);
+      this.activeSettings.messageTimeout = Number(this.activeSettings.messageTimeout);
       this.updateActiveEmoticons();
       const token = this.$store.getters.token;
       ApiService.updateActiveSettings(
