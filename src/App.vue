@@ -190,9 +190,6 @@ export default {
           };
             // eslint-disable-next-line camelcase
           const { id_token } = GoogleUser.getAuthResponse();
-          localStorage.setItem('token', id_token);
-          that.inLocal = true;
-          localStorage.setItem('inLocal', that.inLocal);
           // eslint-disable-next-line camelcase
           this.$store.dispatch('getToken', id_token);
           ApiService.newUser(id_token)
@@ -200,6 +197,9 @@ export default {
               if (response.error == false) {
                 that.logged = true;
                 that.snackbarLoginSuccess = true;
+                localStorage.setItem('token', id_token);
+                that.inLocal = true;
+                localStorage.setItem('inLocal', that.inLocal);
                 this.$router.push({ path: '/today' });
               } else {
                 that.snackbarLoginFail = true;
