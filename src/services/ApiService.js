@@ -12,12 +12,11 @@ export default {
       .then(response => response.data);
   },
   getConfig(token) {
-    const config = {
+    return {
       headers: {
         authorization: token,
       },
     };
-    return config;
   },
   postData(url, payload, token) {
     return axios.post(url, payload, this.getConfig(token))

@@ -149,11 +149,11 @@ export default {
     },
     invite() {
       const that = this;
-      const token = this.$parent.token;
+      const token = this.$store.getters.token;
       const userMail = {
         email: this.inviteMail,
       };
-      ApiService.postData('http://172.20.15.9:3000/users/login', userMail, token)
+      ApiService.postData('http://172.20.15.9:3000/invites', userMail, token)
         .then((response) => {
           if (response.error) {
             that.snackbarInviteExisting = true;
