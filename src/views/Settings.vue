@@ -255,7 +255,8 @@ export default {
       if (!this.isMessageExisting(this.newMessage)) {
         const token = this.$store.getters.token;
         ApiService.createNewMessage(this.newMessage, token)
-          .then(() => {
+          .then((response) => {
+            this.activeSettings.message = response.data;
             this.getThanksMessages();
           });
         this.dialog = false;
