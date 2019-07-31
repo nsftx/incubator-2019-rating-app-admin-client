@@ -11,103 +11,24 @@ export default {
     return axios.post(`${API_URL}/settings`, settings)
       .then(response => response.data);
   },
-  getThanksMessages(token) {
+  getConfig(token) {
     const config = {
       headers: {
         authorization: token,
       },
     };
-    return axios.get(`${API_URL}/messages`, config)
+    return config;
+  },
+  postData(url, payload, token) {
+    return axios.post(url, payload, this.getConfig(token))
       .then(response => response.data);
   },
-  createNewMessage(message, token) {
-    const config = {
-      headers: {
-        authorization: token,
-      },
-    };
-    return axios.post(`${API_URL}/messages`, message, config)
+  getData(url, token) {
+    return axios.get(url, this.getConfig(token))
       .then(response => response.data);
   },
-  getEmoticonGroup(token) {
-    const config = {
-      headers: {
-        authorization: token,
-      },
-    };
-    return axios.get(`${API_URL}/emoticonsGroups`, config)
-      .then(response => response.data);
-  },
-  updateActiveSettings(settings, id, token) {
-    const config = {
-      headers: {
-        authorization: token,
-      },
-    };
-    return axios.put(`${API_URL}/settings/${id}`, settings, config)
-      .then(response => response.data);
-  },
-  getRatingsByInterval() {
-    return axios.get(`${API_URL}/ratings/range`)
-      .then(response => response.data);
-  },
-  getTotalByDay() {
-    return axios.get(`${API_URL}/ratings/count`)
-      .then(response => response.data);
-  },
-  createNewRange(dateWithInterval, token) {
-    const config = {
-      headers: {
-        authorization: token,
-      },
-    };
-    return axios.post(`${API_URL}/ratings/range`, dateWithInterval, config)
-      .then(response => response.data);
-  },
-  createNewDaily(date, token) {
-    const config = {
-      headers: {
-        authorization: token,
-      },
-    };
-    return axios.post(`${API_URL}/ratings/count`, date, config)
-      .then(response => response.data);
-  },
-  createNewReport(date, token) {
-    const config = {
-      headers: {
-        authorization: token,
-      },
-    };
-    return axios.post(`${API_URL}/ratings/report`, date, config)
-      .then(response => response.data);
-  },
-  createReportForDays(date, token) {
-    const config = {
-      headers: {
-        authorization: token,
-      },
-    };
-    return axios.post(`${API_URL}/ratings/days`, date, config)
-      .then(response => response.data);
-  },
-  newUser(token) {
-    const config = {
-      headers: {
-        authorization: token,
-      },
-    };
-    const body = {};
-    return axios.post(`${API_URL}/users/login`, body, config)
-      .then(response => response.data);
-  },
-  inviteUser(user, token) {
-    const config = {
-      headers: {
-        authorization: token,
-      },
-    };
-    return axios.post(`${API_URL}/invites`, user, config)
+  putData(url, payload, token) {
+    return axios.put(url, payload, this.getConfig(token))
       .then(response => response.data);
   },
   authUser(idToken) {

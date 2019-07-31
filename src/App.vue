@@ -194,7 +194,8 @@ export default {
           const { id_token } = GoogleUser.getAuthResponse();
           // eslint-disable-next-line camelcase
           this.$store.dispatch('getToken', id_token);
-          ApiService.newUser(id_token)
+          const payLoad = {};
+          ApiService.postData('http://172.20.15.9:3000/users/login',payLoad,id_token)
             .then((response) => {
               if (response.error == false) {
                 that.logged = true;

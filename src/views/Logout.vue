@@ -153,7 +153,7 @@ export default {
       const userMail = {
         email: this.inviteMail,
       };
-      ApiService.inviteUser(userMail, token)
+      ApiService.postData('http://172.20.15.9:3000/users/login', userMail, token)
         .then((response) => {
           if (response.error) {
             that.snackbarInviteExisting = true;
