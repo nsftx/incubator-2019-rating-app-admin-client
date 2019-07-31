@@ -193,13 +193,13 @@ export default {
   created() {
     this.getActiveSettings();
     this.getThanksMessages();
+    this.getEmoticonGroup();
   },
   methods: {
     getActiveSettings() {
       ApiService.getActiveSettings().then((response) => {
         this.activeSettings = response.data;
         this.emoticonPreview = response.emoticons;
-        this.getEmoticonGroup();
       });
     },
     getEmoticonGroup() {
@@ -249,14 +249,13 @@ export default {
       this.snackbar = true;
     },
     isMessageExisting(message) {
-      return some(this.messages, ['text', message]);
+      return some(this.messages, ['text', message.text]);
     },
     createNewMessage() {
-      if(!this.isMessageExisting(this.newMessage)) {
+      if (!this.isMessageExisting(this.newMessage)) {
         const token = this.$store.getters.token;
-        ApiService.createNewMessage(this.activeSettings.id, this.newMessage, token)
+        ApiService.createNewMessage(this.newMessage, token)
           .then(() => {
-            this.getActiveSettings();
             this.getThanksMessages();
           });
         this.dialog = false;
