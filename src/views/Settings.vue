@@ -17,7 +17,7 @@
           <v-layout>
             <v-flex class="flex">
               <v-select
-                v-model="emoticonName"
+                v-model="activeGroupName"
                 dark
                 color="grey"
                 label="Set active emotions"
@@ -178,7 +178,7 @@ export default {
       emoticonPreview: [],
       emoticons: [],
       emoticonNames: [],
-      emoticonName: '',
+      activeGroupName: '',
       emotionsRules: [
         v => v > 2 || 'Min value is 3',
         v => v < 6 || 'Max value is 5',
@@ -206,15 +206,18 @@ export default {
       const token = this.$store.getters.token;
       ApiService.getEmoticonGroup(token).then((response) => {
         this.emoticons = response.data;
-        this.emoticonName = find(this.emoticons, ['id', this.activeSettings.emoticonsGroupId]).name;
-        forEach(response.data, (data) => {
-          this.emoticonNames.push(data.name);
-        });
+        this.activeGroupName = find(this.emoticons, ['id', this.activeSettings.emoticonsGroupId]).name;
+        this.getEmoticonGroupNames();
         this.previewEmoticon();
       });
     },
+    getEmoticonGroupNames() {
+      forEach(this.emoticons, (group) => {
+        this.emoticonNames.push(group.name);
+      });
+    },
     previewEmoticon() {
-      this.selectedEmoticons = find(this.emoticons, ['name', this.emoticonName]);
+      this.selectedEmoticons = find(this.emoticons, ['name', this.activeGroupName]);
     },
     updateCheck() {
       if (!this.validateSettings()) {
@@ -248,8 +251,9 @@ export default {
       );
       this.snackbar = true;
     },
-    isMessageExisting(message) {
-      return some(this.messages, ['text', message.text]);
+    updateActiveEmoticons() {
+      const id = find(this.emoticons, ['name', this.activeGroupName]).id;
+      this.activeSettings.emoticonsGroupId = id;
     },
     createNewMessage() {
       if (!this.isMessageExisting(this.newMessage)) {
@@ -257,14 +261,14 @@ export default {
         ApiService.createNewMessage(this.newMessage, token)
           .then((response) => {
             this.activeSettings.message = response.data;
+            this.updateCheck();
             this.getThanksMessages();
           });
         this.dialog = false;
       }
     },
-    updateActiveEmoticons() {
-      const id = find(this.emoticons, ['name', this.emoticonName]).id;
-      this.activeSettings.emoticonsGroupId = id;
+    isMessageExisting(message) {
+      return some(this.messages, ['text', message.text]);
     },
     getThanksMessages() {
       const token = this.$store.getters.token;
@@ -300,7 +304,7 @@ export default {
       },
       deep: true,
     },
-    emoticonName() {
+    activeGroupName() {
       if (Object.getOwnPropertyNames(this.selectedEmoticons).length > 1) {
         this.updateEmoticonPreview();
       }
