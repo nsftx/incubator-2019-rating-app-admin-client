@@ -135,6 +135,7 @@ export default {
     logout() {
       this.$gAuth.signOut()
         .then(() => {
+          localStorage.clear();
         // things to do when sign-out succeeds
         })
         .catch((error) => {

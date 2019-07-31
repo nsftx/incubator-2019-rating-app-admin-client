@@ -80,6 +80,7 @@
           <v-chip
             v-show="logged"
             :dark="true"
+            @click="active = 'logout'" :class="{activeBtn: active === 'logout' }"
           >
             <v-avatar>
               <img
@@ -94,6 +95,9 @@
         v-show="logged"
         id="dash-nav"
       >
+        <div id="logo">
+          <img src="./assets/logo_white1.png" class="logoWhite">
+        </div>
         <router-link to="/today">
           <div id="buttonToday"
             @click="active = 'today'" :class="{activeBtn: active === 'today' }">
@@ -155,6 +159,7 @@ export default {
       x: null,
       mode: '',
       timeout: 6000,
+      inLocal: false,
       textLoginSuccess: 'Login success! Welcome ',
       textLoginFail: 'Oops. You are a non-existing user. Please ask for an invite.',
     };
@@ -169,6 +174,11 @@ export default {
           that.firstName = GoogleUser.w3.ofa;
           that.lastName = GoogleUser.w3.wea;
           that.email = GoogleUser.w3.U3;
+          localStorage.setItem('imgAvatar', that.imgAvatar);
+          localStorage.setItem('nameAvatar', that.nameAvatar);
+          localStorage.setItem('firstName', that.firstName);
+          localStorage.setItem('lastName', that.lastName);
+          localStorage.setItem('email', that.email);
           // const uid = GoogleUser.getId();
           this.isSignIn = this.$gAuth.isAuthorized;
           // eslint-disable-next-line no-unused-vars
@@ -179,8 +189,8 @@ export default {
             picture: GoogleUser.w3.Paa,
             email: GoogleUser.w3.U3,
           };
-          // eslint-disable-next-line camelcase
-          const id_token = GoogleUser.getAuthResponse().id_token;
+            // eslint-disable-next-line camelcase
+          const { id_token } = GoogleUser.getAuthResponse();
           // eslint-disable-next-line camelcase
           this.$store.dispatch('getToken', id_token);
           ApiService.newUser(id_token)
@@ -188,6 +198,9 @@ export default {
               if (response.error == false) {
                 that.logged = true;
                 that.snackbarLoginSuccess = true;
+                localStorage.setItem('token', id_token);
+                that.inLocal = true;
+                localStorage.setItem('inLocal', that.inLocal);
                 this.$router.push({ path: '/today' });
               } else {
                 that.snackbarLoginFail = true;
@@ -195,11 +208,22 @@ export default {
               }
             });
         })
-        // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars
         .catch((error) => {
           this.$router.push({ path: '/' });
         });
     },
+  },
+  created() {
+    if (localStorage.getItem('inLocal')) {
+      this.$store.dispatch('getToken', localStorage.getItem('token'));
+      this.logged = true;
+      this.imgAvatar = localStorage.getItem('imgAvatar');
+      this.nameAvatar = localStorage.getItem('nameAvatar');
+      this.firstName = localStorage.getItem('firstName');
+      this.lastName = localStorage.getItem('lastName');
+      this.email = localStorage.getItem('email');
+    }
   },
 };
 </script>
@@ -279,5 +303,10 @@ h1,h2{
 }
 .theme--dark.v-btn:not(.v-btn--icon):not(.v-btn--flat){
   background:rgb(231, 72, 72) !important;
+}
+.logoWhite {
+  width: 35%;
+  margin-top: 20px;
+  margin-bottom: 15px;
 }
 </style>
