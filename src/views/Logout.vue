@@ -1,15 +1,22 @@
 <template>
   <div id="logout">
-    <br><br>
-    <h1 style="font-size: 40px;">Welcome to your profile</h1>
-    <br><br>
+    <br><br><br>
+    <h3 style="margin-left:200px;">Welcome to your profile</h3>
+    <v-divider
+            class="dividerLogout"
+            dark
+          />
     <div class = "profileInfo">
       <h2>First name: {{this.$parent.firstName}}</h2>
       <h2>Last name: {{this.$parent.lastName}}</h2>
       <h2>E-mail address: {{this.$parent.email}}</h2>
       <img :src="this.$parent.imgAvatar" class="profileAvatar">
     </div>
-    <br><br>
+    <v-divider
+            class="dividerLogout"
+            dark
+          />
+    <br>
     <h2>Want to invite a new user?</h2>
     <br>
     <v-text-field
@@ -18,11 +25,17 @@
                 color="grey"
                 label="e-mail address"
                 type="email"
-                min="3"
-                max="5"
-                style="width: 50%; margin-right: 180px; float: right;"
+                style="width: 80%; margin-left: 200px;"
               />
+              <br>
     <v-btn dark @click="invite()" style="float:left;margin-left:200px;">Invite user</v-btn>
+    <v-btn
+      dark
+      @click="snackbarLogoutConfirm=true"
+      style="float:left;margin-left:50px;"
+    >
+      Logout
+    </v-btn>
     <v-snackbar
       v-model="snackbarLogoutConfirm"
       :bottom="y === 'bottom'"
@@ -98,15 +111,6 @@
         Close
       </v-btn>
     </v-snackbar>
-    <h2 style="margin-top:75px;">Press the button if you want to logout</h2>
-    <br>
-    <v-btn
-      dark
-      @click="snackbarLogoutConfirm=true"
-      style="float:left;margin-left:200px;"
-    >
-      Logout
-    </v-btn>
   </div>
 </template>
 
@@ -163,19 +167,11 @@ export default {
 </script>
 
 <style>
-#logoutBttn{
-  font-size:24px;
-  border: 1px solid rgb(190, 190, 190);
-  padding: 10px 20px;
-  border-radius: 5px;
-}
 .profileInfo{
-  border: 1px solid grey;
   width: 80%;
   padding-top:25px;
   padding-bottom:25px;
-  margin-left:auto;
-  margin-right:auto;
+  margin-left:125px;
   border-radius: 3px;
 }
 .profileAvatar{
@@ -186,5 +182,10 @@ export default {
 }
 .profileInfo h2{
   font-weight: normal;
+}
+.dividerLogout {
+  margin: 20px 0;
+  margin-left: 200px;
+  width:80%;
 }
 </style>

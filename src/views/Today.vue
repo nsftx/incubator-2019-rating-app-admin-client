@@ -1,8 +1,8 @@
 <template>
   <div id="today">
-    <div id="parentImages">
-      <img id="artworkBg" src="../assets/Oval.svg" />
-      <img id="artwork" src="../assets/Artwork.svg" />
+    <div class="parentImages">
+      <img class="artworkBg" src="../assets/Oval.svg" />
+      <img class="artwork" src="../assets/Artwork.svg" />
     </div>
     <br />
     <br />
@@ -12,14 +12,14 @@
     <h2>Graphs present your rating results. Today you have {{ todayCount }} rates,</h2>
     <h2>check it on the dashboard.</h2>
     <br />
-    <div id="lineChart">
+    <div class="lineChart">
       <ratings-area-diagram />
     </div>
-    <div id="pieChart">
+    <div class="pieChart">
       <ratings-pie-chart />
     </div>
     <br />
-    <div id="dataTable">
+    <div class="dataTable">
       <data-table />
     </div>
   </div>
@@ -80,33 +80,33 @@ export default {
 </script>
 
 <style>
-#lineChart {
-  background: #444444;
+.lineChart {
+  background: #2D3038;
   height: 400px;
   width: 55%;
   float: left;
   margin-left: 150px;
   margin-right: 20px;
 }
-#pieChart {
-  background: #444444;
+.pieChart {
+  background: #2D3038;
   width: 30%;
   height: 400px;
   float: left;
 }
-#dataTable {
+.dataTable {
   float: left;
   height: 300px;
   width: 45%;
   margin-left: 150px;
   margin-top: 25px;
 }
-#tableData,
-#pieChart,
-#lineChart {
+.tableData,
+.pieChart,
+.lineChart {
   border-radius: 5px;
 }
-#parentImages {
+.parentImages {
   position: relative;
   left: 0;
   top: 0;
@@ -115,12 +115,12 @@ export default {
   z-index: -1;
   float: right;
 }
-#artwork {
+.artwork {
   top: 0;
   right: 0;
   position: relative;
 }
-#artworkBg {
+.artworkBg {
   position: absolute;
   right: -250px;
 }

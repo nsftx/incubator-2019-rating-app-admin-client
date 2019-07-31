@@ -25,7 +25,22 @@
                 @change="previewEmoticon"
               />
             </v-flex>
-            <v-flex>
+            <v-flex></v-flex>
+          </v-layout>
+          <v-layout>
+            <v-flex class="flex">
+              <label style="float:left;">Emotions preview</label> <br>
+              <v-icon
+                v-for="emoticon in emoticonPreview"
+                :key="emoticon.id"
+                v-model="emoticon.symbol"
+                dark
+                class="fa-2x fa-fw"
+                :class="[emoticon.symbol]"
+              />
+            </v-flex>
+
+            <v-flex class="flex">
               <v-text-field
                 v-model="activeSettings.emoticonNumber"
                 dark
@@ -42,21 +57,16 @@
           </v-layout>
           <v-layout>
             <v-flex class="flex">
-              <label style="float:left;">Emotions preview</label> <br>
-              <v-icon
-                v-for="emoticon in emoticonPreview"
-                :key="emoticon.id"
-                v-model="emoticon.symbol"
+              <v-text-field
+                v-show="!showMessages"
+                v-model="newMessage.text"
                 dark
-                class="fa-2x fa-fw"
-                :class="[emoticon.symbol]"
+                color="grey"
+                label="Thank you message"
+                clearable
               />
-            </v-flex>
-            <v-flex></v-flex>
-          </v-layout>
-          <v-layout>
-            <v-flex class="flex">
               <v-select
+                v-show="showMessages"
                 v-model="activeSettings.message"
                 dark
                 color="grey"
@@ -83,64 +93,25 @@
             </v-flex>
           </v-layout>
           <v-layout>
-
-            <v-dialog
-              v-model="dialog"
-              width="500"
-            >
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  color="secondary"
-                  v-on="on"
-                >
-                  Create new message
-                </v-btn>
-              </template>
-
-              <v-card>
-                <v-card-title
-                  class="dialog-title headline"
-                  primary-title
-                >
-                  New message
-                </v-card-title>
-
-                <v-card-text class="dialog">
-                  <v-text-field
-                  v-model="newMessage.text"
-                  dark
-                  color="black"
-                  label="Thank you message"
-                  clearable
-                />
-                </v-card-text>
-
-                <v-card-actions class="dialog-footer">
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    color="secondary"
-                    @click="dialog = false"
-                  >
-                    Close
-                  </v-btn>
-                  <v-btn
-                    color="secondary"
-                    @click="createNewMessage"
-                  >
-                    Confirm
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+            <v-flex>
+              <v-btn
+                class="showMessages"
+                color="secondary"
+                @click="showExistingMessages"
+              >
+                {{ messagesBtnText }}
+              </v-btn>
+              <br>
+              <v-btn
+                class="update"
+                color="secondary"
+                @click="updateCheck"
+              >
+                Confirm
+              </v-btn>
+            </v-flex>
+            <v-flex />
           </v-layout>
-
-            <v-btn
-              class="update"
-              color="secondary"
-              @click="updateCheck"
-            >
-              Confirm
-            </v-btn>
           <v-snackbar
             v-model="snackbar"
             :timeout="4000"
@@ -168,17 +139,18 @@ import ApiService from '@/services/ApiService';
 export default {
   data() {
     return {
-      dialog: false,
       snackbar: false,
       snackbarMsg: '',
       activeSettings: {},
       messages: [],
       newMessage: {},
+      showMessages: false,
       selectedEmoticons: {},
       emoticonPreview: [],
       emoticons: [],
       emoticonNames: [],
       emoticonName: '',
+      messagesBtnText: 'Show all messages',
       emotionsRules: [
         v => v > 2 || 'Min value is 3',
         v => v < 6 || 'Max value is 5',
@@ -198,6 +170,7 @@ export default {
     getActiveSettings() {
       ApiService.getActiveSettings().then((response) => {
         this.activeSettings = response.data;
+        this.newMessage = this.activeSettings.message;
         this.emoticonPreview = response.emoticons;
         this.getEmoticonGroup();
       });
@@ -236,9 +209,8 @@ export default {
       );
     },
     updateActiveSettings() {
-      this.activeSettings.messageId = this.activeSettings.message.id;
       this.activeSettings.emoticonNumber = Number(this.activeSettings.emoticonNumber);
-      this.activeSettings.messageTimeout = Number(this.activeSettings.messageTimeout);
+      this.setMessageId();
       this.updateActiveEmoticons();
       const token = this.$store.getters.token;
       ApiService.updateActiveSettings(
@@ -248,19 +220,19 @@ export default {
       );
       this.snackbar = true;
     },
+    setMessageId() {
+      if (!(this.showMessages) && !(this.isMessageExisting(this.newMessage.text))) {
+        this.createNewMessage(this.activeSettings.id, this.newMessage);
+      } else {
+        this.activeSettings.messageId = this.activeSettings.message.id;
+      }
+    },
     isMessageExisting(message) {
       return some(this.messages, ['text', message]);
     },
-    createNewMessage() {
-      if(!this.isMessageExisting(this.newMessage)) {
-        const token = this.$store.getters.token;
-        ApiService.createNewMessage(this.activeSettings.id, this.newMessage, token)
-          .then(() => {
-            this.getActiveSettings();
-            this.getThanksMessages();
-          });
-        this.dialog = false;
-      }
+    createNewMessage(settingsId, newMessage) {
+      const token = this.$store.getters.token;
+      ApiService.createNewMessage(settingsId, newMessage, token);
     },
     updateActiveEmoticons() {
       const id = find(this.emoticons, ['name', this.emoticonName]).id;
@@ -271,6 +243,12 @@ export default {
       ApiService.getThanksMessages(token).then((response) => {
         this.messages = response.data;
       });
+    },
+    showExistingMessages() {
+      this.showMessages = !this.showMessages;
+      this.messagesBtnText = this.showMessages
+        ? 'Create new message'
+        : 'Show all messages';
     },
     updateEmoticonPreview() {
       this.emoticonPreview = [];
@@ -301,7 +279,7 @@ export default {
       deep: true,
     },
     emoticonName() {
-      if (Object.getOwnPropertyNames(this.selectedEmoticons).length > 1) {
+      if (Object.getOwnPropertyNames(this.selectedEmoticons).length > 0) {
         this.updateEmoticonPreview();
       }
     },
@@ -327,8 +305,9 @@ h3 {
 .v-list.theme--light {
    background: #444444 !important;
 }
+.showMessages,
 .update {
-  width: 20vw;
+  width: 15vw;
 }
 #settings {
   float: left;
@@ -338,16 +317,6 @@ h3 {
 }
 .flex {
   width: 45%;
-}
-.dialog-title {
-  background: #423f3f;
-  color: white;
-}
-.dialog {
-  background: #444444
-}
-.dialog-footer {
-  background: #423f3f
 }
 .application--wrap {
   background: rgb(18, 20, 22);

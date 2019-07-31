@@ -94,13 +94,13 @@
       </div>
       <div
         v-show="logged"
-        id="dash-nav"
+        class="dash-nav"
       >
         <div id="logo">
           <img src="./assets/logo_white1.png" class="logoWhite">
         </div>
         <router-link to="/today">
-          <div id="buttonToday"
+          <div class="buttonToday"
             @click="active = 'today'" :class="{activeBtn: active === 'today' }">
             <img
               src="./assets/today.png"
@@ -112,7 +112,7 @@
           </div>
         </router-link>
         <router-link to="/reports">
-          <div id="buttonReports"
+          <div class="buttonReports"
             @click="active = 'reports'" :class="{activeBtn: active === 'reports' }">
             <img
               src="./assets/report.png"
@@ -124,7 +124,7 @@
           </div>
         </router-link>
         <router-link to="/settings">
-          <div id="buttonSettings"
+          <div class="buttonSettings"
             @click="active = 'settings'" :class="{activeBtn: active === 'settings' }">
             <img
               src="./assets/settings.png"
@@ -232,21 +232,21 @@ export default {
 p {
   color:white;
 }
-#buttonSettings{
+.buttonSettings{
   bottom: 0;
   left:0;
   position: fixed;
   width:6%;
 }
-#buttonToday:hover,
-#buttonReports:hover,
-#buttonSettings:hover{
+.buttonToday:hover,
+.buttonReports:hover,
+.buttonSettings:hover{
   background: #616161;
   cursor: pointer;
 }
-#buttonToday,
-#buttonReports,
-#buttonSettings{
+.buttonToday,
+.buttonReports,
+.buttonSettings{
   height: 100px;
 }
 .activeBtn{
@@ -259,17 +259,20 @@ p {
   text-align: center;
   color: rgb(190, 190, 190);
 }
-#dash-nav {
+.dash-nav {
   top: 0;
   left: 0;
   width: 6%;
   height: 100%;
   position: fixed;
-  background: #444444;
+  background: #2D3038;
 
 }
 body {
-  background: rgb(18, 20, 22);
+  background: #1B1E24;
+}
+::-webkit-scrollbar {
+    display: none;
 }
 .icons{
 height:30px;
@@ -309,5 +312,17 @@ h1,h2{
   width: 35%;
   margin-top: 20px;
   margin-bottom: 15px;
+}
+table.v-datatable.v-table.theme--dark {
+    background: #2D3038;
+}
+.v-datatable__actions {
+    background: #2D3038 !important;
+}
+button.v-btn.theme--dark {
+    background: #2D3038 !important;
+}
+span.v-chip__content {
+    background: #2D3038 !important;
 }
 </style>

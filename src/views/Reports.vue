@@ -126,7 +126,7 @@
       </v-layout>
     </div>
     <br>
-    <div id="spacer" />
+    <div class="spacer" />
     <v-btn
       id="createBtn"
       dark
@@ -134,18 +134,18 @@
     >
       Show reports
     </v-btn>
-    <div id="spacer" />
+    <div class="spacer" />
     <br>
-    <h2>Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
+    <h2 style="margin-left:150px;">Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
     <br>
-    <div id="lineChart">
+    <div class="lineChart">
       <ratings-area-diagram />
     </div>
-    <div id="pieChart">
+    <div class="pieChart">
       <ratings-pie-chart />
     </div>
     <br>
-    <div id="dataTable">
+    <div class="dataTable">
       <data-table />
     </div>
   </div>
@@ -215,8 +215,8 @@ export default {
   background: none;
   width: 150px;
 }
-#lineChart {
-  background: #444444;
+.lineChart {
+  background: #2D3038;
   height: 400px;
   width: 55%;
   float: left;
@@ -227,13 +227,13 @@ export default {
   float: left;
   margin-left: 150px;
 }
-#pieChart {
-  background: #444444;
+.pieChart {
+  background: #2D3038;
   width: 30%;
   height: 400px;
   float: left;
 }
-#dataTable {
+.dataTable {
   float: left;
   height: 300px;
   width: 45%;
@@ -250,7 +250,7 @@ export default {
 input[type="text"] {
   color: rgb(190, 190, 190) !important;
 }
-#spacer {
+.spacer {
   width: 100%;
   height: 50px;
 }
