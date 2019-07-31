@@ -241,7 +241,7 @@ p {
 .buttonToday:hover,
 .buttonReports:hover,
 .buttonSettings:hover{
-  background: #616161;
+  background: rgb(108, 114, 129);
   cursor: pointer;
 }
 .buttonToday,
@@ -250,7 +250,7 @@ p {
   height: 100px;
 }
 .activeBtn{
-  background-color:#616161;
+  background: rgb(108, 114, 129);
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -324,5 +324,9 @@ button.v-btn.theme--dark {
 }
 span.v-chip__content {
     background: #2D3038 !important;
+}
+button.v-btn.theme--light {
+    background: #2D3038 !important;
+    color: white;
 }
 </style>

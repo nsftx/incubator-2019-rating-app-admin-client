@@ -25,22 +25,7 @@
                 @change="previewEmoticon"
               />
             </v-flex>
-            <v-flex></v-flex>
-          </v-layout>
-          <v-layout>
-            <v-flex class="flex">
-              <label style="float:left;">Emotions preview</label> <br>
-              <v-icon
-                v-for="emoticon in emoticonPreview"
-                :key="emoticon.id"
-                v-model="emoticon.symbol"
-                dark
-                class="fa-2x fa-fw"
-                :class="[emoticon.symbol]"
-              />
-            </v-flex>
-
-            <v-flex class="flex">
+            <v-flex>
               <v-text-field
                 v-model="activeSettings.emoticonNumber"
                 dark
@@ -57,16 +42,21 @@
           </v-layout>
           <v-layout>
             <v-flex class="flex">
-              <v-text-field
-                v-show="!showMessages"
-                v-model="newMessage.text"
+              <label style="float:left;">Emotions preview</label> <br>
+              <v-icon
+                v-for="emoticon in emoticonPreview"
+                :key="emoticon.id"
+                v-model="emoticon.symbol"
                 dark
-                color="grey"
-                label="Thank you message"
-                clearable
+                class="fa-2x fa-fw"
+                :class="[emoticon.symbol]"
               />
+            </v-flex>
+            <v-flex></v-flex>
+          </v-layout>
+          <v-layout>
+            <v-flex class="flex">
               <v-select
-                v-show="showMessages"
                 v-model="activeSettings.message"
                 dark
                 color="grey"
@@ -76,7 +66,6 @@
                 label="Thank you message"
               />
             </v-flex>
-
             <v-flex class="flex">
               <v-text-field
                 v-model="activeSettings.messageTimeout"
@@ -93,7 +82,6 @@
             </v-flex>
           </v-layout>
           <v-layout>
-
             <v-dialog
               v-model="dialog"
               width="500"
@@ -105,7 +93,6 @@
                   Create new message
                 </v-btn>
               </template>
-
               <v-card>
                 <v-card-title
                   class="dialog-title headline"
@@ -113,7 +100,6 @@
                 >
                   New message
                 </v-card-title>
-
                 <v-card-text class="dialog">
                   <v-text-field
                   v-model="newMessage.text"
@@ -123,7 +109,6 @@
                   clearable
                 />
                 </v-card-text>
-
                 <v-card-actions class="dialog-footer">
                   <v-spacer></v-spacer>
                   <v-btn
@@ -140,7 +125,6 @@
               </v-card>
             </v-dialog>
           </v-layout>
-
             <v-btn
               class="update"
               @click="updateCheck"
@@ -164,7 +148,6 @@
     </v-app>
   </div>
 </template>
-
 <script>
 /* eslint-disable prefer-destructuring */
 import { some, find, forEach } from 'lodash';
@@ -173,12 +156,12 @@ import ApiService from '@/services/ApiService';
 export default {
   data() {
     return {
+      dialog: false,
       snackbar: false,
       snackbarMsg: '',
       activeSettings: {},
       messages: [],
       newMessage: {},
-      showMessages: false,
       selectedEmoticons: {},
       emoticonPreview: [],
       emoticons: [],
@@ -204,7 +187,6 @@ export default {
     getActiveSettings() {
       ApiService.getActiveSettings().then((response) => {
         this.activeSettings = response.data;
-        this.newMessage = this.activeSettings.message;
         this.emoticonPreview = response.emoticons;
       });
     },
@@ -245,8 +227,9 @@ export default {
       );
     },
     updateActiveSettings() {
+      this.activeSettings.messageId = this.activeSettings.message.id;
       this.activeSettings.emoticonNumber = Number(this.activeSettings.emoticonNumber);
-      this.setMessageId();
+      this.activeSettings.messageTimeout = Number(this.activeSettings.messageTimeout);
       this.updateActiveEmoticons();
       const token = this.$store.getters.token;
       ApiService.updateActiveSettings(
@@ -280,12 +263,6 @@ export default {
       ApiService.getThanksMessages(token).then((response) => {
         this.messages = response.data;
       });
-    },
-    showExistingMessages() {
-      this.showMessages = !this.showMessages;
-      this.messagesBtnText = this.showMessages
-        ? 'Create new message'
-        : 'Show all messages';
     },
     updateEmoticonPreview() {
       this.emoticonPreview = [];
@@ -323,7 +300,6 @@ export default {
   },
 };
 </script>
-
 <style>
 .settings {
   width: 80%;
@@ -342,9 +318,8 @@ h3 {
 .v-list.theme--light {
    background: #444444 !important;
 }
-.showMessages,
 .update {
-  width: 15vw;
+  width: 20vw;
 }
 #settings {
   float: left;
