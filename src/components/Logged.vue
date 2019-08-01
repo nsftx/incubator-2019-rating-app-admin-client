@@ -182,7 +182,7 @@ export default {
           localStorage.setItem('email', this.email);
           this.isSignIn = this.$gAuth.isAuthorized;
           // eslint-disable-next-line camelcase
-          const id_token = GoogleUser.getAuthResponse();
+          const { id_token } = GoogleUser.getAuthResponse();
           // eslint-disable-next-line camelcase
           this.$store.dispatch('getToken', id_token);
           const payLoad = {};
