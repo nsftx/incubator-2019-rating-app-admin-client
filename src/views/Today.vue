@@ -50,6 +50,7 @@ export default {
   created() {
     this.$store.dispatch('getPieChartToday', this.Today);
     this.$store.dispatch('getDiagramToday', this.interval);
+    this.countToday();
   },
   methods: {
     countToday() {
