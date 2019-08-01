@@ -12,6 +12,11 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
+      path: '/',
+      name: 'today',
+      component: Today,
+    },
+    {
       path: '/today',
       name: 'today',
       component: Today,
