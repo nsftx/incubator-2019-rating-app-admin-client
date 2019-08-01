@@ -1,257 +1,25 @@
 <template>
   <div id="app">
-    <div
-      v-show="!logged"
-      id="login"
-    >
-      <br>
-      <v-snackbar
-        v-model="snackbarLoginFail"
-        :bottom="y === 'bottom'"
-        :left="x === 'left'"
-        :multi-line="mode === 'multi-line'"
-        :right="x === 'right'"
-        :timeout="timeout"
-        :top="y === 'top'"
-        :vertical="mode === 'vertical'"
-      >
-        <v-icon
-          dark
-          style="padding-right: 10px;"
-        >
-          error
-        </v-icon>
-        {{ textLoginFail }}
-        <v-btn
-          color="white"
-          flat
-          @click="snackbarLoginFail = false"
-        >
-          Close
-        </v-btn>
-      </v-snackbar>
-      <h1>Ratings app - Dashboard</h1>
-      <h1>Login</h1>
-      <br>
-      <p style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">
-        Welcome to the Rating Dashboard! Please enter your credentials<br>
-        Please login with OAuth
-      </p>
-      <br>
-        <v-btn
-        color="error"
-        dark
-        large
-        style="float: left; margin-left: 200px;"
-        class="GAuth"
-        @click="login()">
-          Login with Google+
-        </v-btn>
-      <img src="./assets/Artwork.svg"
-      style="margin-right: 5px; float:right; top: 10px ; position: fixed;">
-    </div>
-    <div v-show="logged">
-      <v-snackbar
-        v-model="snackbarLoginSuccess"
-        :bottom="y === 'bottom'"
-        :left="x === 'left'"
-        :multi-line="mode === 'multi-line'"
-        :right="x === 'right'"
-        :timeout="timeout"
-        :top="y === 'top'"
-        :vertical="mode === 'vertical'"
-      >
-        <v-icon
-          dark
-          style="padding-right:10px;"
-        >
-          person
-        </v-icon>
-        {{ textLoginSuccess }}{{ firstName }}!
-        <v-btn
-          color="white"
-          flat
-          @click="snackbarLoginSuccess = false"
-        >
-          Close
-        </v-btn>
-      </v-snackbar>
-      <div class="buttonUser">
-        <router-link to="/logout">
-          <v-chip
-            v-show="logged"
-            :dark="true"
-            @click="active = 'logout'" :class="{activeBtn: active === 'logout' }"
-          >
-            <v-avatar>
-              <img
-                :src="imgAvatar"
-                alt="admin"
-              >
-            </v-avatar><b>{{nameAvatar}}</b>
-          </v-chip>
-        </router-link>
-      </div>
-      <div
-        v-show="logged"
-        class="dash-nav"
-      >
-        <div id="logo">
-          <img src="./assets/logo_white1.png" class="logoWhite">
-        </div>
-        <router-link to="/today">
-          <div class="buttonToday"
-            @click="active = 'today'" :class="{activeBtn: active === 'today' }">
-            <img
-              src="./assets/today.png"
-              class="icons"
-            >
-            <p style="text-align='center'">
-              Today
-            </p>
-          </div>
-        </router-link>
-        <router-link to="/reports">
-          <div class="buttonReports"
-            @click="active = 'reports'" :class="{activeBtn: active === 'reports' }">
-            <img
-              src="./assets/report.png"
-              class="icons"
-            >
-            <p style="text-align='center'">
-              Reports
-            </p>
-          </div>
-        </router-link>
-        <router-link to="/settings">
-          <div class="buttonSettings"
-            @click="active = 'settings'" :class="{activeBtn: active === 'settings' }">
-            <img
-              src="./assets/settings.png"
-              class="icons"
-            >
-            <p style="text-align='center'">
-              Settings
-            </p>
-          </div>
-        </router-link>
-      </div>
-      <router-view />
-    </div>
+    <logged></logged>
   </div>
 </template>
 <script>
-import ApiService from '@/services/ApiService';
+import Logged from './components/Logged.vue';
 
 export default {
+  components: {
+    Logged,
+  },
   data() {
-    return {
-      active: 'today',
-      path: '/',
-      firstName: '',
-      imgAvatar: '',
-      nameAvatar: '',
-      lastName: '',
-      email: '',
-      logged: false,
-      snackbarLoginSuccess: false,
-      snackbarLoginFail: false,
-      y: 'top',
-      x: null,
-      mode: '',
-      timeout: 6000,
-      inLocal: false,
-      textLoginSuccess: 'Login success! Welcome ',
-      textLoginFail: 'Oops. You are a non-existing user. Please ask for an invite.',
-    };
+    return {};
   },
-  methods: {
-    login() {
-      const that = this;
-      this.$gAuth.signIn()
-        .then((GoogleUser) => {
-          that.imgAvatar = GoogleUser.w3.Paa;
-          that.nameAvatar = GoogleUser.w3.ig;
-          that.firstName = GoogleUser.w3.ofa;
-          that.lastName = GoogleUser.w3.wea;
-          that.email = GoogleUser.w3.U3;
-          localStorage.setItem('imgAvatar', that.imgAvatar);
-          localStorage.setItem('nameAvatar', that.nameAvatar);
-          localStorage.setItem('firstName', that.firstName);
-          localStorage.setItem('lastName', that.lastName);
-          localStorage.setItem('email', that.email);
-          // const uid = GoogleUser.getId();
-          this.isSignIn = this.$gAuth.isAuthorized;
-          // eslint-disable-next-line no-unused-vars
-          const userInfo = {
-            sub: GoogleUser.w3.Eea,
-            given_name: GoogleUser.w3.ofa,
-            family_name: GoogleUser.w3.wea,
-            picture: GoogleUser.w3.Paa,
-            email: GoogleUser.w3.U3,
-          };
-            // eslint-disable-next-line camelcase
-          const { id_token } = GoogleUser.getAuthResponse();
-          // eslint-disable-next-line camelcase
-          this.$store.dispatch('getToken', id_token);
-          const payLoad = {};
-          ApiService.postData('http://172.20.15.9:3000/users/login',payLoad,id_token)
-            .then((response) => {
-              if (response.error == false) {
-                that.logged = true;
-                that.snackbarLoginSuccess = true;
-                localStorage.setItem('token', id_token);
-                that.inLocal = true;
-                localStorage.setItem('inLocal', that.inLocal);
-                this.$router.push({ path: '/today' });
-              } else {
-                that.snackbarLoginFail = true;
-                this.$router.push({ path: '/' });
-              }
-            });
-        })
-      // eslint-disable-next-line no-unused-vars
-        .catch((error) => {
-          this.$router.push({ path: '/' });
-        });
-    },
-  },
-  created() {
-    if (localStorage.getItem('inLocal')) {
-      this.$store.dispatch('getToken', localStorage.getItem('token'));
-      this.logged = true;
-      this.imgAvatar = localStorage.getItem('imgAvatar');
-      this.nameAvatar = localStorage.getItem('nameAvatar');
-      this.firstName = localStorage.getItem('firstName');
-      this.lastName = localStorage.getItem('lastName');
-      this.email = localStorage.getItem('email');
-    }
-  },
+  methods: {},
 };
 </script>
+
 <style lang="less">
 p {
   color:white;
-}
-.buttonSettings{
-  bottom: 0;
-  left:0;
-  position: fixed;
-  width:6%;
-}
-.buttonToday:hover,
-.buttonReports:hover,
-.buttonSettings:hover{
-  background: rgb(108, 114, 129);
-  cursor: pointer;
-}
-.buttonToday,
-.buttonReports,
-.buttonSettings{
-  height: 100px;
-}
-.activeBtn{
-  background: rgb(108, 114, 129);
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -260,25 +28,11 @@ p {
   text-align: center;
   color: rgb(190, 190, 190);
 }
-.dash-nav {
-  top: 0;
-  left: 0;
-  width: 6%;
-  height: 100%;
-  position: fixed;
-  background: #2D3038;
-
-}
 body {
   background: #1B1E24;
 }
 ::-webkit-scrollbar {
     display: none;
-}
-.icons{
-height:30px;
-width:auto;
-margin-top:20px;
 }
 a{
   text-decoration: none;
@@ -291,23 +45,11 @@ h1,h2{
   text-align:left;
   margin-left: 200px;
 }
-.buttonUser {
-    float: right;
-    margin-right: 10px;
-    margin-top:10px;
-    margin-bottom:20px;
-}
 .elevation-1 > * {
     border-radius: 5px !important;
 }
 .v-datatable__actions {
     border-radius: 5px;
-}
-.buttonUser {
-  z-index:0;
-}
-.GAuth{
-  background:rgb(231, 72, 72) !important;
 }
 .logoWhite {
   width: 35%;
