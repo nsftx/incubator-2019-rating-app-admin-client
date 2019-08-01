@@ -1,7 +1,7 @@
 <template>
   <div id="logout">
-    <br><br><br>
-    <h3 style="margin-left:200px;">Welcome to your profile</h3>
+    <div class="spacing"></div>
+    <h3 class="profileWelcome">Welcome to your profile</h3>
     <v-divider
             class="dividerLogout"
             dark
@@ -16,9 +16,9 @@
             class="dividerLogout"
             dark
           />
-    <br>
+    <div class="smallSpacing"></div>
     <h2>Want to invite a new user?</h2>
-    <br>
+    <div class="smallSpacing"></div>
     <v-text-field
                 v-model="inviteMail"
                 dark
@@ -27,7 +27,7 @@
                 type="email"
                 style="width: 80%; margin-left: 200px;"
               />
-              <br>
+    <div class="smallSpacing"></div>
     <v-btn dark @click="invite()" style="float:left;margin-left:200px;">Invite user</v-btn>
     <v-btn
       dark
@@ -140,25 +140,16 @@ export default {
       this.$gAuth.signOut()
         .then(() => {
           localStorage.clear();
-        // things to do when sign-out succeeds
-        })
-        .catch((error) => {
-        // things to do when sign-out fails
         });
       this.$parent.logged = false;
     },
     invite() {
-      const that = this;
-      const token = this.$store.getters.token;
-      const userMail = {
-        email: this.inviteMail,
-      };
-      ApiService.postData('http://172.20.15.9:3000/invites', userMail, token)
+      ApiService.postData('http://172.20.15.9:3000/invites', { email: this.inviteMail }, this.$store.getters.token)
         .then((response) => {
           if (response.error) {
-            that.snackbarInviteExisting = true;
+            this.snackbarInviteExisting = true;
           } else {
-            that.snackbarInviteSuccess = true;
+            this.snackbarInviteSuccess = true;
           }
         });
     },
@@ -166,7 +157,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.smallSpacing {
+  height: 20px;
+}
+.spacing{
+  height: 80px;
+}
 .profileInfo{
   width: 80%;
   padding-top:25px;
@@ -187,5 +184,10 @@ export default {
   margin: 20px 0;
   margin-left: 200px;
   width:80%;
+}
+.profileWelcome {
+  text-align: left;
+  font-size: 2vw;
+  margin-left: 200px;
 }
 </style>
