@@ -1,10 +1,11 @@
 /* eslint-disable no-tabs */
 import Vue from 'vue';
 import Router from 'vue-router';
-import Settings from './views/Settings.vue';
-import Reports from './views/Reports.vue';
-import Today from './views/Today.vue';
-import Logout from './views/Logout.vue';
+
+const Settings = () => import('./views/Settings.vue');
+const Reports = () => import('./views/Reports.vue');
+const Today = () => import('./views/Today.vue');
+const Logout = () => import('./views/Logout.vue');
 
 Vue.use(Router);
 
