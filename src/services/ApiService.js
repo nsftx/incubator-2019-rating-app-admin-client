@@ -3,6 +3,8 @@ import axios from 'axios';
 
 const API_URL = 'http://172.20.15.9:3000';
 
+// Create custom GET/PUT/POST methods to avoid creating multiple same config objects
+
 export default {
   getActiveSettings() {
     return axios.get(`${API_URL}/settings/last`) // ne treba token

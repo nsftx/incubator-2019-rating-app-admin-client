@@ -7,7 +7,8 @@ import Today from './views/Today.vue';
 import Logout from './views/Logout.vue';
 
 Vue.use(Router);
-
+// Explore component lazy load in router
+// Add default route
 export default new Router({
   routes: [
     {

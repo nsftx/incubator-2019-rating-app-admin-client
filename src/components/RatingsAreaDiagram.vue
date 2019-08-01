@@ -44,6 +44,7 @@ export default {
       this.populateDiagramOptionsCategories();
     },
     populateDiagramSeriesNames() {
+      // Refactor
       let Rating = {};
       forEach(this.ratings.emoticons, (ratings) => {
         Rating = {
@@ -54,6 +55,7 @@ export default {
       });
     },
     populateDiagramSeriesData() {
+      // Refactor...
       let index;
       let ids = [];
       let counts = [];
@@ -100,6 +102,7 @@ export default {
     },
   },
   computed: {
+    // No need for map getters for single getter
     ...mapGetters({
       ratings: 'diagramData',
     }),

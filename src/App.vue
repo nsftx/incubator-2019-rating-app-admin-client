@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+  <!-- Izdvojiti u komponente (Login i Logout view)-->
     <div
       v-show="!logged"
       id="login"

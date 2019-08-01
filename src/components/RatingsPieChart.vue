@@ -41,6 +41,7 @@ export default {
     createPieChart() {
       this.chartSeries = [];
       this.chartOptions.labels.length = 0;
+      // Use some other lodash method
       let i = 0;
       let j = 0;
       times(this.ratings.data.length, () => this.chartSeries.push(

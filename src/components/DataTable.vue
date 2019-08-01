@@ -40,6 +40,7 @@ export default {
   methods: {
     populateTable() {
       this.reactions = [];
+      // Refactor
       function Reaction(name, number) {
         this.name = name;
         this.number = number;
@@ -62,6 +63,7 @@ export default {
     },
   },
   computed: {
+    // No need to load mapGetters for single getter
     ...mapGetters({
       ratings: 'pieChartData',
     }),

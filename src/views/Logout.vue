@@ -144,6 +144,7 @@ export default {
       this.$parent.logged = false;
     },
     invite() {
+      // Refactor
       const that = this;
       const token = this.$parent.token;
       const userMail = {

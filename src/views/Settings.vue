@@ -1,5 +1,8 @@
 <template>
   <div id="settings">
+    <!--
+      Change fontawesome load
+    -->
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
@@ -168,6 +171,8 @@ export default {
   },
   methods: {
     getActiveSettings() {
+      // Change to action call
+      // Save values to Vuex
       ApiService.getActiveSettings().then((response) => {
         this.activeSettings = response.data;
         this.newMessage = this.activeSettings.message;
@@ -176,7 +181,10 @@ export default {
       });
     },
     getEmoticonGroup() {
+      // Remove token
       const token = this.$store.getters.token;
+      // Change to action call
+      // Save values to Vuex
       ApiService.getEmoticonGroup(token).then((response) => {
         this.emoticons = response.data;
         this.emoticonName = find(this.emoticons, ['id', this.activeSettings.emoticonsGroupId]).name;
@@ -199,6 +207,7 @@ export default {
       }
     },
     validateSettings() {
+      // Check if this can be handled with input flags
       return (
         this.activeSettings.message.text.length > 0
         && this.activeSettings.message.text.length < 121
@@ -213,6 +222,7 @@ export default {
       this.setMessageId();
       this.updateActiveEmoticons();
       const token = this.$store.getters.token;
+      // Move to actions
       ApiService.updateActiveSettings(
         this.activeSettings,
         this.activeSettings.id,
@@ -231,14 +241,17 @@ export default {
       return some(this.messages, ['text', message]);
     },
     createNewMessage(settingsId, newMessage) {
+      // Move to actions
       const token = this.$store.getters.token;
       ApiService.createNewMessage(settingsId, newMessage, token);
     },
     updateActiveEmoticons() {
+      // Handle undefined values
       const id = find(this.emoticons, ['name', this.emoticonName]).id;
       this.activeSettings.emoticonsGroupId = id;
     },
     getThanksMessages() {
+      // Move to actions
       const token = this.$store.getters.token;
       ApiService.getThanksMessages(token).then((response) => {
         this.messages = response.data;
@@ -251,6 +264,7 @@ export default {
         : 'Show all messages';
     },
     updateEmoticonPreview() {
+      // Refactor loops
       this.emoticonPreview = [];
       if (this.activeSettings.emoticonNumber == 3) {
         forEach(this.selectedEmoticons.emoticons, (emoticon) => {

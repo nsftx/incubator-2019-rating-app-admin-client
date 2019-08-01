@@ -1,4 +1,5 @@
 <template>
+<!-- Reduce elements.. Use classes instead of br-s-->
   <div id="today">
     <div id="parentImages">
       <img id="artworkBg" src="../assets/Oval.svg" />
@@ -41,10 +42,12 @@ export default {
   data() {
     return {
       interval: {
+        // Create utility method
         date: new Date().toISOString().substr(0, 10),
         interval: 2,
       },
       todayCount: 0,
+      // Create utility method
       Today: { date: new Date().toISOString().substr(0, 10) },
     };
   },
@@ -54,6 +57,7 @@ export default {
   },
   methods: {
     countToday() {
+      // Refactor this
       let counter = 0;
       let i = 0;
       times(
@@ -63,6 +67,7 @@ export default {
       this.todayCount = counter;
     },
   },
+  // Try to avoid this
   watch: {
     ratings: {
       handler() {
@@ -72,6 +77,7 @@ export default {
     },
   },
   computed: {
+    // No need for map getters
     ...mapGetters({
       ratings: 'pieChartData',
     }),
