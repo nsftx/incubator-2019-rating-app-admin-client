@@ -26,11 +26,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import { times } from 'lodash';
 import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
 import RatingsPieChart from '../components/RatingsPieChart.vue';
-import DataTable from '../components/DataTable';
+import DataTable from '../components/DataTable.vue';
 
 export default {
   components: {
@@ -51,6 +50,7 @@ export default {
   created() {
     this.$store.dispatch('getPieChartToday', this.Today);
     this.$store.dispatch('getDiagramToday', this.interval);
+    this.countToday();
   },
   methods: {
     countToday() {
@@ -63,18 +63,10 @@ export default {
       this.todayCount = counter;
     },
   },
-  watch: {
-    ratings: {
-      handler() {
-        this.countToday();
-      },
-      deep: true,
-    },
-  },
   computed: {
-    ...mapGetters({
-      ratings: 'pieChartData',
-    }),
+    ratings() {
+      return this.$store.getters.pieChartData;
+    },
   },
 };
 </script>
