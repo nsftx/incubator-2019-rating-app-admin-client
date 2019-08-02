@@ -73,7 +73,7 @@ button.v-btn.theme--light {
     color: white;
 }
 .v-list.theme--dark {
-    background: #2D3038;
+    background: #2D3038 !important;
 }
 .apexcharts-menu-item.exportSVG:hover, .apexcharts-menu-item.exportPNG:hover {
     background: rgb(57, 61, 73) !important;
