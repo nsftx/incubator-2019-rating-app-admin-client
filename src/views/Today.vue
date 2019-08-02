@@ -4,20 +4,18 @@
       <img class="artworkBg" src="../assets/Oval.svg" />
       <img class="artwork" src="../assets/Artwork.svg" />
     </div>
-    <div class="spacing-m"></div>
-    <h1>Today is a new day.</h1>
+    <h1 class="margin-h-top">Today is a new day.</h1>
     <h1>Check your ratings</h1>
     <br />
     <h2>Graphs present your rating results. Today you have {{ todayCount }} rates,</h2>
     <h2>check it on the dashboard.</h2>
-    <br />
+
     <div class="lineChart">
       <ratings-area-diagram />
     </div>
     <div class="pieChart">
       <ratings-pie-chart />
     </div>
-    <br />
     <div class="dataTable">
       <data-table />
     </div>
@@ -69,8 +67,8 @@ export default {
 </script>
 
 <style>
-.spacing-m{
-  height:40px;
+.margin-h-top{
+  padding-top:40px;
 }
 .apexcharts-legend-text {
   color: white !important;
@@ -110,7 +108,7 @@ export default {
   left: 0;
   top: 0;
   margin-right: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   z-index: -1;
   float: right;
 }
