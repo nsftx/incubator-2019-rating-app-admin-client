@@ -1,6 +1,6 @@
 import ApiService from '@/services/ApiService';
 
-const API_URL = 'http://172.20.15.9:3000';
+const API_URL = 'http://172.20.16.94:3000';
 export default ({
   state: {
     diagramData: {},

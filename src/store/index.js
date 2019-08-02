@@ -3,15 +3,17 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import areaDiagram from './modules/areaDiagram';
-import pieChart from './modules/pieChart';
 import authToken from './modules/authToken';
+import pieChart from './modules/pieChart';
+import settings from './modules/settings';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
     areaDiagram,
-    pieChart,
     authToken,
+    pieChart,
+    settings,
   },
 });

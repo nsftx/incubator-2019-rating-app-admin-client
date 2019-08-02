@@ -184,7 +184,7 @@ export default {
           // eslint-disable-next-line camelcase
           const { id_token } = GoogleUser.getAuthResponse();
           // eslint-disable-next-line camelcase
-          this.$store.dispatch('getToken', id_token);
+          this.$store.dispatch('createToken', id_token);
           const payLoad = {};
           ApiService.postData('http://172.20.15.9:3000/users/login', payLoad, id_token)
             .then((response) => {
@@ -209,7 +209,7 @@ export default {
   },
   created() {
     if (localStorage.getItem('inLocal')) {
-      this.$store.dispatch('getToken', localStorage.getItem('token'));
+      this.$store.dispatch('createToken', localStorage.getItem('token'));
       this.logged = true;
       this.imgAvatar = localStorage.getItem('imgAvatar');
       this.nameAvatar = localStorage.getItem('nameAvatar');

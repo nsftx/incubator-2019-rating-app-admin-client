@@ -11,8 +11,8 @@ export default ({
     token: state => state.token,
   },
   actions: {
-    getToken(context, token) {
-      context.commit('setToken', token);
+    createToken({ commit }, token) {
+      commit('setToken', token);
     },
   },
-})
+});

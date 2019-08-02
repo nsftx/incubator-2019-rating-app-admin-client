@@ -150,8 +150,7 @@
 </template>
 <script>
 /* eslint-disable prefer-destructuring */
-import { some, find, forEach } from 'lodash';
-import ApiService from '@/services/ApiService';
+import { some, find, forEach, cloneDeep } from 'lodash';
 
 export default {
   data() {
@@ -159,12 +158,9 @@ export default {
       dialog: false,
       snackbar: false,
       snackbarMsg: '',
-      activeSettings: {},
-      messages: [],
       newMessage: {},
       selectedEmoticons: {},
       emoticonPreview: [],
-      emoticons: [],
       emoticonNames: [],
       activeGroupName: '',
       emotionsRules: [
@@ -179,25 +175,16 @@ export default {
     };
   },
   created() {
-    this.getActiveSettings();
-    this.getThanksMessages();
+    this.$store.dispatch('getActiveSettings');
+    this.$store.dispatch('getThanksMessages');
+    this.$store.dispatch('getEmoticons');
     this.getEmoticonGroup();
   },
   methods: {
-    getActiveSettings() {
-      ApiService.getActiveSettings().then((response) => {
-        this.activeSettings = response.data;
-        this.emoticonPreview = response.emoticons;
-      });
-    },
     getEmoticonGroup() {
-      const token = this.$store.getters.token;
-      ApiService.getEmoticonGroup(token).then((response) => {
-        this.emoticons = response.data;
-        this.activeGroupName = find(this.emoticons, ['id', this.activeSettings.emoticonsGroupId]).name;
-        this.getEmoticonGroupNames();
-        this.previewEmoticon();
-      });
+      this.activeGroupName = find(this.emoticons, ['id', this.activeSettings.emoticonsGroupId]).name;
+      this.getEmoticonGroupNames();
+      this.previewEmoticon();
     },
     getEmoticonGroupNames() {
       forEach(this.emoticons, (group) => {
@@ -208,15 +195,9 @@ export default {
       this.selectedEmoticons = find(this.emoticons, ['name', this.activeGroupName]);
     },
     updateCheck() {
-      if (!this.validateSettings()) {
-        this.snackbarMsg = 'Please enter valid data';
-        this.snackbar = true;
-      } else {
-        this.snackbarMsg = 'Settings successfully updated';
-        this.updateActiveSettings();
-      }
+      this.updateActiveSettings();
     },
-    validateSettings() {
+    validateSettings() { // vee-validate
       return (
         this.activeSettings.message.text.length > 0
         && this.activeSettings.message.text.length < 121
@@ -230,13 +211,8 @@ export default {
       this.activeSettings.messageId = this.activeSettings.message.id;
       this.activeSettings.emoticonNumber = Number(this.activeSettings.emoticonNumber);
       this.activeSettings.messageTimeout = Number(this.activeSettings.messageTimeout);
+      this.$store.dispatch('updateSettings', this.activeSettings);
       this.updateActiveEmoticons();
-      const token = this.$store.getters.token;
-      ApiService.updateActiveSettings(
-        this.activeSettings,
-        this.activeSettings.id,
-        token,
-      );
       this.snackbar = true;
     },
     updateActiveEmoticons() {
@@ -245,13 +221,8 @@ export default {
     },
     createNewMessage() {
       if (!this.isMessageExisting(this.newMessage)) {
-        const token = this.$store.getters.token;
-        ApiService.createNewMessage(this.newMessage, token)
-          .then((response) => {
-            this.activeSettings.message = response.data;
-            this.updateCheck();
-            this.getThanksMessages();
-          });
+        this.updateCheck();
+        this.$store.dispatch('createThanksMessage', this.newMessage);
         this.dialog = false;
       } else {
         this.snackbarMsg = 'Message already exists !';
@@ -261,29 +232,25 @@ export default {
     isMessageExisting(message) {
       return some(this.messages, ['text', message.text]);
     },
-    getThanksMessages() {
-      const token = this.$store.getters.token;
-      ApiService.getThanksMessages(token).then((response) => {
-        this.messages = response.data;
-      });
-    },
     updateEmoticonPreview() {
-      this.emoticonPreview = [];
+      this.emoticonPreview = cloneDeep(this.selectedEmoticons.emoticons);
       if (this.activeSettings.emoticonNumber == 3) {
-        forEach(this.selectedEmoticons.emoticons, (emoticon) => {
-          if (emoticon.value % 2 !== 0) {
-            this.emoticonPreview.push(emoticon);
-          }
-        });
+        this.emoticonPreview.splice(3, 1);
+        this.emoticonPreview.splice(1, 1);
       } else if (this.activeSettings.emoticonNumber == 4) {
-        forEach(this.selectedEmoticons.emoticons, (emoticon) => {
-          if (emoticon.value !== 3) {
-            this.emoticonPreview.push(emoticon);
-          }
-        });
-      } else {
-        this.emoticonPreview = this.selectedEmoticons.emoticons;
+        this.emoticonPreview.splice(2, 1);
       }
+    },
+  },
+  computed: {
+    activeSettings() {
+      return this.$store.getters.activeSettings;
+    },
+    emoticons() {
+      return this.$store.getters.emoticons;
+    },
+    messages() {
+      return this.$store.getters.thanksMessages;
     },
   },
   watch: {
