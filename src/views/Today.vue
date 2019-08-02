@@ -37,11 +37,11 @@ export default {
   data() {
     return {
       interval: {
-        date: new Date().toISOString().substr(0, 10),
+        date: this.getToday(),
         interval: 2,
       },
       todayCount: 0,
-      Today: { date: new Date().toISOString().substr(0, 10) },
+      Today: { date: this.getToday() },
     };
   },
   mounted() {

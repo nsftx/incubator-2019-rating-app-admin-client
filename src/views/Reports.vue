@@ -165,7 +165,7 @@ export default {
   data() {
     return {
       range: {
-        date: new Date().toISOString().substr(0, 10),
+        date: this.getToday(),
         interval: 2,
       },
       dark: true,
@@ -173,9 +173,9 @@ export default {
       logged: true,
       password: '',
       menuBegin: false,
-      dateBegin: new Date().toISOString().substr(0, 10),
+      dateBegin: this.getToday(),
       menuEnd: false,
-      dateEnd: new Date().toISOString().substr(0, 10),
+      dateEnd: this.getToday(),
     };
   },
   created() {
