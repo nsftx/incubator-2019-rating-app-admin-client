@@ -4,21 +4,18 @@
       <img class="artworkBg" src="../assets/Oval.svg" />
       <img class="artwork" src="../assets/Artwork.svg" />
     </div>
-    <br />
-    <br />
-    <h1>Today is a new day.</h1>
+    <h1 class="margin-h-top">Today is a new day.</h1>
     <h1>Check your ratings</h1>
     <br />
     <h2>Graphs present your rating results. Today you have {{ todayCount }} rates,</h2>
     <h2>check it on the dashboard.</h2>
-    <br />
+
     <div class="lineChart">
       <ratings-area-diagram />
     </div>
     <div class="pieChart">
       <ratings-pie-chart />
     </div>
-    <br />
     <div class="dataTable">
       <data-table />
     </div>
@@ -26,7 +23,7 @@
 </template>
 
 <script>
-import { times } from 'lodash';
+import { sumBy } from 'lodash';
 import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
 import RatingsPieChart from '../components/RatingsPieChart.vue';
 import DataTable from '../components/DataTable.vue';
@@ -47,20 +44,13 @@ export default {
       Today: { date: new Date().toISOString().substr(0, 10) },
     };
   },
-  created() {
+  mounted() {
     this.$store.dispatch('getPieChartToday', this.Today);
     this.$store.dispatch('getDiagramToday', this.interval);
-    this.countToday();
   },
   methods: {
     countToday() {
-      let counter = 0;
-      let i = 0;
-      times(
-        this.ratings.data.length,
-        () => (counter += parseInt(this.ratings.data[i++].count)),
-      );
-      this.todayCount = counter;
+      this.todayCount = sumBy(this.ratings.data, 'count');
     },
   },
   computed: {
@@ -68,10 +58,25 @@ export default {
       return this.$store.getters.pieChartData;
     },
   },
+  watch: {
+    ratings() {
+      this.countToday();
+    },
+  },
 };
 </script>
 
 <style>
+.margin-h-top{
+  padding-top:40px;
+}
+.apexcharts-legend-text {
+  color: white !important;
+}
+.apexcharts-yaxis-texts-g text,
+.apexcharts-xaxis-texts-g text {
+  fill: white !important;
+}
 .lineChart {
   background: #2D3038;
   height: 400px;
@@ -103,7 +108,7 @@ export default {
   left: 0;
   top: 0;
   margin-right: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   z-index: -1;
   float: right;
 }
