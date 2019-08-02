@@ -254,4 +254,10 @@ input[type="text"] {
   width: 100%;
   height: 50px;
 }
+.v-picker__actions.v-card__actions {
+    background: #2D3038;
+}
+.theme--dark.v-picker__body {
+    background: #2D3038;
+}
 </style>
