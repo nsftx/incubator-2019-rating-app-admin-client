@@ -4,8 +4,7 @@
       <img class="artworkBg" src="../assets/Oval.svg" />
       <img class="artwork" src="../assets/Artwork.svg" />
     </div>
-    <br />
-    <br />
+    <div class="spacing-m"></div>
     <h1>Today is a new day.</h1>
     <h1>Check your ratings</h1>
     <br />
@@ -26,7 +25,7 @@
 </template>
 
 <script>
-import { times } from 'lodash';
+import { sumBy } from 'lodash';
 import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
 import RatingsPieChart from '../components/RatingsPieChart.vue';
 import DataTable from '../components/DataTable.vue';
@@ -47,20 +46,13 @@ export default {
       Today: { date: new Date().toISOString().substr(0, 10) },
     };
   },
-  created() {
+  mounted() {
     this.$store.dispatch('getPieChartToday', this.Today);
     this.$store.dispatch('getDiagramToday', this.interval);
-    this.countToday();
   },
   methods: {
     countToday() {
-      let counter = 0;
-      let i = 0;
-      times(
-        this.ratings.data.length,
-        () => (counter += parseInt(this.ratings.data[i++].count)),
-      );
-      this.todayCount = counter;
+      this.todayCount = sumBy(this.ratings.data, 'count');
     },
   },
   computed: {
@@ -68,10 +60,25 @@ export default {
       return this.$store.getters.pieChartData;
     },
   },
+  watch: {
+    ratings() {
+      this.countToday();
+    },
+  },
 };
 </script>
 
 <style>
+.spacing-m{
+  height:40px;
+}
+.apexcharts-legend-text {
+  color: white !important;
+}
+.apexcharts-yaxis-texts-g text,
+.apexcharts-xaxis-texts-g text {
+  fill: white !important;
+}
 .lineChart {
   background: #2D3038;
   height: 400px;
