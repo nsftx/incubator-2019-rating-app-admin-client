@@ -7,7 +7,7 @@ import GAuth from 'vue-google-oauth2';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-
+import mixin from './mixin';
 import 'vuetify/dist/vuetify.min.css';
 
 const gauthOption = {
@@ -22,6 +22,7 @@ Vue.use(GAuth, gauthOption);
 
 Vue.use(Vuetify);
 Vue.use(VueAxios, Axios);
+Vue.use(mixin);
 Vue.config.productionTip = false;
 // eslint-disable-next-line no-unused-expressions
 Vue.com;
