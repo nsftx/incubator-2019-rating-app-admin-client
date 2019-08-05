@@ -19,7 +19,6 @@ Vue.use(GAuth, gauthOption);
 
 // eslint-disable-next-line no-unused-vars
 
-
 Vue.use(Vuetify);
 Vue.use(VueAxios, Axios);
 Vue.config.productionTip = false;

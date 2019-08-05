@@ -1,13 +1,13 @@
 import ApiService from '@/services/ApiService';
 
-const API_URL = 'http://172.20.16.94:3000';
+const API_URL = 'http://172.20.116.163:3000';
 export default ({
   state: {
     activeSettings: {},
     emoticons: [],
     activeEmoticons: {},
-    activeMessage: {},
     thanksMessages: [],
+    emoticonGroupNames: [],
   },
   mutations: {
     setActiveSettings(state, settings) {
@@ -19,9 +19,6 @@ export default ({
     setActiveEmoticons(state, emoticons) {
       state.activeEmoticons = emoticons;
     },
-    setActiveMessage(state, message) {
-      state.activeMessage = message;
-    },
     setThanksMessages(state, messages) {
       state.thanksMessages = messages;
     },
@@ -30,8 +27,8 @@ export default ({
     activeSettings: state => state.activeSettings,
     emoticons: state => state.emoticons,
     activeEmoticons: state => state.activeEmoticons,
-    activeMessage: state => state.activeMessage,
     thanksMessages: state => state.thanksMessages,
+    emoticonGroupNames: state => state.emoticons.map(group => group.name),
   },
   actions: {
     getActiveSettings({ commit }) {
@@ -48,10 +45,8 @@ export default ({
     updateSettings({ getters }, settings) {
       ApiService.putData(`${API_URL}/settings/${settings.id}`, settings, getters.token);
     },
-    createThanksMessage({ commit, getters }, message) {
-      ApiService.postData(`${API_URL}/messages`, message, getters.token).then((response) => {
-        commit('setActiveMessage', response.data);
-      });
+    createThanksMessage({ getters }, message) {
+      ApiService.postData(`${API_URL}/messages`, message, getters.token);
     },
     getThanksMessages({ commit, getters }) {
       ApiService.getData(`${API_URL}/messages`, getters.token).then((response) => {
