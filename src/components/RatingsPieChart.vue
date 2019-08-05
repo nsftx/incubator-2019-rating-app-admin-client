@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import { forEach } from 'lodash';
 import ApexCharts from 'vue-apexcharts';
 
