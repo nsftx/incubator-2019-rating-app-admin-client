@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { forEach } from 'lodash';
 
 export default {
   template: '#data-table',
@@ -40,17 +40,9 @@ export default {
   methods: {
     populateTable() {
       this.reactions = [];
-      function Reaction(name, number) {
-        this.name = name;
-        this.number = number;
-      }
-      let i = 0;
-      _.times(this.ratings.data.length, () => this.reactions.push(
-        new Reaction(
-          this.ratings.data[i].emoticon.name,
-          this.ratings.data[i++].count,
-        ),
-      ));
+      forEach(this.ratings.data, (data) => {
+        this.reactions.push({name: data.emoticon.name, number: data.count});
+      })
     },
   },
   watch: {
@@ -62,9 +54,9 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      ratings: 'pieChartData',
-    }),
+    ratings(){
+      return this.$store.getters.pieChartData;
+    },
   },
 };
 </script>
