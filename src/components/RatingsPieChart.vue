@@ -8,8 +8,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { times } from 'lodash';
+import { forEach } from 'lodash';
 import ApexCharts from 'vue-apexcharts';
 
 export default {
@@ -41,14 +40,10 @@ export default {
     createPieChart() {
       this.chartSeries = [];
       this.chartOptions.labels.length = 0;
-      let i = 0;
-      let j = 0;
-      times(this.ratings.data.length, () => this.chartSeries.push(
-        this.ratings.data[i++].count,
-      ));
-      times(this.ratings.data.length, () => this.chartOptions.labels.push(
-        this.ratings.data[j++].emoticon.name,
-      ));
+      forEach(this.ratings.data, (data) => {
+        this.chartSeries.push(data.count);
+        this.chartOptions.labels.push(data.emoticon.name);
+      })
     },
   },
   watch: {
@@ -60,9 +55,9 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      ratings: 'pieChartData',
-    }),
+    ratings(){
+      return this.$store.getters.pieChartData;
+    },
   },
 };
 </script>
