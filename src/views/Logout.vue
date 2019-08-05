@@ -144,7 +144,7 @@ export default {
       this.$parent.logged = false;
     },
     invite() {
-      ApiService.postData('http://172.20.15.9:3000/invites', { email: this.inviteMail }, this.$store.getters.token)
+      ApiService.postData('http://172.20.116.163:3000/invites', { email: this.inviteMail }, this.$store.getters.token)
         .then((response) => {
           if (response.error) {
             this.snackbarInviteExisting = true;

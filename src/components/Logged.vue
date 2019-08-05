@@ -186,7 +186,7 @@ export default {
           // eslint-disable-next-line camelcase
           this.$store.dispatch('createToken', id_token);
           const payLoad = {};
-          ApiService.postData('http://172.20.15.9:3000/users/login', payLoad, id_token)
+          ApiService.postData('http://172.20.116.163:3000/users/login', payLoad, id_token)
             .then((response) => {
               if (response.error == false) {
                 this.logged = true;

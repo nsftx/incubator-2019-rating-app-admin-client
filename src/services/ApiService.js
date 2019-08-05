@@ -1,7 +1,7 @@
 /* eslint-disable no-tabs */
 import axios from 'axios';
 
-const API_URL = 'http://172.20.15.9:3000';
+const API_URL = 'http://172.20.116.163:3000';
 export default {
   getActiveSettings() {
     return axios.get(`${API_URL}/settings/last`) // ne treba token
