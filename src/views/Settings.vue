@@ -1,13 +1,7 @@
 <template>
   <div id="settings">
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
-      crossorigin="anonymous"
-    >
     <v-app>
-      <v-form>
+      <v-form ref="form">
         <v-container fluid>
           <h3>Settings</h3>
           <v-divider
@@ -17,20 +11,20 @@
           <v-layout>
             <v-flex class="flex">
               <v-select
-                v-model="activeGroupName"
+                v-model="activeSettings.emoticonsGroup.name"
                 dark
                 color="grey"
                 label="Set active emotions"
                 :items="emoticonNames"
-                @change="previewEmoticon"
+                @change="updateEmoticonPreview"
               />
             </v-flex>
             <v-flex>
               <v-text-field
-                v-model="activeSettings.emoticonNumber"
+                :rules="emotionsRules"
+                v-model.number="activeSettings.emoticonNumber"
                 dark
                 color="grey"
-                :rules="emotionsRules"
                 label="Number of emotions"
                 hint="Enter number from 3-5"
                 persistent-hint
@@ -68,10 +62,10 @@
             </v-flex>
             <v-flex class="flex">
               <v-text-field
-                v-model="activeSettings.messageTimeout"
+                :rules="timeoutRules"
+                v-model.number="activeSettings.messageTimeout"
                 dark
                 color="grey"
-                :rules="timeoutRules"
                 label="Mesage timeout"
                 hint="Can be from 0-10"
                 persistent-hint
@@ -83,7 +77,7 @@
           </v-layout>
           <v-layout>
             <v-dialog
-              v-model="dialog"
+              v-model="newMessageDialog"
               width="500"
             >
               <template v-slot:activator="{ on }">
@@ -100,15 +94,18 @@
                 >
                   New message
                 </v-card-title>
-                <v-card-text class="dialog">
-                  <v-text-field
-                  v-model="newMessage.text"
-                  dark
-                  color="white"
-                  label="Thank you message"
-                  clearable
-                />
-                </v-card-text>
+                <v-form ref="message">
+                  <v-card-text class="dialog">
+                    <v-text-field
+                    :rules="messageRules"
+                    v-model="newMessage.text"
+                    dark
+                    color="white"
+                    label="Thank you message"
+                    clearable
+                  />
+                  </v-card-text>
+                </v-form>
                 <v-card-actions class="dialog-footer">
                   <v-spacer></v-spacer>
                   <v-btn
@@ -127,7 +124,7 @@
           </v-layout>
             <v-btn
               class="update"
-              @click="updateCheck"
+              @click="updateActiveSettings"
             >
               Confirm
             </v-btn>
@@ -150,155 +147,98 @@
 </template>
 <script>
 /* eslint-disable prefer-destructuring */
-import { some, find, forEach } from 'lodash';
-import ApiService from '@/services/ApiService';
+import { some, find, cloneDeep } from 'lodash';
 
 export default {
   data() {
     return {
-      dialog: false,
+      newMessageDialog: false,
       snackbar: false,
       snackbarMsg: '',
-      activeSettings: {},
-      messages: [],
       newMessage: {},
-      selectedEmoticons: {},
       emoticonPreview: [],
-      emoticons: [],
-      emoticonNames: [],
-      activeGroupName: '',
       emotionsRules: [
-        v => v > 2 || 'Min value is 3',
-        v => v < 6 || 'Max value is 5',
+        v => v > 2 || 'Min value is 1',
+        v => v < 6 || 'Max values is 10',
       ],
       timeoutRules: [
-        v => !!v || 'Message timeout is required',
         v => v > 0 || 'Min value is 1',
         v => v < 11 || 'Max values is 10',
+      ],
+      messageRules: [
+        v => (v && v.length > 2) || 'Min length is 3',
+        v => (v && v.length < 121) || 'Max length is 120',
       ],
     };
   },
   created() {
-    this.getActiveSettings();
-    this.getThanksMessages();
-    this.getEmoticonGroup();
+    this.$store.dispatch('getEmoticons');
+    this.$store.dispatch('getActiveSettings');
+    this.$store.dispatch('getThanksMessages');
   },
   methods: {
-    getActiveSettings() {
-      ApiService.getActiveSettings().then((response) => {
-        this.activeSettings = response.data;
-        this.emoticonPreview = response.emoticons;
-      });
-    },
-    getEmoticonGroup() {
-      const token = this.$store.getters.token;
-      ApiService.getEmoticonGroup(token).then((response) => {
-        this.emoticons = response.data;
-        this.activeGroupName = find(this.emoticons, ['id', this.activeSettings.emoticonsGroupId]).name;
-        this.getEmoticonGroupNames();
-        this.previewEmoticon();
-      });
-    },
-    getEmoticonGroupNames() {
-      forEach(this.emoticons, (group) => {
-        this.emoticonNames.push(group.name);
-      });
-    },
-    previewEmoticon() {
-      this.selectedEmoticons = find(this.emoticons, ['name', this.activeGroupName]);
-    },
-    updateCheck() {
-      if (!this.validateSettings()) {
-        this.snackbarMsg = 'Please enter valid data';
-        this.snackbar = true;
-      } else {
-        this.snackbarMsg = 'Settings successfully updated';
-        this.updateActiveSettings();
-      }
-    },
-    validateSettings() {
-      return (
-        this.activeSettings.message.text.length > 0
-        && this.activeSettings.message.text.length < 121
-        && this.activeSettings.emoticonNumber > 2
-        && this.activeSettings.emoticonNumber < 6
-        && this.activeSettings.messageTimeout > 0
-        && this.activeSettings.messageTimeout < 11
-      );
-    },
     updateActiveSettings() {
-      this.activeSettings.messageId = this.activeSettings.message.id;
-      this.activeSettings.emoticonNumber = Number(this.activeSettings.emoticonNumber);
-      this.activeSettings.messageTimeout = Number(this.activeSettings.messageTimeout);
-      this.updateActiveEmoticons();
-      const token = this.$store.getters.token;
-      ApiService.updateActiveSettings(
-        this.activeSettings,
-        this.activeSettings.id,
-        token,
-      );
+      if (this.$refs.form.validate()) {
+        this.activeSettings.messageId = this.activeSettings.message.id;
+        this.setActiveEmoticons();
+        this.$store.dispatch('updateSettings', this.activeSettings);
+        this.snackbarMsg = 'Settings successfully updated';
+      } else {
+        this.snackbarMsg = 'Please enter valid data !';
+      }
       this.snackbar = true;
     },
-    updateActiveEmoticons() {
-      const id = find(this.emoticons, ['name', this.activeGroupName]).id;
+    setActiveEmoticons() {
+      const id = find(this.emoticons, ['name', this.activeSettings.emoticonsGroup.name]).id;
       this.activeSettings.emoticonsGroupId = id;
     },
     createNewMessage() {
-      if (!this.isMessageExisting(this.newMessage)) {
-        const token = this.$store.getters.token;
-        ApiService.createNewMessage(this.newMessage, token)
-          .then((response) => {
-            this.activeSettings.message = response.data;
-            this.updateCheck();
-            this.getThanksMessages();
-          });
-        this.dialog = false;
+      if (!this.isMessageExisting(this.newMessage) && this.$refs.message.validate()) {
+        this.$store.dispatch('createThanksMessage', this.newMessage);
+        this.$store.dispatch('getThanksMessages');
+        this.newMessageDialog = false;
+        this.snackbarMsg = 'Message created !';
       } else {
-        this.snackbarMsg = 'Message already exists !';
-        this.snackbar = true;
+        this.snackbarMsg = 'Please enter valid message !';
       }
+      this.snackbar = true;
     },
     isMessageExisting(message) {
       return some(this.messages, ['text', message.text]);
     },
-    getThanksMessages() {
-      const token = this.$store.getters.token;
-      ApiService.getThanksMessages(token).then((response) => {
-        this.messages = response.data;
-      });
-    },
     updateEmoticonPreview() {
-      this.emoticonPreview = [];
-      if (this.activeSettings.emoticonNumber == 3) {
-        forEach(this.selectedEmoticons.emoticons, (emoticon) => {
-          if (emoticon.value % 2 !== 0) {
-            this.emoticonPreview.push(emoticon);
-          }
-        });
-      } else if (this.activeSettings.emoticonNumber == 4) {
-        forEach(this.selectedEmoticons.emoticons, (emoticon) => {
-          if (emoticon.value !== 3) {
-            this.emoticonPreview.push(emoticon);
-          }
-        });
-      } else {
-        this.emoticonPreview = this.selectedEmoticons.emoticons;
+      if (this.emoticons.length > 0) {
+        const selectedEmoticons = find(this.emoticons, ['name', this.activeSettings.emoticonsGroup.name]).emoticons;
+        this.emoticonPreview = cloneDeep(selectedEmoticons);
+        if (this.activeSettings.emoticonNumber == 3) {
+          this.emoticonPreview.splice(3, 1);
+          this.emoticonPreview.splice(1, 1);
+        } else if (this.activeSettings.emoticonNumber == 4) {
+          this.emoticonPreview.splice(2, 1);
+        }
       }
+    },
+  },
+  computed: {
+    activeSettings() {
+      return this.$store.getters.activeSettings;
+    },
+    emoticons() {
+      return this.$store.getters.emoticons;
+    },
+    messages() {
+      return this.$store.getters.thanksMessages;
+    },
+    emoticonNames() {
+      return this.$store.getters.emoticonGroupNames;
     },
   },
   watch: {
     activeSettings: {
       handler() {
-        if (Object.getOwnPropertyNames(this.selectedEmoticons).length > 1) {
-          this.updateEmoticonPreview();
-        }
+        this.updateEmoticonPreview();
       },
       deep: true,
-    },
-    activeGroupName() {
-      if (Object.getOwnPropertyNames(this.selectedEmoticons).length > 1) {
-        this.updateEmoticonPreview();
-      }
     },
   },
 };
