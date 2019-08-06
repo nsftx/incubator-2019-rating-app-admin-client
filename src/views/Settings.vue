@@ -100,7 +100,7 @@
                     :rules="messageRules"
                     v-model="newMessage.text"
                     dark
-                    color="white"
+                    color="@white"
                     label="Thank you message"
                     clearable
                   />
@@ -109,7 +109,7 @@
                 <v-card-actions class="dialog-footer">
                   <v-spacer></v-spacer>
                   <v-btn
-                    @click="dialog = false"
+                    @click="newMessageDialog = false"
                   >
                     Close
                   </v-btn>
@@ -210,10 +210,10 @@ export default {
       if (this.emoticons.length > 0) {
         const selectedEmoticons = find(this.emoticons, ['name', this.activeSettings.emoticonsGroup.name]).emoticons;
         this.emoticonPreview = cloneDeep(selectedEmoticons);
-        if (this.activeSettings.emoticonNumber == 3) {
+        if (this.activeSettings.emoticonNumber === 3) {
           this.emoticonPreview.splice(3, 1);
           this.emoticonPreview.splice(1, 1);
-        } else if (this.activeSettings.emoticonNumber == 4) {
+        } else if (this.activeSettings.emoticonNumber === 4) {
           this.emoticonPreview.splice(2, 1);
         }
       }
@@ -243,11 +243,8 @@ export default {
   },
 };
 </script>
-<style>
-.settings {
-  width: 80%;
-  background: #1B1E24;
-}
+<style lang="less">
+@import '../styles/main.less';
 h3 {
   text-align: left;
   font-size: 2vw;
@@ -256,10 +253,10 @@ h3 {
   margin: 20px 0;
 }
 .v-list__tile__title {
-   color: white !important;
+   color: @white !important;
 }
 .v-list.theme--light {
-   background: #444444 !important;
+   background: @dark-grey !important;
 }
 .update {
   width: 20vw;
@@ -268,22 +265,21 @@ h3 {
   float: left;
   margin-left: 150px;
   width: calc(100% - 200px);
-  background: #1B1E24;
 }
 .flex {
   width: 45%;
 }
 .dialog-title {
-  background: #1B1E24;
-  color: white;
+  background: @cinder;
+  color: @white;
 }
 .dialog {
-  background: #2D3038;
+  background: @dark-grey;
 }
 .dialog-footer {
-  background: #1B1E24;
+  background: @cinder;
 }
 .application--wrap {
-  background: #1B1E24;
+  background: @cinder;
 }
 </style>

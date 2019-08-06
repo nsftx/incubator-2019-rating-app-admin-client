@@ -18,32 +18,22 @@ export default {
 </script>
 
 <style lang="less">
+@import './styles/main.less';
 p {
-  color:white;
+  color: @white;
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: rgb(190, 190, 190);
+  color: @white;
 }
 body {
-  background: #1B1E24;
-}
-::-webkit-scrollbar {
-    display: none;
+  background: @cinder;
 }
 a{
   text-decoration: none;
-  color: rgb(190, 190, 190);
-}
-h1{
-  font-size:55px;
-}
-h1,h2{
-  text-align:left;
-  margin-left: 200px;
 }
 .elevation-1 > * {
     border-radius: 5px !important;
@@ -51,34 +41,32 @@ h1,h2{
 .v-datatable__actions {
     border-radius: 5px;
 }
-.logoWhite {
-  width: 35%;
-  margin-top: 20px;
-  margin-bottom: 15px;
-}
 table.v-datatable.v-table.theme--dark {
-    background: #2D3038;
+    background: @dark-grey;
 }
 .v-datatable__actions {
-    background: #2D3038 !important;
+    background: @dark-grey !important;
 }
 button.v-btn.theme--dark {
-    background: #2D3038 !important;
+    background: @dark-grey !important;
 }
 span.v-chip__content {
-    background: #2D3038 !important;
+    background: @dark-grey !important;
 }
 button.v-btn.theme--light {
-    background: #2D3038 !important;
-    color: white;
+    background: @dark-grey !important;
+    color: @white;
 }
 .v-list.theme--dark {
-    background: #2D3038 !important;
+    background: @dark-grey !important;
 }
 .apexcharts-menu-item.exportSVG:hover, .apexcharts-menu-item.exportPNG:hover {
-    background: rgb(57, 61, 73) !important;
+    background: @arsenic !important;
 }
 .apexcharts-menu.open {
-    background: #2D3038;
+    background: @dark-grey;
+}
+.apexcharts-tooltip {
+  color: @silver;
 }
 </style>
