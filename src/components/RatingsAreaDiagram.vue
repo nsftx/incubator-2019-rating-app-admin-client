@@ -8,9 +8,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import ApexCharts from 'vue-apexcharts';
-import { findIndex, indexOf, forEach } from 'lodash';
+import {
+  map, includes, find, indexOf, forEach,
+} from 'lodash';
+
+const NO_RATING = 0;
 
 export default {
 
@@ -37,64 +40,49 @@ export default {
   },
   methods: {
     populateDiagram() {
-      this.diagramOptions.xaxis.categories.length = 0;
-      this.diagramSeries.length = 0;
+      this.populateDiagramOptionsCategories();
       this.populateDiagramSeriesNames();
       this.populateDiagramSeriesData();
-      this.populateDiagramOptionsCategories();
     },
     populateDiagramSeriesNames() {
-      let Rating = {};
-      forEach(this.ratings.emoticons, (ratings) => {
-        Rating = {
-          name: ratings.name,
-          data: [],
-        };
-        this.diagramSeries.push(Rating);
+      this.diagramSeries.length = 0;
+      forEach(this.diagramData.emoticons, (ratings) => {
+        this.diagramSeries.push({ name: ratings.name, data: [] });
       });
     },
     populateDiagramSeriesData() {
-      let index;
-      let ids = [];
-      let counts = [];
-      forEach(this.ratings.data, (data) => {
-        forEach(data.ratings, (ratings) => {
-          const name = this.getRatedName(
-            this.ratings.emoticons,
-            ratings.emoticonId,
-          );
-          index = findIndex(this.diagramSeries, ['name', name]);
-          if (index != -1) {
-            ids.push(index);
-            counts.push(ratings.count);
-          }
+      let rated = [];
+      const emoticons = map(this.diagramData.emoticons, 'id');
+      const ratings = map(this.diagramData.data, 'ratings');
+      forEach(ratings, (rating) => {
+        forEach(rating, (rate) => {
+          rated.push(rate.emoticonId);
         });
-        let count = 0;
-        forEach(this.diagramSeries, (series) => {
-          index = indexOf(ids, count);
-          if (index != -1) {
-            series.data.push(counts[index]);
+        let counter = 0;
+        forEach(emoticons, (id) => {
+          const index = indexOf(emoticons, id);
+          if (includes(rated, id)) {
+            this.diagramSeries[index].data.push(rating[counter].count);
+            counter++;
           } else {
-            series.data.push(0);
+            this.diagramSeries[index].data.push(NO_RATING);
           }
-          count++;
         });
-        ids = [];
-        counts = [];
+        rated = [];
       });
     },
     populateDiagramOptionsCategories() {
-      forEach(this.ratings.data, (ratings) => {
-        this.diagramOptions.xaxis.categories.push(ratings.time);
+      this.diagramOptions.xaxis.categories.length = 0;
+      forEach(this.diagramData.data, (rating) => {
+        this.diagramOptions.xaxis.categories.push(rating.time);
       });
     },
     getRatedName(emoticons, id) {
-      const index = findIndex(emoticons, ['id', id]);
-      return emoticons[index].name;
+      return find(emoticons, ['id', id]).name;
     },
   },
   watch: {
-    ratings: {
+    diagramData: {
       handler() {
         this.populateDiagram();
       },
@@ -102,9 +90,9 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      ratings: 'diagramData',
-    }),
+    diagramData() {
+      return this.$store.getters.diagramData;
+    },
   },
 };
 </script>
