@@ -46,14 +46,14 @@
               <v-spacer />
               <v-btn
                 flat
-                color="white"
+                color="@white"
                 @click="menuBegin = false"
               >
                 Cancel
               </v-btn>
               <v-btn
                 flat
-                color="white"
+                color="@white"
                 @click="$refs.menuBegin.save(dateBegin)"
               >
                 OK
@@ -108,14 +108,14 @@
               <v-spacer />
               <v-btn
                 flat
-                color="white"
+                color="@white"
                 @click="menuEnd = false"
               >
                 Cancel
               </v-btn>
               <v-btn
                 flat
-                color="white"
+                color="@white"
                 @click="$refs.menuEnd.save(dateEnd)"
               >
                 OK
@@ -201,7 +201,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
+@import '../styles/main.less';
 #pickerWrap {
   height: 50px;
   background: none;
@@ -211,12 +212,12 @@ export default {
   float: left;
 }
 #pickerWrap input {
-  color: rgb(36, 36, 36);
+  color: @dark-grey;
   background: none;
   width: 150px;
 }
 .lineChart {
-  background: #2D3038;
+  background: @dark-grey;
   height: 400px;
   width: 55%;
   float: left;
@@ -228,7 +229,7 @@ export default {
   margin-left: 150px;
 }
 .pieChart {
-  background: #2D3038;
+  background: @dark-grey;
   width: 30%;
   height: 400px;
   float: left;
@@ -241,23 +242,23 @@ export default {
   margin-top: 25px;
 }
 .apexcharts-legend-text {
-  color: white !important;
+  color: @white !important;
 }
 .apexcharts-yaxis-texts-g text,
 .apexcharts-xaxis-texts-g text {
-  fill: white !important;
+  fill: @white !important;
 }
 input[type="text"] {
-  color: rgb(190, 190, 190) !important;
+  color: @white !important;
 }
 .spacer {
   width: 100%;
   height: 50px;
 }
 .v-picker__actions.v-card__actions {
-    background: #2D3038;
+  background: @dark-grey;
 }
 .theme--dark.v-picker__body {
-    background: #2D3038;
+  background: @dark-grey;
 }
 </style>

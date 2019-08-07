@@ -66,19 +66,20 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
+@import '../styles/main.less';
 .margin-h-top{
   padding-top:40px;
 }
 .apexcharts-legend-text {
-  color: white !important;
+  color: @white !important;
 }
 .apexcharts-yaxis-texts-g text,
 .apexcharts-xaxis-texts-g text {
-  fill: white !important;
+  fill: @white !important;
 }
 .lineChart {
-  background: #2D3038;
+  background: @dark-grey;
   height: 400px;
   width: 55%;
   float: left;
@@ -86,7 +87,7 @@ export default {
   margin-right: 20px;
 }
 .pieChart {
-  background: #2D3038;
+  background: @dark-grey;
   width: 30%;
   height: 400px;
   float: left;
