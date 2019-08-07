@@ -172,9 +172,9 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch('getEmoticons');
     this.$store.dispatch('getActiveSettings');
     this.$store.dispatch('getThanksMessages');
+    this.$store.dispatch('getEmoticons');
   },
   methods: {
     updateActiveSettings() {
@@ -234,7 +234,7 @@ export default {
     },
   },
   watch: {
-    activeSettings: {
+    emoticons: {
       handler() {
         this.updateEmoticonPreview();
       },
