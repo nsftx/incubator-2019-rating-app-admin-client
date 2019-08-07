@@ -221,8 +221,9 @@ export default {
 };
 </script>
 <style lang="less">
+@import '../styles/main.less';
 p {
-  color:white;
+  color:@white;
 }
 .buttonSettings{
   bottom: 0;
@@ -233,7 +234,7 @@ p {
 .buttonToday:hover,
 .buttonReports:hover,
 .buttonSettings:hover{
-  background: rgb(108, 114, 129);
+  background: @dim-grey;
   cursor: pointer;
 }
 .buttonToday,
@@ -242,14 +243,7 @@ p {
   height: 100px;
 }
 .activeBtn{
-  background: rgb(108, 114, 129);
-}
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: rgb(190, 190, 190);
+  background: @dim-grey;
 }
 .dash-nav {
   top: 0;
@@ -257,11 +251,8 @@ p {
   width: 6%;
   height: 100%;
   position: fixed;
-  background: #2D3038;
+  background: @dark-grey;
 
-}
-body {
-  background: #1B1E24;
 }
 ::-webkit-scrollbar {
     display: none;
@@ -270,10 +261,6 @@ body {
 height:30px;
 width:auto;
 margin-top:20px;
-}
-a{
-  text-decoration: none;
-  color: rgb(190, 190, 190);
 }
 h1{
   font-size:55px;
@@ -297,28 +284,25 @@ h1,h2{
 .buttonUser {
   z-index:0;
 }
-.GAuth{
-  background:rgb(231, 72, 72) !important;
-}
 .logoWhite {
   width: 35%;
   margin-top: 20px;
   margin-bottom: 15px;
 }
 table.v-datatable.v-table.theme--dark {
-    background: #2D3038;
+    background: @dark-grey;
 }
 .v-datatable__actions {
-    background: #2D3038 !important;
+    background: @dark-grey !important;
 }
 button.v-btn.theme--dark {
-    background: #2D3038 !important;
+    background: @dark-grey !important;
 }
 span.v-chip__content {
-    background: #2D3038 !important;
+    background: @dark-grey !important;
 }
 button.v-btn.theme--light {
-    background: #2D3038 !important;
-    color: white;
+    background: @dark-grey !important;
+    color: @white;
 }
 </style>
