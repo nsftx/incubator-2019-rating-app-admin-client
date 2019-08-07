@@ -10,11 +10,10 @@
 <script>
 import ApexCharts from 'vue-apexcharts';
 import {
-  map, includes, find, indexOf, forEach,
+  map, includes, indexOf, forEach,
 } from 'lodash';
 
 const NO_RATING = 0;
-
 export default {
 
   template: '#ratings-area-diagram',
@@ -39,10 +38,11 @@ export default {
     };
   },
   methods: {
-    populateDiagram() {
-      this.populateDiagramOptionsCategories();
-      this.populateDiagramSeriesNames();
-      this.populateDiagramSeriesData();
+    populateDiagramOptionsCategories() {
+      this.diagramOptions.xaxis.categories.length = 0;
+      forEach(this.diagramData.data, (rating) => {
+        this.diagramOptions.xaxis.categories.push(rating.time);
+      });
     },
     populateDiagramSeriesNames() {
       this.diagramSeries.length = 0;
@@ -71,20 +71,13 @@ export default {
         rated = [];
       });
     },
-    populateDiagramOptionsCategories() {
-      this.diagramOptions.xaxis.categories.length = 0;
-      forEach(this.diagramData.data, (rating) => {
-        this.diagramOptions.xaxis.categories.push(rating.time);
-      });
-    },
-    getRatedName(emoticons, id) {
-      return find(emoticons, ['id', id]).name;
-    },
   },
   watch: {
     diagramData: {
       handler() {
-        this.populateDiagram();
+        this.populateDiagramOptionsCategories();
+        this.populateDiagramSeriesNames();
+        this.populateDiagramSeriesData();
       },
       deep: true,
     },
