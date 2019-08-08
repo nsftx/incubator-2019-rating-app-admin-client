@@ -16,12 +16,12 @@ export default ({
   actions: {
     getDiagramToday({ commit, getters }, interval) {
       ApiService.postData(`${API_URL}/ratings/range`, interval, getters.token).then((response) => {
-        commit('setDiagramData', response);
+        commit('setDiagramData', response.data);
       });
     },
     getDiagramRange({ commit, getters }, date) {
       ApiService.postData(`${API_URL}/ratings/days`, date, getters.token).then((response) => {
-        commit('setDiagramData', response);
+        commit('setDiagramData', response.data);
       });
     },
   },

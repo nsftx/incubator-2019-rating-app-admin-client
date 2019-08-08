@@ -4,12 +4,10 @@ import axios from 'axios';
 const API_URL = 'http://172.20.116.163:3000';
 export default {
   getActiveSettings() {
-    return axios.get(`${API_URL}/settings/last`) // ne treba token
-      .then(response => response.data);
+    return axios.get(`${API_URL}/settings/last`);
   },
   createSettings(settings) {
-    return axios.post(`${API_URL}/settings`, settings)
-      .then(response => response.data);
+    return axios.post(`${API_URL}/settings`, settings);
   },
   getConfig(token) {
     return {
@@ -19,19 +17,15 @@ export default {
     };
   },
   postData(url, payload, token) {
-    return axios.post(url, payload, this.getConfig(token))
-      .then(response => response.data);
+    return axios.post(url, payload, this.getConfig(token));
   },
   getData(url, token) {
-    return axios.get(url, this.getConfig(token))
-      .then(response => response.data);
+    return axios.get(url, this.getConfig(token));
   },
   putData(url, payload, token) {
-    return axios.put(url, payload, this.getConfig(token))
-      .then(response => response.data);
+    return axios.put(url, payload, this.getConfig(token));
   },
   authUser(idToken) {
-    return axios.post(`${API_URL}/users/auth`, idToken)
-      .then(response => response.data);
+    return axios.post(`${API_URL}/users/auth`, idToken);
   },
 };
