@@ -81,7 +81,7 @@
           <v-chip
             v-show="logged"
             :dark="true"
-            @click="active = 'logout'" :class="{activeBtn: active === 'logout' }"
+            @click="activePath('logout')" :class="{activeBtn: active === 'logout' }"
           >
             <v-avatar>
               <img
@@ -101,7 +101,7 @@
         </div>
         <router-link to="/today">
           <div class="buttonToday"
-            @click="active = 'today'" :class="{activeBtn: active === 'today' }">
+            @click="activePath('today')" :class="{activeBtn: active === 'today' }">
             <img
               src="../assets/today.png"
               class="icons"
@@ -113,7 +113,7 @@
         </router-link>
         <router-link to="/reports">
           <div class="buttonReports"
-            @click="active = 'reports'" :class="{activeBtn: active === 'reports' }">
+            @click="activePath('reports')" :class="{activeBtn: active === 'reports' }">
             <img
               src="../assets/report.png"
               class="icons"
@@ -125,7 +125,7 @@
         </router-link>
         <router-link to="/settings">
           <div class="buttonSettings"
-            @click="active = 'settings'" :class="{activeBtn: active === 'settings' }">
+            @click="activePath('settings')" :class="{activeBtn: active === 'settings' }">
             <img
               src="../assets/settings.png"
               class="icons"
@@ -167,6 +167,10 @@ export default {
     };
   },
   methods: {
+    activePath(path) {
+      this.active = path;
+      localStorage.setItem('activePath',path);
+    },
     login() {
       this.$gAuth.signIn()
         .then((GoogleUser) => {
@@ -216,6 +220,7 @@ export default {
       this.firstName = localStorage.getItem('firstName');
       this.lastName = localStorage.getItem('lastName');
       this.email = localStorage.getItem('email');
+      this.active=localStorage.getItem('activePath');
     }
   },
 };
