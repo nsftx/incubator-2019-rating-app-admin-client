@@ -148,6 +148,18 @@
     <div class="dataTable">
       <data-table />
     </div>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="4000"
+    >
+      {{ snackbarMsg }}
+      <v-btn
+        flat
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -164,6 +176,7 @@ export default {
   },
   data() {
     return {
+      snackbar: false,
       range: {
         date: this.getToday(),
         interval: 2,
@@ -196,6 +209,11 @@ export default {
       };
       this.$store.dispatch('getPieChartReport', Today);
       this.$store.dispatch('getDiagramRange', Today);
+    },
+  },
+  computed: {
+    snackbarMsg() {
+      return this.$store.getters.notifications;
     },
   },
 };

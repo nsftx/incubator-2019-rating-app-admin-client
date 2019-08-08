@@ -19,6 +19,18 @@
     <div class="dataTable">
       <data-table />
     </div>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="4000"
+    >
+      {{ snackbarMsg }}
+      <v-btn
+        flat
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -36,6 +48,7 @@ export default {
   },
   data() {
     return {
+      snackbar: false,
       interval: {
         date: this.getToday(),
         interval: 2,
@@ -56,6 +69,9 @@ export default {
   computed: {
     ratings() {
       return this.$store.getters.pieChartData;
+    },
+    snackbarMsg() {
+      return this.$store.getters.notifications;
     },
   },
   watch: {

@@ -142,7 +142,7 @@ export default {
       this.$parent.logged = false;
     },
     invite() {
-      this.$store.dispatch('invite',{email: this.inviteMail});
+      this.$store.dispatch('invite', { email: this.inviteMail });
     },
     setSnackbarExist(value) {
       this.$store.dispatch('setSnackbarExist', value);
@@ -158,7 +158,7 @@ export default {
     snackbarInviteSuccess() {
       return this.$store.getters.snackbarSuccess;
     },
-  }
+  },
 };
 </script>
 

@@ -154,7 +154,6 @@ export default {
     return {
       newMessageDialog: false,
       snackbar: false,
-      snackbarMsg: '',
       newMessage: {},
       emoticonPreview: [],
       emotionsRules: [
@@ -184,11 +183,9 @@ export default {
         this.activeSettings.messageId = this.activeSettings.message.id;
         this.setActiveEmoticons();
         this.$store.dispatch('updateSettings', this.activeSettings);
-        this.snackbarMsg = 'Settings successfully updated';
-      } else {
-        this.snackbarMsg = 'Please enter valid data !';
       }
       this.snackbar = true;
+      this.$store.dispatch('removeMessage');
     },
     setActiveEmoticons() {
       const id = find(this.emoticons, ['name', this.activeSettings.emoticonsGroup.name]).id;
@@ -199,11 +196,9 @@ export default {
         this.$store.dispatch('createThanksMessage', this.newMessage);
         this.$store.dispatch('getThanksMessages');
         this.newMessageDialog = false;
-        this.snackbarMsg = 'Message created !';
-      } else {
-        this.snackbarMsg = 'Please enter valid message !';
+        this.snackbar = true;
       }
-      this.snackbar = true;
+      this.$store.dispatch('removeMessage');
     },
     isMessageExisting(message) {
       return some(this.messages, ['text', message.text]);
@@ -233,6 +228,9 @@ export default {
     },
     emoticonNames() {
       return this.$store.getters.emoticonGroupNames;
+    },
+    snackbarMsg() {
+      return this.$store.getters.notifications;
     },
   },
   watch: {

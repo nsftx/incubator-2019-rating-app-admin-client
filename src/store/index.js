@@ -7,6 +7,7 @@ import authToken from './modules/authToken';
 import pieChart from './modules/pieChart';
 import settings from './modules/settings';
 import invite from './modules/invite';
+import notifications from './modules/notifications';
 
 Vue.use(Vuex);
 
@@ -17,5 +18,6 @@ export default new Vuex.Store({
     pieChart,
     settings,
     invite,
+    notifications,
   },
 });

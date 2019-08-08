@@ -1,6 +1,6 @@
 import ApiService from '@/services/ApiService';
 
-const API_URL = 'http://172.20.116.163:3000';
+const API_URL = 'http://172.20.116.163:3000/api/v1';
 export default ({
   state: {
     activeSettings: {},
@@ -31,27 +31,71 @@ export default ({
     emoticonGroupNames: state => state.emoticons.map(group => group.name),
   },
   actions: {
-    getActiveSettings({ commit }) {
-      ApiService.getData(`${API_URL}/settings/last`).then((response) => {
-        commit('setActiveSettings', response.data.data);
-        commit('setActiveEmoticons', response.data.emoticons);
-      });
+    getActiveSettings({ commit, dispatch }) {
+      ApiService.getData(`${API_URL}/settings/last`)
+        .then((response) => {
+          if (response.status === 200) {
+            commit('setActiveSettings', response.data.data);
+            commit('setActiveEmoticons', response.data.emoticons);
+          } else {
+            dispatch('insertMessage', response.statusText);
+          }
+        })
+        .catch((error) => {
+          dispatch('insertMessage', error.response.data.error);
+        });
     },
-    getEmoticons({ commit, getters }) {
-      ApiService.getData(`${API_URL}/emoticonsGroups`, getters.token).then((response) => {
-        commit('setEmoticons', response.data.data);
-      });
+    getEmoticons({ commit, getters, dispatch }) {
+      ApiService.getData(`${API_URL}/emoticonsGroups`, getters.token)
+        .then((response) => {
+          if (response.status === 200) {
+            commit('setEmoticons', response.data.data);
+          } else {
+            dispatch('insertMessage', response.statusText);
+          }
+        })
+        .catch((error) => {
+          dispatch('insertMessage', error.response.data.error);
+        });
     },
-    updateSettings({ getters }, settings) {
-      ApiService.putData(`${API_URL}/settings/${settings.id}`, settings, getters.token);
+    updateSettings({ getters, dispatch }, settings) {
+      ApiService.putData(`${API_URL}/settings/${settings.id}`, settings, getters.token)
+        .then((response) => {
+          if (response.status !== 200 && response.status !== 201) {
+            dispatch('insertMessage', response.statusText);
+          } else {
+            dispatch('insertMessage', 'Settings successfully updated');
+          }
+        })
+        .catch((error) => {
+          dispatch('insertMessage', error.response.data.error);
+        });
     },
-    createThanksMessage({ getters }, message) {
-      ApiService.postData(`${API_URL}/messages`, message, getters.token);
+    createThanksMessage({ getters, dispatch }, message) {
+      ApiService.postData(`${API_URL}/messages`, message, getters.token)
+        .then((response) => {
+          if (response.status !== 201) {
+            dispatch('insertMessage', response.statusText);
+          } else {
+            dispatch('insertMessage', 'Message successfully created');
+          }
+        })
+        .catch((error) => {
+          dispatch('insertMessage', error.response.data.error);
+        });
     },
-    getThanksMessages({ commit, getters }) {
-      ApiService.getData(`${API_URL}/messages`, getters.token).then((response) => {
-        commit('setThanksMessages', response.data.data);
-      });
+    getThanksMessages({ commit, getters, dispatch }) {
+      ApiService.getData(`${API_URL}/messages`, getters.token)
+        .then((response) => {
+          if (response.status === 200) {
+            commit('setThanksMessages', response.data.data);
+          } else {
+            dispatch('insertMessage', response.statusText);
+          }
+        })
+        .catch((error) => {
+          dispatch('insertMessage', error.response.data.error);
+        });
     },
   },
 });

@@ -43,7 +43,7 @@ export default {
       forEach(this.ratings.data, (data) => {
         this.chartSeries.push(data.count);
         this.chartOptions.labels.push(data.emoticon.name);
-      })
+      });
     },
   },
   watch: {
@@ -55,7 +55,7 @@ export default {
     },
   },
   computed: {
-    ratings(){
+    ratings() {
       return this.$store.getters.pieChartData;
     },
   },
