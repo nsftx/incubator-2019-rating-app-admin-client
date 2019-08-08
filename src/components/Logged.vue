@@ -169,7 +169,7 @@ export default {
   methods: {
     activePath(path) {
       this.active = path;
-      localStorage.setItem('activePath',path);
+      localStorage.setItem('activePath', path);
     },
     login() {
       this.$gAuth.signIn()
@@ -220,7 +220,7 @@ export default {
       this.firstName = localStorage.getItem('firstName');
       this.lastName = localStorage.getItem('lastName');
       this.email = localStorage.getItem('email');
-      this.active=localStorage.getItem('activePath');
+      this.active = localStorage.getItem('activePath');
     }
   },
 };
