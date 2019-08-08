@@ -169,7 +169,7 @@ export default {
   methods: {
     activePath(path) {
       this.active = path;
-      localStorage.setItem('activePath',path);
+      localStorage.setItem('activePath', path);
     },
     login() {
       this.$gAuth.signIn()
@@ -192,7 +192,8 @@ export default {
           const payLoad = {};
           ApiService.postData('http://172.20.116.163:3000/users/login', payLoad, id_token)
             .then((response) => {
-              if (response.error == false) {
+              console.log(response);
+              if (response.data.error == false) {
                 this.logged = true;
                 this.snackbarLoginSuccess = true;
                 localStorage.setItem('token', id_token);
@@ -220,7 +221,7 @@ export default {
       this.firstName = localStorage.getItem('firstName');
       this.lastName = localStorage.getItem('lastName');
       this.email = localStorage.getItem('email');
-      this.active=localStorage.getItem('activePath');
+      this.active = localStorage.getItem('activePath');
     }
   },
 };

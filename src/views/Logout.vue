@@ -81,7 +81,7 @@
       <v-btn
         color="white"
         flat
-        @click="snackbarInviteExisting = false"
+        @click="setSnackbarExist(false)"
       >
         Close
       </v-btn>
@@ -106,7 +106,7 @@
       <v-btn
         color="white"
         flat
-        @click="snackbarInviteSuccess = false"
+        @click="setSnackbarSuccess(false)"
       >
         Close
       </v-btn>
@@ -129,9 +129,7 @@ export default {
       timeout: 3000,
       textLogoutConfirm: 'One last confirmation...',
       inviteMail: '',
-      snackbarInviteExisting: false,
       textInviteExisting: 'Invite is already sent',
-      snackbarInviteSuccess: false,
       textInviteSuccess: 'Invite successfully sent',
     };
   },
@@ -144,16 +142,23 @@ export default {
       this.$parent.logged = false;
     },
     invite() {
-      ApiService.postData('http://172.20.116.163:3000/invites', { email: this.inviteMail }, this.$store.getters.token)
-        .then((response) => {
-          if (response.error) {
-            this.snackbarInviteExisting = true;
-          } else {
-            this.snackbarInviteSuccess = true;
-          }
-        });
+      this.$store.dispatch('invite',{email: this.inviteMail});
+    },
+    setSnackbarExist(value) {
+      this.$store.dispatch('setSnackbarExist', value);
+    },
+    setSnackbarSuccess(value) {
+      this.$store.dispatch('setSnackbarExist', value);
     },
   },
+  computed: {
+    snackbarInviteExisting() {
+      return this.$store.getters.snackbarExist;
+    },
+    snackbarInviteSuccess() {
+      return this.$store.getters.snackbarSuccess;
+    },
+  }
 };
 </script>
 
@@ -191,3 +196,4 @@ export default {
   margin-left: 200px;
 }
 </style>
+async
