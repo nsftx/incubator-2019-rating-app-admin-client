@@ -115,8 +115,6 @@
 </template>
 
 <script>
-import ApiService from '@/services/ApiService';
-
 export default {
   data() {
     return {
@@ -142,7 +140,7 @@ export default {
       this.$parent.logged = false;
     },
     invite() {
-      this.$store.dispatch('invite',{email: this.inviteMail});
+      this.$store.dispatch('invite', { email: this.inviteMail });
     },
     setSnackbarExist(value) {
       this.$store.dispatch('setSnackbarExist', value);
@@ -158,7 +156,7 @@ export default {
     snackbarInviteSuccess() {
       return this.$store.getters.snackbarSuccess;
     },
-  }
+  },
 };
 </script>
 
@@ -196,4 +194,3 @@ export default {
   margin-left: 200px;
 }
 </style>
-async
