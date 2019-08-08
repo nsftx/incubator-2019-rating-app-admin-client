@@ -188,7 +188,7 @@ export default {
           const payLoad = {};
           ApiService.postData('http://172.20.116.163:3000/users/login', payLoad, id_token)
             .then((response) => {
-              if (response.error == false) {
+              if (response.data.error == false) {
                 this.logged = true;
                 this.snackbarLoginSuccess = true;
                 localStorage.setItem('token', id_token);

@@ -33,7 +33,6 @@ export default ({
   actions: {
     getActiveSettings({ commit }) {
       ApiService.getData(`${API_URL}/settings/last`).then((response) => {
-        console.log(response.status)
         commit('setActiveSettings', response.data.data);
         commit('setActiveEmoticons', response.data.emoticons);
       });
