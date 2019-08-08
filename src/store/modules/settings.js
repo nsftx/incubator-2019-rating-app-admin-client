@@ -33,13 +33,14 @@ export default ({
   actions: {
     getActiveSettings({ commit }) {
       ApiService.getData(`${API_URL}/settings/last`).then((response) => {
-        commit('setActiveSettings', response.data);
-        commit('setActiveEmoticons', response.emoticons);
+        console.log(response.status)
+        commit('setActiveSettings', response.data.data);
+        commit('setActiveEmoticons', response.data.emoticons);
       });
     },
     getEmoticons({ commit, getters }) {
       ApiService.getData(`${API_URL}/emoticonsGroups`, getters.token).then((response) => {
-        commit('setEmoticons', response.data);
+        commit('setEmoticons', response.data.data);
       });
     },
     updateSettings({ getters }, settings) {
@@ -50,7 +51,7 @@ export default ({
     },
     getThanksMessages({ commit, getters }) {
       ApiService.getData(`${API_URL}/messages`, getters.token).then((response) => {
-        commit('setThanksMessages', response.data);
+        commit('setThanksMessages', response.data.data);
       });
     },
   },

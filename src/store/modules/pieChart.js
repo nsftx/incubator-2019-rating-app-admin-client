@@ -16,12 +16,12 @@ export default ({
   actions: {
     getPieChartToday({ commit, getters }, date) {
       ApiService.postData(`${API_URL}/ratings/count`, date, getters.token).then((response) => {
-        commit('setPieChartData', response);
+        commit('setPieChartData', response.data);
       });
     },
     getPieChartReport({ commit, getters }, date) {
       ApiService.postData(`${API_URL}/ratings/report`, date, getters.token).then((response) => {
-        commit('setPieChartData', response);
+        commit('setPieChartData', response.data);
       });
     },
   },
