@@ -1,6 +1,6 @@
 import ApiService from '@/services/ApiService';
 
-const API_URL = 'http://172.20.116.163:3000/api/v1';
+const API_URL = 'http://172.20.15.193:3000/api/v1';
 export default ({
   state: {
     diagramData: {},
@@ -20,11 +20,11 @@ export default ({
           if (response.status === 200) {
             commit('setDiagramData', response.data);
           } else {
-            dispatch('insertMessage', response.statusText);
+            dispatch('setMessage', response.statusText);
           }
         })
         .catch((error) => {
-          dispatch('insertMessage', error.response.data.error);
+          dispatch('setMessage', error.response.data.error);
         });
     },
     getDiagramRange({ commit, getters, dispatch }, date) {
@@ -32,11 +32,11 @@ export default ({
         if (response.status === 200) {
           commit('setDiagramData', response.data);
         } else {
-          dispatch('insertMessage', response.statusText);
+          dispatch('setMessage', response.statusText);
         }
       })
         .catch((error) => {
-          dispatch('insertMessage', error.response.data.error);
+          dispatch('setMessage', error.response.data.error);
         });
     },
   },

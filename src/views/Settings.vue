@@ -40,7 +40,6 @@
               <v-icon
                 v-for="emoticon in emoticonPreview"
                 :key="emoticon.id"
-                v-model="emoticon.symbol"
                 dark
                 class="fa-2x fa-fw"
                 :class="[emoticon.symbol]"
@@ -67,7 +66,7 @@
                 dark
                 color="grey"
                 label="Mesage timeout"
-                hint="Can be from 0-10"
+                hint="Can be from 1-10"
                 persistent-hint
                 type="number"
                 min="1"
@@ -130,8 +129,8 @@
             </v-btn>
           <v-snackbar
             v-model="snackbar"
-            :timeout="4000"
-          >
+            :timeout="2000"
+            >
             {{ snackbarMsg }}
             <v-btn
               flat
@@ -146,7 +145,6 @@
   </div>
 </template>
 <script>
-/* eslint-disable prefer-destructuring */
 import { some, find, cloneDeep } from 'lodash';
 
 export default {
@@ -171,11 +169,11 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch('getEmoticons');
+    this.$store.dispatch('getEmoticons')
+      .then(() => {
+        this.$store.dispatch('getActiveSettings');
+      });
     this.$store.dispatch('getThanksMessages');
-  },
-  mounted() {
-    this.$store.dispatch('getActiveSettings');
   },
   methods: {
     updateActiveSettings() {
@@ -183,22 +181,26 @@ export default {
         this.activeSettings.messageId = this.activeSettings.message.id;
         this.setActiveEmoticons();
         this.$store.dispatch('updateSettings', this.activeSettings);
+      } else {
+        const message = 'Please enter valid settings';
+        this.$store.dispatch('setMessage', message);
       }
       this.snackbar = true;
-      this.$store.dispatch('removeMessage');
     },
     setActiveEmoticons() {
-      const id = find(this.emoticons, ['name', this.activeSettings.emoticonsGroup.name]).id;
-      this.activeSettings.emoticonsGroupId = id;
+      const emoticon = find(this.emoticons, ['name', this.activeSettings.emoticonsGroup.name]);
+      this.activeSettings.emoticonsGroupId = emoticon.id;
     },
     createNewMessage() {
       if (!this.isMessageExisting(this.newMessage) && this.$refs.message.validate()) {
         this.$store.dispatch('createThanksMessage', this.newMessage);
         this.$store.dispatch('getThanksMessages');
         this.newMessageDialog = false;
-        this.snackbar = true;
+      } else {
+        const message = 'Invalid message';
+        this.$store.dispatch('setMessage', message);
       }
-      this.$store.dispatch('removeMessage');
+      this.snackbar = true;
     },
     isMessageExisting(message) {
       return some(this.messages, ['text', message.text]);

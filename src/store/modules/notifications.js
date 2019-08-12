@@ -3,22 +3,16 @@ export default ({
     notificationMSg: '',
   },
   mutations: {
-    insertMessage(state, message) {
+    setMessage(state, message) {
       state.notificationMSg = message;
-    },
-    removeMessage(state) {
-      state.notificationMSg = '';
     },
   },
   getters: {
     notifications: state => state.notificationMSg,
   },
   actions: {
-    insertMessage({ commit }, message) {
-      commit('insertMessage', message);
-    },
-    removeMessage({ commit }) {
-      commit('removeMessage');
+    setMessage({ commit }, message) {
+      commit('setMessage', message);
     },
   },
 });
