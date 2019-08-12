@@ -21,7 +21,7 @@
     </div>
     <v-snackbar
       v-model="snackbar"
-      :timeout="4000"
+      :timeout="2000"
     >
       {{ snackbarMsg }}
       <v-btn
@@ -58,8 +58,10 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch('getPieChartToday', this.Today);
-    this.$store.dispatch('getDiagramToday', this.interval);
+    if (this.$parent.logged) {
+      this.$store.dispatch('getPieChartToday', this.Today);
+      this.$store.dispatch('getDiagramToday', this.interval);
+    }
   },
   methods: {
     countToday() {
@@ -77,6 +79,9 @@ export default {
   watch: {
     ratings() {
       this.countToday();
+    },
+    snackbarMsg() {
+      this.snackbar = true;
     },
   },
 };

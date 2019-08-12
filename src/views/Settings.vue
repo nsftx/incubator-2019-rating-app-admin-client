@@ -197,7 +197,7 @@ export default {
         this.$store.dispatch('getThanksMessages');
         this.newMessageDialog = false;
       } else {
-        const message = 'Invalid message';
+        const message = 'Please enter valid message';
         this.$store.dispatch('setMessage', message);
       }
       this.snackbar = true;
@@ -241,6 +241,9 @@ export default {
         this.updateEmoticonPreview();
       },
       deep: true,
+    },
+    snackbarMsg() {
+      this.snackbar = true;
     },
   },
 };

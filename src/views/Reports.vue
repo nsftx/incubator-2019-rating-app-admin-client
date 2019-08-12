@@ -3,7 +3,6 @@
     <br>
     <div
       id="pickerWrap"
-      style="padding-left:30px;"
     >
       <v-layout
         row
@@ -65,7 +64,6 @@
     </div>
     <div
       id="pickerWrap"
-      style="margin-left:0;"
     >
       <v-layout
         row
@@ -136,7 +134,7 @@
     </v-btn>
     <div class="spacer" />
     <br>
-    <h2 style="margin-left:150px;">Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
+    <h2>Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
     <br>
     <div class="lineChart">
       <ratings-area-diagram />
@@ -150,7 +148,7 @@
     </div>
     <v-snackbar
       v-model="snackbar"
-      :timeout="4000"
+      :timeout="2000"
     >
       {{ snackbarMsg }}
       <v-btn
@@ -183,8 +181,6 @@ export default {
       },
       dark: true,
       reactive: true,
-      logged: true,
-      password: '',
       menuBegin: false,
       dateBegin: this.getToday(),
       menuEnd: false,
@@ -192,8 +188,10 @@ export default {
     };
   },
   created() {
-    this.getYesterdayDate();
-    this.createRange();
+    if (this.$parent.logged) {
+      this.getYesterdayDate();
+      this.createRange();
+    }
   },
   methods: {
     getYesterdayDate() {
@@ -211,6 +209,11 @@ export default {
       this.$store.dispatch('getDiagramRange', Today);
     },
   },
+  watch: {
+    snackbarMsg() {
+      this.snackbar = true;
+    },
+  },
   computed: {
     snackbarMsg() {
       return this.$store.getters.notifications;
@@ -226,6 +229,7 @@ export default {
   background: none;
   width: 200px;
   margin-left: 120px;
+  padding-left: 30px;
   border-radius: 5px;
   float: left;
 }

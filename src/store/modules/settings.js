@@ -42,7 +42,11 @@ export default ({
           }
         })
         .catch((error) => {
-          dispatch('setMessage', error.response.data.error);
+          if (error.response) {
+            dispatch('setMessage', error.response.data.error);
+          } else {
+            dispatch('setMessage', error);
+          }
         });
     },
     getEmoticons({ commit, getters, dispatch }) {
@@ -55,7 +59,11 @@ export default ({
           }
         })
         .catch((error) => {
-          dispatch('setMessage', error.response.data.error);
+          if (error.response) {
+            dispatch('setMessage', error.response.data.error);
+          } else {
+            dispatch('setMessage', error);
+          }
         });
     },
     updateSettings({ getters, dispatch }, settings) {
@@ -64,11 +72,15 @@ export default ({
           if (response.status !== 200 && response.status !== 201) {
             dispatch('setMessage', response.statusText);
           } else {
-            dispatch('setMessage', 'Settings successfully updated');
+            dispatch('setMessage', response.data.message);
           }
         })
         .catch((error) => {
-          dispatch('setMessage', error.response.data.error);
+          if (error.response) {
+            dispatch('setMessage', error.response.data.error);
+          } else {
+            dispatch('setMessage', error);
+          }
         });
     },
     createThanksMessage({ getters, dispatch }, message) {
@@ -77,11 +89,15 @@ export default ({
           if (response.status !== 201) {
             dispatch('setMessage', response.statusText);
           } else {
-            dispatch('setMessage', 'Message successfully created');
+            dispatch('setMessage', response.data.message);
           }
         })
         .catch((error) => {
-          dispatch('setMessage', error.response.data.error);
+          if (error.response) {
+            dispatch('setMessage', error.response.data.error);
+          } else {
+            dispatch('setMessage', error);
+          }
         });
     },
     getThanksMessages({ commit, getters, dispatch }) {
@@ -94,7 +110,11 @@ export default ({
           }
         })
         .catch((error) => {
-          dispatch('setMessage', error.response.data.error);
+          if (error.response) {
+            dispatch('setMessage', error.response.data.error);
+          } else {
+            dispatch('setMessage', error);
+          }
         });
     },
   },

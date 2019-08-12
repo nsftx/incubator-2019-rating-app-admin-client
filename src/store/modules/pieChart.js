@@ -24,7 +24,11 @@ export default ({
           }
         })
         .catch((error) => {
-          dispatch('setMessage', error.response.data.error);
+          if (error.response) {
+            dispatch('setMessage', error.response.data.error);
+          } else {
+            dispatch('setMessage', error);
+          }
         });
     },
     getPieChartReport({ commit, getters, dispatch }, date) {
@@ -37,7 +41,11 @@ export default ({
           }
         })
         .catch((error) => {
-          dispatch('setMessage', error.response.data.error);
+          if (error.response) {
+            dispatch('setMessage', error.response.data.error);
+          } else {
+            dispatch('setMessage', error);
+          }
         });
     },
   },
