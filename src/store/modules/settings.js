@@ -38,14 +38,14 @@ export default ({
             commit('setActiveSettings', response.data.data);
             commit('setActiveEmoticons', response.data.emoticons);
           } else {
-            dispatch('setMessage', response.statusText);
+            dispatch('setMessage', { type: 'error', text: response.statusText });
           }
         })
         .catch((error) => {
           if (error.response) {
-            dispatch('setMessage', error.response.data.error);
+            dispatch('setMessage', { type: 'error', text: error.response.data.error });
           } else {
-            dispatch('setMessage', error);
+            dispatch('setMessage', { type: 'error', text: error });
           }
         });
     },
@@ -55,14 +55,14 @@ export default ({
           if (response.status === 200) {
             commit('setEmoticons', response.data.data);
           } else {
-            dispatch('setMessage', response.statusText);
+            dispatch('setMessage', { type: 'error', text: response.statusText });
           }
         })
         .catch((error) => {
           if (error.response) {
-            dispatch('setMessage', error.response.data.error);
+            dispatch('setMessage', { type: 'error', text: error.response.data.error });
           } else {
-            dispatch('setMessage', error);
+            dispatch('setMessage', { type: 'error', text: error });
           }
         });
     },
@@ -70,16 +70,16 @@ export default ({
       return ApiService.putData(`${API_URL}/settings/${settings.id}`, settings, getters.token)
         .then((response) => {
           if (response.status !== 200 && response.status !== 201) {
-            dispatch('setMessage', response.statusText);
+            dispatch('setMessage', { type: 'error', text: response.statusText });
           } else {
-            dispatch('setMessage', response.data.message);
+            dispatch('setMessage', { type: 'success', text: response.data.message });
           }
         })
         .catch((error) => {
           if (error.response) {
-            dispatch('setMessage', error.response.data.error);
+            dispatch('setMessage', { type: 'error', text: error.response.data.error });
           } else {
-            dispatch('setMessage', error);
+            dispatch('setMessage', { type: 'error', text: error });
           }
         });
     },
@@ -87,16 +87,16 @@ export default ({
       return ApiService.postData(`${API_URL}/messages`, message, getters.token)
         .then((response) => {
           if (response.status !== 201) {
-            dispatch('setMessage', response.statusText);
+            dispatch('setMessage', { type: 'error', text: response.statusText });
           } else {
-            dispatch('setMessage', response.data.message);
+            dispatch('setMessage', { type: 'success', text: response.data.message });
           }
         })
         .catch((error) => {
           if (error.response) {
-            dispatch('setMessage', error.response.data.error);
+            dispatch('setMessage', { type: 'error', text: error.response.data.error });
           } else {
-            dispatch('setMessage', error);
+            dispatch('setMessage', { type: 'error', text: error });
           }
         });
     },
@@ -106,14 +106,14 @@ export default ({
           if (response.status === 200) {
             commit('setThanksMessages', response.data.data);
           } else {
-            dispatch('setMessage', response.statusText);
+            dispatch('setMessage', { type: 'error', text: response.statusText });
           }
         })
         .catch((error) => {
           if (error.response) {
-            dispatch('setMessage', error.response.data.error);
+            dispatch('setMessage', { type: 'error', text: error.response.data.error });
           } else {
-            dispatch('setMessage', error);
+            dispatch('setMessage', { type: 'error', text: error });
           }
         });
     },

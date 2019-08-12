@@ -146,18 +146,7 @@
     <div class="dataTable">
       <data-table />
     </div>
-    <v-snackbar
-      v-model="snackbar"
-      :timeout="2000"
-    >
-      {{ snackbarMsg }}
-      <v-btn
-        flat
-        @click="snackbar = false"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
+    <api-snackbar></api-snackbar>
   </div>
 </template>
 
@@ -165,16 +154,17 @@
 import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
 import RatingsPieChart from '../components/RatingsPieChart.vue';
 import DataTable from '../components/DataTable.vue';
+import ApiSnackbar from '../components/ApiSnackbar.vue';
 
 export default {
   components: {
     RatingsAreaDiagram,
     RatingsPieChart,
     DataTable,
+    ApiSnackbar,
   },
   data() {
     return {
-      snackbar: false,
       range: {
         date: this.getToday(),
         interval: 2,
@@ -207,16 +197,6 @@ export default {
       };
       this.$store.dispatch('getPieChartReport', Today);
       this.$store.dispatch('getDiagramRange', Today);
-    },
-  },
-  watch: {
-    snackbarMsg() {
-      this.snackbar = true;
-    },
-  },
-  computed: {
-    snackbarMsg() {
-      return this.$store.getters.notifications;
     },
   },
 };

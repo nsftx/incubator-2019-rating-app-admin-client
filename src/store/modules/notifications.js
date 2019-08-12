@@ -1,14 +1,14 @@
 export default ({
   state: {
-    notificationMSg: '',
+    notifications: {},
   },
   mutations: {
     setMessage(state, message) {
-      state.notificationMSg = message;
+      state.notifications = message;
     },
   },
   getters: {
-    notifications: state => state.notificationMSg,
+    notifications: state => state.notifications,
   },
   actions: {
     setMessage({ commit }, message) {

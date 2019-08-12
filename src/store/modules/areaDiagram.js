@@ -20,30 +20,31 @@ export default ({
           if (response.status === 200) {
             commit('setDiagramData', response.data);
           } else {
-            dispatch('setMessage', response.statusText);
+            dispatch('setMessage', { type: 'error', text: response.statusText });
           }
         })
         .catch((error) => {
           if (error.response) {
-            dispatch('setMessage', error.response.data.error);
+            dispatch('setMessage', { type: 'error', text: error.response.data.error });
           } else {
-            dispatch('setMessage', error);
+            dispatch('setMessage', { type: 'error', text: error });
           }
         });
     },
     getDiagramRange({ commit, getters, dispatch }, date) {
-      ApiService.postData(`${API_URL}/ratings/days`, date, getters.token).then((response) => {
-        if (response.status === 200) {
-          commit('setDiagramData', response.data);
-        } else {
-          dispatch('setMessage', response.statusText);
-        }
-      })
+      ApiService.postData(`${API_URL}/ratings/days`, date, getters.token)
+        .then((response) => {
+          if (response.status === 200) {
+            commit('setDiagramData', response.data);
+          } else {
+            dispatch('setMessage', { type: 'error', text: response.statusText });
+          }
+        })
         .catch((error) => {
           if (error.response) {
-            dispatch('setMessage', error.response.data.error);
+            dispatch('setMessage', { type: 'error', text: error.response.data.error });
           } else {
-            dispatch('setMessage', error);
+            dispatch('setMessage', { type: 'error', text: error });
           }
         });
     },

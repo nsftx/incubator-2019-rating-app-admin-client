@@ -11,7 +11,6 @@
           <v-layout>
             <v-flex class="flex">
               <v-select
-                v-model="activeSettings.emoticonsGroup.name"
                 dark
                 color="grey"
                 label="Set active emotions"
@@ -127,18 +126,7 @@
             >
               Confirm
             </v-btn>
-          <v-snackbar
-            v-model="snackbar"
-            :timeout="2000"
-            >
-            {{ snackbarMsg }}
-            <v-btn
-              flat
-              @click="snackbar = false"
-            >
-              Close
-            </v-btn>
-          </v-snackbar>
+          <api-snackbar></api-snackbar>
         </v-container>
       </v-form>
     </v-app>
@@ -146,12 +134,15 @@
 </template>
 <script>
 import { some, find, cloneDeep } from 'lodash';
+import ApiSnackbar from '../components/ApiSnackbar.vue';
 
 export default {
+  components: {
+    ApiSnackbar,
+  },
   data() {
     return {
       newMessageDialog: false,
-      snackbar: false,
       newMessage: {},
       emoticonPreview: [],
       emotionsRules: [
@@ -182,10 +173,10 @@ export default {
         this.setActiveEmoticons();
         this.$store.dispatch('updateSettings', this.activeSettings);
       } else {
+        const type = 'error';
         const message = 'Please enter valid settings';
-        this.$store.dispatch('setMessage', message);
+        this.$store.dispatch('setMessage', { type, text: message });
       }
-      this.snackbar = true;
     },
     setActiveEmoticons() {
       const emoticon = find(this.emoticons, ['name', this.activeSettings.emoticonsGroup.name]);
@@ -197,10 +188,10 @@ export default {
         this.$store.dispatch('getThanksMessages');
         this.newMessageDialog = false;
       } else {
+        const type = 'error';
         const message = 'Please enter valid message';
-        this.$store.dispatch('setMessage', message);
+        this.$store.dispatch('setMessage', { type, text: message });
       }
-      this.snackbar = true;
     },
     isMessageExisting(message) {
       return some(this.messages, ['text', message.text]);
@@ -231,9 +222,6 @@ export default {
     emoticonNames() {
       return this.$store.getters.emoticonGroupNames;
     },
-    snackbarMsg() {
-      return this.$store.getters.notifications;
-    },
   },
   watch: {
     activeSettings: {
@@ -241,9 +229,6 @@ export default {
         this.updateEmoticonPreview();
       },
       deep: true,
-    },
-    snackbarMsg() {
-      this.snackbar = true;
     },
   },
 };

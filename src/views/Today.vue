@@ -19,18 +19,7 @@
     <div class="dataTable">
       <data-table />
     </div>
-    <v-snackbar
-      v-model="snackbar"
-      :timeout="2000"
-    >
-      {{ snackbarMsg }}
-      <v-btn
-        flat
-        @click="snackbar = false"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
+    <api-snackbar></api-snackbar>
   </div>
 </template>
 
@@ -39,16 +28,17 @@ import { sumBy } from 'lodash';
 import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
 import RatingsPieChart from '../components/RatingsPieChart.vue';
 import DataTable from '../components/DataTable.vue';
+import ApiSnackbar from '../components/ApiSnackbar.vue';
 
 export default {
   components: {
     RatingsAreaDiagram,
     RatingsPieChart,
     DataTable,
+    ApiSnackbar,
   },
   data() {
     return {
-      snackbar: false,
       interval: {
         date: this.getToday(),
         interval: 2,
@@ -72,16 +62,10 @@ export default {
     ratings() {
       return this.$store.getters.pieChartData;
     },
-    snackbarMsg() {
-      return this.$store.getters.notifications;
-    },
   },
   watch: {
     ratings() {
       this.countToday();
-    },
-    snackbarMsg() {
-      this.snackbar = true;
     },
   },
 };
