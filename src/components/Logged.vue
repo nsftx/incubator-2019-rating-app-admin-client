@@ -86,7 +86,6 @@
             <v-avatar>
               <img
                 :src="imgAvatar"
-                alt="admin"
               >
             </v-avatar><b>{{nameAvatar}}</b>
           </v-chip>
@@ -320,10 +319,10 @@ button.v-btn.theme--light {
     top: 0;
     left: 0;
     width: 100%;
-    height: 270px;
-    position: fixed;
+    height: 260px;
+    position: absolute;
     background: @dark-grey;
-
+    z-index: 1;
   }
   .icons{
   height:30px;
@@ -335,8 +334,10 @@ button.v-btn.theme--light {
     margin-left: 0px;
   }
   .buttonUser {
-    z-index:0;
-  }
+    position: absolute;
+    right: 0;
+    z-index: 2;
+}
   .logoWhite {
     width: 8%;
     margin-top: 20px;
@@ -346,6 +347,9 @@ button.v-btn.theme--light {
   top:0;
   position: relative;
   width:100%;
+}
+h1{
+  font-size:44px;
 }
 }
 </style>
