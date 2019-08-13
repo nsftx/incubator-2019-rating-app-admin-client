@@ -33,7 +33,7 @@
       <h1>Ratings app - Dashboard</h1>
       <h1>Login</h1>
       <br>
-      <p style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">
+      <p class="respLogin" style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">
         Welcome to the Rating Dashboard! Please enter your credentials<br>
         Please login with OAuth
       </p>
@@ -47,8 +47,7 @@
         @click="login()">
           Login with Google+
         </v-btn>
-      <img src="../assets/Artwork.png"
-      style="margin-right: 5px; float:right; top: 10px ; position: fixed;">
+      <img src="../assets/Artwork.png" class="artLogin">
     </div>
     <div v-show="logged">
       <v-snackbar
@@ -226,6 +225,12 @@ export default {
 </script>
 <style lang="less">
 @import '../styles/main.less';
+.artLogin{
+  margin-right: 5px; 
+  float:right; 
+  top: 10px ; 
+  position: fixed;
+}
 p {
   color:@white;
 }
@@ -351,6 +356,22 @@ button.v-btn.theme--light {
 }
 h1{
   font-size:36px;
+}
+.respLogin{
+  margin-left:0 !important;
+  text-align: center !important;
+}
+.GAuth{
+  float: none !important;
+  margin-left: 0 !important;
+}
+img.artLogin {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 50px;
+    float: none;
+    position: relative;
+    height: 200px;
 }
 }
 </style>

@@ -198,7 +198,7 @@ export default {
 @media only screen and (max-width: 600px) {
   .profileInfo{
     width: 100%;
-    margin-top: 200px;
+    margin-top: 150px;
     text-align: center;
     margin-left: 0;
   }
