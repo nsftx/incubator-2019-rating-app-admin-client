@@ -26,13 +26,15 @@
                 label="e-mail address"
                 type="email"
                 style="width: 80%; margin-left: 200px;"
+                class="inviteMail"
               />
     <div class="smallSpacing"></div>
-    <v-btn dark @click="invite()" style="float:left;margin-left:200px;">Invite user</v-btn>
+    <v-btn dark @click="invite()" class="inviteBtn" style="float:left;margin-left:200px;">Invite user</v-btn>
     <v-btn
       dark
       @click="snackbarLogoutConfirm=true"
       style="float:left;margin-left:50px;"
+      class="logoutBtn"
     >
       Logout
     </v-btn>
@@ -192,5 +194,32 @@ export default {
   text-align: left;
   font-size: 2vw;
   margin-left: 200px;
+}
+@media only screen and (max-width: 600px) {
+  .profileInfo{
+    width: 100%;
+    margin-top: 200px;
+    text-align: center;
+    margin-left: 0;
+  }
+  .profileAvatar{
+    width:15%;
+    height: auto;
+  }
+  .dividerLogout {
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+}
+  .v-input.inviteMail.v-text-field.theme--dark{
+    margin-left: auto !important;
+    margin-right: auto !important;
+    left: 0;
+    right: 0;
+  }
+  button.inviteBtn.v-btn.theme--dark, button.logoutBtn.v-btn.theme--dark{
+    float: none !important;
+    margin-left: 0 !important;
+  }
 }
 </style>
