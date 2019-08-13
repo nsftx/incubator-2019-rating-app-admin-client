@@ -115,8 +115,6 @@
 </template>
 
 <script>
-import ApiService from '@/services/ApiService';
-
 export default {
   data() {
     return {
@@ -196,4 +194,3 @@ export default {
   margin-left: 200px;
 }
 </style>
-async
