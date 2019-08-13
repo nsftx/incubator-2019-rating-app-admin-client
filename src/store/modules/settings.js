@@ -5,7 +5,6 @@ export default ({
   state: {
     activeSettings: {},
     emoticons: [],
-    activeEmoticons: {},
     thanksMessages: [],
     emoticonGroupNames: [],
   },
@@ -16,9 +15,6 @@ export default ({
     setEmoticons(state, emoticons) {
       state.emoticons = emoticons;
     },
-    setActiveEmoticons(state, emoticons) {
-      state.activeEmoticons = emoticons;
-    },
     setThanksMessages(state, messages) {
       state.thanksMessages = messages;
     },
@@ -26,7 +22,6 @@ export default ({
   getters: {
     activeSettings: state => state.activeSettings,
     emoticons: state => state.emoticons,
-    activeEmoticons: state => state.activeEmoticons,
     thanksMessages: state => state.thanksMessages,
     emoticonGroupNames: state => state.emoticons.map(group => group.name),
   },
@@ -36,7 +31,6 @@ export default ({
         .then((response) => {
           if (response.status === 200) {
             commit('setActiveSettings', response.data.data);
-            commit('setActiveEmoticons', response.data.emoticons);
           } else {
             dispatch('setMessage', { type: 'error', text: response.statusText });
           }
@@ -69,10 +63,10 @@ export default ({
     updateSettings({ getters, dispatch }, settings) {
       return ApiService.putData(`${API_URL}/settings/${settings.id}`, settings, getters.token)
         .then((response) => {
-          if (response.status !== 200 && response.status !== 201) {
-            dispatch('setMessage', { type: 'error', text: response.statusText });
-          } else {
+          if (response.status === 200 || response.status === 201) {
             dispatch('setMessage', { type: 'success', text: response.data.message });
+          } else {
+            dispatch('setMessage', { type: 'error', text: response.statusText });
           }
         })
         .catch((error) => {
@@ -86,10 +80,10 @@ export default ({
     createThanksMessage({ getters, dispatch }, message) {
       return ApiService.postData(`${API_URL}/messages`, message, getters.token)
         .then((response) => {
-          if (response.status !== 201) {
-            dispatch('setMessage', { type: 'error', text: response.statusText });
-          } else {
+          if (response.status === 201) {
             dispatch('setMessage', { type: 'success', text: response.data.message });
+          } else {
+            dispatch('setMessage', { type: 'error', text: response.statusText });
           }
         })
         .catch((error) => {
