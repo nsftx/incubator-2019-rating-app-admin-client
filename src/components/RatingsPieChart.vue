@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { map } from 'lodash';
+import { map, forEach } from 'lodash';
 import ApexCharts from 'vue-apexcharts';
 
 export default {
@@ -39,7 +39,9 @@ export default {
   methods: {
     createPieChart() {
       this.chartSeries = map(this.ratings.data, 'count');
-      this.chartOptions.labels = map(this.ratings.data, 'emoticon.name');
+      forEach(this.ratings.data, (rating) => {
+        this.chartOptions.labels.push(rating.emoticon.name);
+      });
     },
   },
   watch: {
