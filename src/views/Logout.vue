@@ -17,22 +17,18 @@
     />
     <h2>Want to invite a new user?</h2>
     <v-text-field
-                v-model="inviteMail"
-                dark
-                color="grey"
-                label="e-mail address"
-                type="email"
-                style="width: 80%; margin-left: 200px;"
-                class="inviteMail"
-              />
-    <div class="smallSpacing"></div>
-    <v-btn dark @click="invite()" class="inviteBtn" style="float:left;margin-left:200px;">Invite user</v-btn>
+      class="inviteMail"
+      v-model="inviteMail"
+      dark
+      color="grey"
+      label="e-mail address"
+      type="email"
+    />
+    <v-btn class="inviteBtn" dark @click="invite()">Invite user</v-btn>
     <v-btn
       class="logout"
       dark
       @click="snackbarLogoutConfirm=true"
-      class="logoutBtn"
-      @click="logout()"
     >
       Logout
     </v-btn>
@@ -52,6 +48,22 @@
         error
       </v-icon>
     </api-snackbar>
+    <v-snackbar
+      top
+      color="#2196F3"
+      v-model="snackbarLogoutConfirm"
+      :timeout="2000"
+      >
+      One last confirm...
+      <button
+        block
+        color="primary"
+        dark
+        @click="logout()"
+      >
+        Confirm
+      </button>
+    </v-snackbar>
   </div>
 </template>
 
@@ -64,6 +76,7 @@ export default {
   },
   data() {
     return {
+      snackbarLogoutConfirm: false,
       confirmed: false,
       password: '',
       inviteMail: '',
