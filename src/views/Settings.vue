@@ -3,7 +3,7 @@
     <v-app>
       <v-form ref="form">
         <v-container fluid>
-          <h3>Settings</h3>
+          <h3 class="margin-settings">Settings</h3>
           <v-divider
             class="divider"
             dark
@@ -276,5 +276,31 @@ h3 {
 }
 .application--wrap {
   background: @cinder;
+}
+@media only screen and (max-width: 600px) {
+  .layout{
+    flex: none;
+    display:block;
+    margin: 0 auto;
+  }
+  .flex.flex {
+    width:100%;
+    float: none;
+  }
+h3 {
+  text-align: center;
+  font-size: 5vw;
+}
+.container.fluid {
+    width: 100%;
+    height:100%;
+    left: 0;
+    position: fixed;
+    overflow-y: scroll;
+    -webkit-backface-visibility: hidden;
+}
+.margin-settings {
+  margin-top:250px;
+}
 }
 </style>

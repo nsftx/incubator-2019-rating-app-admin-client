@@ -313,21 +313,21 @@ button.v-btn.theme--light {
   .buttonToday,
   .buttonReports,
   .buttonSettings{
-    height: 60px;
+    height: 50px;
   }
   .dash-nav {
     top: 0;
     left: 0;
     width: 100%;
-    height: 260px;
+    height: 220px;
     position: absolute;
     background: @dark-grey;
     z-index: 1;
   }
   .icons{
-  height:30px;
+  height:25px;
   width:auto;
-  margin-top:5px;
+  margin-top:3px;
   }
   h1,h2{
     text-align:center;
@@ -340,7 +340,7 @@ button.v-btn.theme--light {
     z-index: 2 !important;
 }
   .logoWhite {
-    width: 8%;
+    width: 7%;
     margin-top: 20px;
     margin-bottom: 15px;
   }
@@ -350,7 +350,7 @@ button.v-btn.theme--light {
   width:100%;
 }
 h1{
-  font-size:44px;
+  font-size:36px;
 }
 }
 </style>
