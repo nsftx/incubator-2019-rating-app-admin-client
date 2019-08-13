@@ -11,7 +11,6 @@
           <v-layout>
             <v-flex class="flex">
               <v-select
-                v-model="activeSettings.emoticonsGroup.name"
                 dark
                 color="grey"
                 label="Set active emotions"
@@ -40,7 +39,6 @@
               <v-icon
                 v-for="emoticon in emoticonPreview"
                 :key="emoticon.id"
-                v-model="emoticon.symbol"
                 dark
                 class="fa-2x fa-fw"
                 :class="[emoticon.symbol]"
@@ -67,7 +65,7 @@
                 dark
                 color="grey"
                 label="Mesage timeout"
-                hint="Can be from 0-10"
+                hint="Can be from 1-10"
                 persistent-hint
                 type="number"
                 min="1"
@@ -128,33 +126,23 @@
             >
               Confirm
             </v-btn>
-          <v-snackbar
-            v-model="snackbar"
-            :timeout="4000"
-          >
-            {{ snackbarMsg }}
-            <v-btn
-              flat
-              @click="snackbar = false"
-            >
-              Close
-            </v-btn>
-          </v-snackbar>
+          <api-snackbar></api-snackbar>
         </v-container>
       </v-form>
     </v-app>
   </div>
 </template>
 <script>
-/* eslint-disable prefer-destructuring */
 import { some, find, cloneDeep } from 'lodash';
+import ApiSnackbar from '../components/ApiSnackbar.vue';
 
 export default {
+  components: {
+    ApiSnackbar,
+  },
   data() {
     return {
       newMessageDialog: false,
-      snackbar: false,
-      snackbarMsg: '',
       newMessage: {},
       emoticonPreview: [],
       emotionsRules: [
@@ -172,11 +160,11 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch('getEmoticons');
+    this.$store.dispatch('getEmoticons')
+      .then(() => {
+        this.$store.dispatch('getActiveSettings');
+      });
     this.$store.dispatch('getThanksMessages');
-  },
-  mounted() {
-    this.$store.dispatch('getActiveSettings');
   },
   methods: {
     updateActiveSettings() {
@@ -184,26 +172,26 @@ export default {
         this.activeSettings.messageId = this.activeSettings.message.id;
         this.setActiveEmoticons();
         this.$store.dispatch('updateSettings', this.activeSettings);
-        this.snackbarMsg = 'Settings successfully updated';
       } else {
-        this.snackbarMsg = 'Please enter valid data !';
+        const type = 'error';
+        const message = 'Please enter valid settings';
+        this.$store.dispatch('setMessage', { type, text: message });
       }
-      this.snackbar = true;
     },
     setActiveEmoticons() {
-      const id = find(this.emoticons, ['name', this.activeSettings.emoticonsGroup.name]).id;
-      this.activeSettings.emoticonsGroupId = id;
+      const emoticon = find(this.emoticons, ['name', this.activeSettings.emoticonsGroup.name]);
+      this.activeSettings.emoticonsGroupId = emoticon.id;
     },
     createNewMessage() {
       if (!this.isMessageExisting(this.newMessage) && this.$refs.message.validate()) {
         this.$store.dispatch('createThanksMessage', this.newMessage);
         this.$store.dispatch('getThanksMessages');
         this.newMessageDialog = false;
-        this.snackbarMsg = 'Message created !';
       } else {
-        this.snackbarMsg = 'Please enter valid message !';
+        const type = 'error';
+        const message = 'Please enter valid message';
+        this.$store.dispatch('setMessage', { type, text: message });
       }
-      this.snackbar = true;
     },
     isMessageExisting(message) {
       return some(this.messages, ['text', message.text]);

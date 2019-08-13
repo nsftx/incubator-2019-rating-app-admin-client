@@ -41,8 +41,8 @@ export default {
     populateTable() {
       this.reactions = [];
       forEach(this.ratings.data, (data) => {
-        this.reactions.push({name: data.emoticon.name, number: data.count});
-      })
+        this.reactions.push({ name: data.emoticon.name, number: data.count });
+      });
     },
   },
   watch: {
@@ -54,7 +54,7 @@ export default {
     },
   },
   computed: {
-    ratings(){
+    ratings() {
       return this.$store.getters.pieChartData;
     },
   },
