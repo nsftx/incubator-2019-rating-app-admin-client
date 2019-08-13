@@ -31,7 +31,7 @@
                 label="Beginning date..."
                 prepend-icon="event"
                 readonly
-                :dark="dark"
+                dark
                 v-on="on"
               />
             </template>
@@ -39,8 +39,8 @@
               v-model="dateBegin"
               no-title
               scrollable
-              :dark="dark"
-              :reactive="reactive"
+              dark
+              reactive
             >
               <v-spacer />
               <v-btn
@@ -92,7 +92,7 @@
                 label="Ending date..."
                 prepend-icon="event"
                 readonly
-                :dark="dark"
+                dark
                 v-on="on"
               />
             </template>
@@ -100,8 +100,8 @@
               v-model="dateEnd"
               no-title
               scrollable
-              :dark="dark"
-              :reactive="reactive"
+              dark
+              reactive
             >
               <v-spacer />
               <v-btn
@@ -133,9 +133,7 @@
       Show reports
     </v-btn>
     <div class="spacer" />
-    <br>
-    <h2>Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
-    <br>
+    <h2 class="padding-h-top-btm">Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
     <div class="lineChart">
       <ratings-area-diagram />
     </div>
@@ -169,8 +167,6 @@ export default {
         date: this.getToday(),
         interval: 2,
       },
-      dark: true,
-      reactive: true,
       menuBegin: false,
       dateBegin: this.getToday(),
       menuEnd: false,
@@ -204,6 +200,10 @@ export default {
 
 <style lang="less">
 @import '../styles/main.less';
+.padding-h-top-btm {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
 #pickerWrap {
   height: 50px;
   background: none;

@@ -1,15 +1,13 @@
 <template>
   <div id="today">
     <div class="parentImages">
-      <img class="artworkBg" src="../assets/Oval.svg" />
-      <img class="artwork" src="../assets/Artwork.svg" />
+      <img class="artworkBg" src="../assets/Oval.png" />
+      <img class="artwork" src="../assets/Artwork.png" />
     </div>
     <h1 class="margin-h-top">Today is a new day.</h1>
-    <h1>Check your ratings</h1>
-    <br />
+    <h1 class="margin-h-btm">Check your ratings</h1>
     <h2>Graphs present your rating results. Today you have {{ todayCount }} rates,</h2>
     <h2>check it on the dashboard.</h2>
-
     <div class="lineChart">
       <ratings-area-diagram />
     </div>
@@ -47,7 +45,7 @@ export default {
       Today: { date: this.getToday() },
     };
   },
-  mounted() {
+  created() {
     if (this.$parent.logged) {
       this.$store.dispatch('getPieChartToday', this.Today);
       this.$store.dispatch('getDiagramToday', this.interval);
@@ -73,7 +71,10 @@ export default {
 
 <style lang="less">
 @import '../styles/main.less';
-.margin-h-top{
+.margin-h-btm {
+  padding-bottom:20px;
+}
+.margin-h-top {
   padding-top:40px;
 }
 .apexcharts-legend-text {

@@ -47,7 +47,7 @@
         @click="login()">
           Login with Google+
         </v-btn>
-      <img src="../assets/Artwork.svg"
+      <img src="../assets/Artwork.png"
       style="margin-right: 5px; float:right; top: 10px ; position: fixed;">
     </div>
     <div v-show="logged">
