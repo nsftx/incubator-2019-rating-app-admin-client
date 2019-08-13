@@ -310,4 +310,42 @@ button.v-btn.theme--light {
     background: @dark-grey !important;
     color: @white;
 }
+@media only screen and (max-width: 600px) {
+  .buttonToday,
+  .buttonReports,
+  .buttonSettings{
+    height: 60px;
+  }
+  .dash-nav {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 270px;
+    position: fixed;
+    background: @dark-grey;
+
+  }
+  .icons{
+  height:30px;
+  width:auto;
+  margin-top:5px;
+  }
+  h1,h2{
+    text-align:center;
+    margin-left: 0px;
+  }
+  .buttonUser {
+    z-index:0;
+  }
+  .logoWhite {
+    width: 8%;
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+  .buttonSettings{
+  top:0;
+  position: relative;
+  width:100%;
+}
+}
 </style>
