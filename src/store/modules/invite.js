@@ -3,36 +3,17 @@ import ApiService from '@/services/ApiService';
 const API_URL = 'http://172.20.15.193:3000/api/v1';
 
 export default ({
-  state: {
-    snackbarExist: false,
-    snackbarSuccess: false,
-  },
-  mutations: {
-    snackbarExist(state, value) {
-      state.snackbarExist = value;
-    },
-    snackbarSuccess(state, value) {
-      state.snackbarSuccess = value;
-    },
-  },
-  getters: {
-    snackbarExist: state => state.snackbarExist,
-    snackbarSuccess: state => state.snackbarSuccess,
-  },
+  state: {},
+  mutations: {},
+  getters: {},
   actions: {
     invite({ commit, getters }, mail) {
       ApiService.postData(`${API_URL}/invites`, mail, getters.token)
         .then(() => {
-          commit('snackbarSuccess', true);
+          commit('setMessage', { type: 'success', text: 'Invite successfully sent' });
         }).catch(() => {
-          commit('snackbarExist', true);
+          commit('setMessage', { type: 'error', text: 'Invite is already sent' });
         });
-    },
-    setSnackbarExist({ commit }, value) {
-      commit('snackbarExist', value);
-    },
-    setSnackbarSuccess({ commit }, value) {
-      commit('snackbarSuccess', value);
     },
   },
 });

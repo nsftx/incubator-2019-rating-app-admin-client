@@ -1,6 +1,7 @@
 <template id="api-snackbar">
-  <v-app>
+  <v-app class="snackbar">
     <v-snackbar
+      top
       :color="snackbarMsg.type"
       v-model="snackbar"
       :timeout="2000"
@@ -38,3 +39,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.snackbar {
+  position: fixed;
+}
+</style>
