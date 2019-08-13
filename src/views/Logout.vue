@@ -30,8 +30,6 @@
     <v-btn
       class="logout"
       dark
-      @click="snackbarLogoutConfirm=true"
-      class="logoutBtn"
       @click="logout()"
     >
       Logout
@@ -148,7 +146,7 @@ export default {
     left: 0;
     right: 0;
   }
-  button.inviteBtn.v-btn.theme--dark, button.logoutBtn.v-btn.theme--dark{
+  button.inviteBtn.v-btn.theme--dark, button.logout.v-btn.theme--dark{
     float: none !important;
     margin-left: 0 !important;
   }
