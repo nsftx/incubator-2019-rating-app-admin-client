@@ -5,31 +5,14 @@
       id="login"
     >
       <br>
-      <v-snackbar
-        v-model="snackbarLoginFail"
-        :bottom="y === 'bottom'"
-        :left="x === 'left'"
-        :multi-line="mode === 'multi-line'"
-        :right="x === 'right'"
-        :timeout="timeout"
-        :top="y === 'top'"
-        :vertical="mode === 'vertical'"
-      >
+      <api-snackbar>
         <v-icon
           dark
           style="padding-right: 10px;"
         >
           error
         </v-icon>
-        {{ textLoginFail }}
-        <v-btn
-          color="white"
-          flat
-          @click="snackbarLoginFail = false"
-        >
-          Close
-        </v-btn>
-      </v-snackbar>
+      </api-snackbar>
       <h1>Ratings app - Dashboard</h1>
       <h1>Login</h1>
       <br>
@@ -50,31 +33,14 @@
       <img src="../assets/Artwork.png" class="artLogin">
     </div>
     <div v-show="logged">
-      <v-snackbar
-        v-model="snackbarLoginSuccess"
-        :bottom="y === 'bottom'"
-        :left="x === 'left'"
-        :multi-line="mode === 'multi-line'"
-        :right="x === 'right'"
-        :timeout="timeout"
-        :top="y === 'top'"
-        :vertical="mode === 'vertical'"
-      >
+      <api-snackbar>
         <v-icon
           dark
           style="padding-right:10px;"
         >
           person
         </v-icon>
-        {{ textLoginSuccess }}{{ firstName }}!
-        <v-btn
-          color="white"
-          flat
-          @click="snackbarLoginSuccess = false"
-        >
-          Close
-        </v-btn>
-      </v-snackbar>
+      </api-snackbar>
       <div class="buttonUser">
         <router-link to="/logout">
           <v-chip
@@ -140,8 +106,12 @@
 </template>
 <script>
 import ApiService from '@/services/ApiService';
+import ApiSnackbar from './ApiSnackbar.vue';
 
 export default {
+  components: {
+    ApiSnackbar,
+  },
   template: '#logged',
   data() {
     return {
@@ -153,15 +123,7 @@ export default {
       lastName: '',
       email: '',
       logged: false,
-      snackbarLoginSuccess: false,
-      snackbarLoginFail: false,
-      y: 'top',
-      x: null,
-      mode: '',
-      timeout: 6000,
       inLocal: false,
-      textLoginSuccess: 'Login success! Welcome ',
-      textLoginFail: 'Oops. You are a non-existing user. Please ask for an invite.',
     };
   },
   methods: {
@@ -192,13 +154,13 @@ export default {
             .then((response) => {
               if (response.data.error == false) {
                 this.logged = true;
-                this.snackbarLoginSuccess = true;
+                this.$store.dispatch('setMessage', { type: 'success', text: 'Login success! Welcome' });
                 localStorage.setItem('token', id_token);
                 this.inLocal = true;
                 localStorage.setItem('inLocal', this.inLocal);
                 this.$router.push({ path: '/today' });
               } else {
-                this.snackbarLoginFail = true;
+                this.$store.dispatch('setMessage', { type: 'success', text: 'Oops. You are a non-existing user. Please ask for an invite.' });
                 this.$router.push({ path: '/' });
               }
             });
