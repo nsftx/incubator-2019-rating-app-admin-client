@@ -11,6 +11,7 @@
           <v-layout>
             <v-flex class="flex">
               <v-select
+                v-model="activeSettings.emoticonsGroup.name"
                 dark
                 color="grey"
                 label="Set active emotions"
@@ -49,7 +50,7 @@
           <v-layout>
             <v-flex class="flex">
               <v-select
-                v-model="activeSettings.message"
+                v-model="activeMessage"
                 dark
                 color="grey"
                 :items="messages"
@@ -142,12 +143,13 @@ export default {
   },
   data() {
     return {
+      activeMessage: {},
       newMessageDialog: false,
       newMessage: {},
       emoticonPreview: [],
       emotionsRules: [
-        v => v > 2 || 'Min value is 1',
-        v => v < 6 || 'Max values is 10',
+        v => v > 2 || 'Min value is 3',
+        v => v < 6 || 'Max values is 5',
       ],
       timeoutRules: [
         v => v > 0 || 'Min value is 1',
@@ -162,25 +164,29 @@ export default {
   created() {
     this.$store.dispatch('getEmoticons')
       .then(() => {
-        this.$store.dispatch('getActiveSettings');
+        this.$store.dispatch('getActiveSettings')
+          .then(() => {
+            this.$store.dispatch('getThanksMessages')
+              .then(() => {
+                this.activeMessage = find(this.messages, ['id', this.activeSettings.messageId]);
+              });
+          });
       });
-    this.$store.dispatch('getThanksMessages');
   },
   methods: {
     updateActiveSettings() {
       if (this.$refs.form.validate()) {
-        this.activeSettings.messageId = this.activeSettings.message.id;
-        this.setActiveEmoticons();
+        this.activeSettings.messageId = this.activeMessage.id;
+        this.updateActiveEmoticons();
         this.$store.dispatch('updateSettings', this.activeSettings);
       } else {
-        const type = 'error';
         const message = 'Please enter valid settings';
-        this.$store.dispatch('setMessage', { type, text: message });
+        this.$store.dispatch('setMessage', { type: 'error', text: message });
       }
     },
-    setActiveEmoticons() {
-      const emoticon = find(this.emoticons, ['name', this.activeSettings.emoticonsGroup.name]);
-      this.activeSettings.emoticonsGroupId = emoticon.id;
+    updateActiveEmoticons() {
+      const activeEmoticons = find(this.emoticons, ['name', this.activeSettings.emoticonsGroup.name]);
+      this.activeSettings.emoticonsGroupId = activeEmoticons.id;
     },
     createNewMessage() {
       if (!this.isMessageExisting(this.newMessage) && this.$refs.message.validate()) {
@@ -188,9 +194,8 @@ export default {
         this.$store.dispatch('getThanksMessages');
         this.newMessageDialog = false;
       } else {
-        const type = 'error';
         const message = 'Please enter valid message';
-        this.$store.dispatch('setMessage', { type, text: message });
+        this.$store.dispatch('setMessage', { type: 'error', text: message });
       }
     },
     isMessageExisting(message) {

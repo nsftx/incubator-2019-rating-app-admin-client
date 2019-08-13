@@ -6,12 +6,12 @@
     >
     {{ snackbarMsg.text }}
     <button
-        block
-        color="primary"
-        dark
-        @click="snackbar = false"
+      block
+      color="primary"
+      dark
+      @click="snackbar = false"
     >
-        Close
+      Close
     </button>
   </v-snackbar>
 </template>
