@@ -336,7 +336,8 @@ button.v-btn.theme--light {
   .buttonUser {
     position: absolute;
     right: 0;
-    z-index: 2;
+    top:0;
+    z-index: 2 !important;
 }
   .logoWhite {
     width: 8%;

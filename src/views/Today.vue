@@ -141,7 +141,8 @@ export default {
     margin-top: 10px;
   }
   .margin-h-top {
-  padding-top:270px;
+  margin-top:270px;
+  padding: 0;
 }
 }
 </style>
