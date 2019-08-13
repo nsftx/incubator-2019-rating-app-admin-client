@@ -2,7 +2,7 @@
   <div id="reports">
     <br>
     <div
-      id="pickerWrap"
+      id="pickerWrap1" class="margin-h-top"
     >
       <v-layout
         row
@@ -63,7 +63,7 @@
       </v-layout>
     </div>
     <div
-      id="pickerWrap"
+      id="pickerWrap2"
     >
       <v-layout
         row
@@ -204,7 +204,7 @@ export default {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-#pickerWrap {
+#pickerWrap1 {
   height: 50px;
   background: none;
   width: 200px;
@@ -213,7 +213,21 @@ export default {
   border-radius: 5px;
   float: left;
 }
-#pickerWrap input {
+#pickerWrap1 input {
+  color: @dark-grey;
+  background: none;
+  width: 150px;
+}
+#pickerWrap2 {
+  height: 50px;
+  background: none;
+  width: 200px;
+  margin-left: 120px;
+  padding-left: 30px;
+  border-radius: 5px;
+  float: left;
+}
+#pickerWrap2 input {
   color: @dark-grey;
   background: none;
   width: 150px;
@@ -262,5 +276,52 @@ input[type="text"] {
 }
 .theme--dark.v-picker__body {
   background: @dark-grey;
+}
+@media only screen and (max-width: 600px) {
+  .dataTable,
+  .pieChart,
+  .lineChart {
+    width: 100%;
+    float: center;
+    margin: 0;
+    margin-top: 10px;
+  }
+  .margin-h-top {
+  margin-top:270px;
+  }
+  #createBtn {
+  left:0;
+  right:0;
+  margin: 0 auto;
+  float: none;
+}
+  #pickerWrap1 {
+    height: 50px;
+    background: none;
+    width: 100%;
+    margin-left: 0;
+    padding-left: 0;
+    border-radius: 5px;
+    float: none;
+  }
+  #pickerWrap1 input {
+    color: @dark-grey;
+    background: none;
+    width: 90%;
+  }
+  #pickerWrap2 {
+    height: 50px;
+    background: none;
+    width: 100%;
+    margin-left: 0;
+    padding-left: 0;
+    border-radius: 5px;
+    float: none;
+  }
+  #pickerWrap2 input {
+    color: @dark-grey;
+    background: none;
+    width: 90%;
+  }
 }
 </style>

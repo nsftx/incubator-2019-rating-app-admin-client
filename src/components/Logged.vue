@@ -16,7 +16,7 @@
       <h1>Ratings app - Dashboard</h1>
       <h1>Login</h1>
       <br>
-      <p style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">
+      <p class="respLogin" style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">
         Welcome to the Rating Dashboard! Please enter your credentials<br>
         Please login with OAuth
       </p>
@@ -30,8 +30,7 @@
         @click="login()">
           Login with Google+
         </v-btn>
-      <img src="../assets/Artwork.png"
-      style="margin-right: 5px; float:right; top: 10px ; position: fixed;">
+      <img src="../assets/Artwork.png" class="artLogin">
     </div>
     <div v-show="logged">
       <api-snackbar>
@@ -52,7 +51,6 @@
             <v-avatar>
               <img
                 :src="imgAvatar"
-                alt="admin"
               >
             </v-avatar><b>{{nameAvatar}}</b>
           </v-chip>
@@ -189,6 +187,12 @@ export default {
 </script>
 <style lang="less">
 @import '../styles/main.less';
+.artLogin{
+  margin-right: 5px; 
+  float:right; 
+  top: 10px ; 
+  position: fixed;
+}
 p {
   color:@white;
 }
@@ -271,5 +275,65 @@ span.v-chip__content {
 button.v-btn.theme--light {
     background: @dark-grey !important;
     color: @white;
+}
+@media only screen and (max-width: 600px) {
+  .buttonToday,
+  .buttonReports,
+  .buttonSettings{
+    height: 50px;
+  }
+  .dash-nav {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 220px;
+    position: absolute;
+    background: @dark-grey;
+    z-index: 1;
+  }
+  .icons{
+  height:25px;
+  width:auto;
+  margin-top:3px;
+  }
+  h1,h2{
+    text-align:center;
+    margin-left: 0px;
+  }
+  .buttonUser {
+    position: absolute;
+    right: 0;
+    top:0;
+    z-index: 2 !important;
+}
+  .logoWhite {
+    width: 7%;
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+  .buttonSettings{
+  top:0;
+  position: relative;
+  width:100%;
+}
+h1{
+  font-size:36px;
+}
+.respLogin{
+  margin-left:0 !important;
+  text-align: center !important;
+}
+.GAuth{
+  float: none !important;
+  margin-left: 0 !important;
+}
+img.artLogin {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 50px;
+    float: none;
+    position: relative;
+    height: 200px;
+}
 }
 </style>

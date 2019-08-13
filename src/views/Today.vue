@@ -128,4 +128,21 @@ export default {
   position: absolute;
   right: -250px;
 }
+@media only screen and (max-width: 600px) {
+  .parentImages {
+    display: none;
+  }
+  .dataTable,
+  .pieChart,
+  .lineChart {
+    width: 100%;
+    float: center;
+    margin: 0;
+    margin-top: 10px;
+  }
+  .margin-h-top {
+  margin-top:270px;
+  padding: 0;
+}
+}
 </style>
