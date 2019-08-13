@@ -37,7 +37,7 @@ export default ({
         })
         .catch((error) => {
           if (error.response) {
-            dispatch('setMessage', { type: 'error', text: error.response.data.error });
+            dispatch('setMessage', { type: 'error', text: error.response.data.message });
           } else {
             dispatch('setMessage', { type: 'error', text: error });
           }
@@ -54,7 +54,7 @@ export default ({
         })
         .catch((error) => {
           if (error.response) {
-            dispatch('setMessage', { type: 'error', text: error.response.data.error });
+            dispatch('setMessage', { type: 'error', text: error.response.data.message });
           } else {
             dispatch('setMessage', { type: 'error', text: error });
           }
@@ -71,7 +71,7 @@ export default ({
         })
         .catch((error) => {
           if (error.response) {
-            dispatch('setMessage', { type: 'error', text: error.response.data.error });
+            dispatch('setMessage', { type: 'error', text: error.response.data.message });
           } else {
             dispatch('setMessage', { type: 'error', text: error });
           }
@@ -88,7 +88,7 @@ export default ({
         })
         .catch((error) => {
           if (error.response) {
-            dispatch('setMessage', { type: 'error', text: error.response.data.error });
+            dispatch('setMessage', { type: 'error', text: error.response.data.message });
           } else {
             dispatch('setMessage', { type: 'error', text: error });
           }
@@ -105,7 +105,7 @@ export default ({
         })
         .catch((error) => {
           if (error.response) {
-            dispatch('setMessage', { type: 'error', text: error.response.data.error });
+            dispatch('setMessage', { type: 'error', text: error.response.data.message });
           } else {
             dispatch('setMessage', { type: 'error', text: error });
           }
