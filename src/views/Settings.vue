@@ -197,15 +197,13 @@ export default {
       return some(this.messages, ['text', message.text]);
     },
     updateEmoticonPreview() {
-      if (this.emoticons.length > 0) {
-        const selectedEmoticons = find(this.emoticons, ['name', this.activeSettings.emoticonsGroup.name]).emoticons;
-        this.emoticonPreview = cloneDeep(selectedEmoticons);
-        if (this.activeSettings.emoticonNumber === 3) {
-          this.emoticonPreview.splice(3, 1);
-          this.emoticonPreview.splice(1, 1);
-        } else if (this.activeSettings.emoticonNumber === 4) {
-          this.emoticonPreview.splice(2, 1);
-        }
+      const selectedEmoticons = find(this.emoticons, ['name', this.activeSettings.emoticonsGroup.name]).emoticons;
+      this.emoticonPreview = cloneDeep(selectedEmoticons);
+      if (this.activeSettings.emoticonNumber === 3) {
+        this.emoticonPreview.splice(3, 1);
+        this.emoticonPreview.splice(1, 1);
+      } else if (this.activeSettings.emoticonNumber === 4) {
+        this.emoticonPreview.splice(2, 1);
       }
     },
   },
@@ -295,7 +293,6 @@ h3 {
     left: 0;
     position: fixed;
     overflow-y: scroll;
-    -webkit-backface-visibility: hidden;
 }
 .margin-settings {
   margin-top:250px;

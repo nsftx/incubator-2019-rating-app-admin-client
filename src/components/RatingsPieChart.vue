@@ -38,6 +38,7 @@ export default {
   },
   methods: {
     createPieChart() {
+      this.chartOptions.labels.length = 0;
       this.chartSeries = map(this.ratings.data, 'count');
       forEach(this.ratings.data, (rating) => {
         this.chartOptions.labels.push(rating.emoticon.name);
