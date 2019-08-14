@@ -2,7 +2,7 @@
   <div id="reports">
     <br>
     <div
-      id="pickerWrap1" class="margin-h-top"
+      id="pickerWrap1" class="padding-h-top"
     >
       <v-layout
         row
@@ -200,6 +200,9 @@ export default {
 
 <style lang="less">
 @import '../styles/main.less';
+padding-h-top{
+  padding-top: 0px;
+}
 .padding-h-top-btm {
   padding-top: 20px;
   padding-bottom: 20px;
