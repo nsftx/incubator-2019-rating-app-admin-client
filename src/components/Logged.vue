@@ -188,9 +188,9 @@ export default {
 <style lang="less">
 @import '../styles/main.less';
 .artLogin{
-  margin-right: 5px; 
-  float:right; 
-  top: 10px ; 
+  margin-right: 5px;
+  float:right;
+  top: 10px ;
   position: fixed;
 }
 p {
