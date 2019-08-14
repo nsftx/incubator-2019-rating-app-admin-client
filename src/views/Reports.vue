@@ -200,7 +200,7 @@ export default {
 
 <style lang="less">
 @import '../styles/main.less';
-padding-h-top{
+.padding-h-top{
   padding-top: 0px;
 }
 .padding-h-top-btm {
@@ -289,7 +289,7 @@ input[type="text"] {
     margin: 0;
     margin-top: 10px;
   }
-  .margin-h-top {
+  .padding-h-top {
   margin-top:270px;
   }
   #createBtn {
