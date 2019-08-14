@@ -225,8 +225,8 @@ export default {
   height: 50px;
   background: none;
   width: 200px;
-  margin-left: 120px;
-  padding-left: 30px;
+  margin-left: 0px;
+  padding-left: 0px;
   border-radius: 5px;
   float: left;
 }

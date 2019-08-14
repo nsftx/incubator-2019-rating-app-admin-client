@@ -131,7 +131,7 @@ export default {
     height: auto;
   }
   .dividerLogout {
-  margin: 0 auto;
+  margin: 15px auto;
   left: 0;
   right: 0;
 }
