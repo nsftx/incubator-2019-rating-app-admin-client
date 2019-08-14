@@ -36,7 +36,7 @@
           </v-layout>
           <v-layout>
             <v-flex class="flex">
-              <label style="float:left;">Emotions preview</label> <br>
+              <label class="preview">Emotions preview</label>
               <v-icon
                 v-for="emoticon in emoticonPreview"
                 :key="emoticon.id"
@@ -127,7 +127,6 @@
             >
               Confirm
             </v-btn>
-          <api-snackbar></api-snackbar>
         </v-container>
       </v-form>
     </v-app>
@@ -135,12 +134,8 @@
 </template>
 <script>
 import { some, find, cloneDeep } from 'lodash';
-import ApiSnackbar from '../components/ApiSnackbar.vue';
 
 export default {
-  components: {
-    ApiSnackbar,
-  },
   data() {
     return {
       activeMessage: {},
@@ -263,6 +258,9 @@ h3 {
 }
 .flex {
   width: 45%;
+}
+.preview {
+  float: left;
 }
 .dialog-title {
   background: @cinder;

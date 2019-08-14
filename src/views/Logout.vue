@@ -32,27 +32,11 @@
     >
       Logout
     </v-btn>
-    <api-snackbar>
-      <v-icon
-        class="snackbar-icon"
-        dark
-      >
-        error
-      </v-icon>
-    </api-snackbar>
-    <api-snackbar>
-      <v-icon
-        class="snackbar-icon"
-        dark
-      >
-        error
-      </v-icon>
-    </api-snackbar>
     <v-snackbar
       top
       color="#2196F3"
       v-model="snackbarLogoutConfirm"
-      :timeout="2000"
+      :timeout="5000"
       >
       One last confirm...
       <button
@@ -68,12 +52,8 @@
 </template>
 
 <script>
-import ApiSnackbar from '../components/ApiSnackbar.vue';
 
 export default {
-  components: {
-    ApiSnackbar,
-  },
   data() {
     return {
       snackbarLogoutConfirm: false,
