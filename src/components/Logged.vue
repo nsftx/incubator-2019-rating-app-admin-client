@@ -41,7 +41,9 @@
           person
         </v-icon>
       </api-snackbar>
-      <div class="buttonUser">
+      <div class="buttonUser"
+            v-show="hidden"
+            >
         <router-link to="/logout">
           <v-chip
             v-show="logged"
@@ -66,6 +68,7 @@
         </div>
         <router-link to="/today">
           <div class="buttonToday"
+            v-show="hidden"
             @click="activePath('today')" :class="{activeBtn: active === 'today' }">
             <img
               src="../assets/today.png"
@@ -78,6 +81,7 @@
         </router-link>
         <router-link to="/reports">
           <div class="buttonReports"
+            v-show="hidden"
             @click="activePath('reports')" :class="{activeBtn: active === 'reports' }">
             <img
               src="../assets/report.png"
@@ -90,6 +94,7 @@
         </router-link>
         <router-link to="/settings">
           <div class="buttonSettings"
+            v-show="hidden"
             @click="activePath('settings')" :class="{activeBtn: active === 'settings' }">
             <img
               src="../assets/settings.png"
@@ -130,21 +135,13 @@ export default {
   },
   methods: {
     hideNav() {
-      if (!this.hidden) {
-        this.hidden = true;
+      if (this.hidden) {
+        this.hidden = false;
         document.getElementsByClassName('dash-nav')[0].style = 'height: 50px;';
-        document.getElementsByClassName('buttonToday')[0].style = 'display: none;';
-        document.getElementsByClassName('buttonSettings')[0].style = 'display: none;';
-        document.getElementsByClassName('buttonReports')[0].style = 'display: none;';
-        document.getElementsByClassName('buttonUser')[0].style = 'display: none;';
         document.getElementsByClassName('margin-h-top')[0].style.marginTop = '60px';
       } else {
-        this.hidden = false;
+        this.hidden = true;
         document.getElementsByClassName('dash-nav')[0].style = 'height: 230px;';
-        document.getElementsByClassName('buttonToday')[0].style = 'display: block;';
-        document.getElementsByClassName('buttonSettings')[0].style = 'display: block;';
-        document.getElementsByClassName('buttonReports')[0].style = 'display: block;';
-        document.getElementsByClassName('buttonUser')[0].style = 'display: block;';
         document.getElementsByClassName('margin-h-top')[0].style.marginTop = '240px';
       }
     },
@@ -312,13 +309,12 @@ button.v-btn.theme--light {
   .buttonReports,
   .buttonSettings{
     height: 50px;
-    display: none;
   }
   .dash-nav {
     top: 0;
     left: 0;
     width: 100%;
-    height: 50px;
+    height: 240px;
     position: absolute;
     background: @dark-grey;
     z-index: 1;
@@ -337,7 +333,6 @@ button.v-btn.theme--light {
     right: 0;
     top:0;
     z-index: 2 !important;
-    display: none;
 }
   .logoWhite {
     display:none;
