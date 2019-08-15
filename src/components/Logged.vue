@@ -60,6 +60,7 @@
         v-show="logged"
         class="dash-nav"
       >
+      <p class="hideNav" @click="hideNav()">≡</p>
         <div id="logo">
           <img src="../assets/logo_white1.png" class="logoWhite">
         </div>
@@ -124,9 +125,29 @@ export default {
       email: '',
       logged: false,
       inLocal: false,
+      hidden: true,
     };
   },
   methods: {
+    hideNav(){
+      if(!this.hidden) {
+        this.hidden=true;
+        document.getElementsByClassName('dash-nav')[0].style="height: 50px;"
+        document.getElementsByClassName('buttonToday')[0].style="display: none;"
+        document.getElementsByClassName('buttonSettings')[0].style="display: none;"
+        document.getElementsByClassName('buttonReports')[0].style="display: none;"
+        document.getElementsByClassName('buttonUser')[0].style="display: none;"
+        document.getElementsByClassName('margin-h-top')[0].style.marginTop = "60px";
+      } else {
+        this.hidden=false;
+        document.getElementsByClassName('dash-nav')[0].style="height: 230px;"
+        document.getElementsByClassName('buttonToday')[0].style="display: block;"
+        document.getElementsByClassName('buttonSettings')[0].style="display: block;"
+        document.getElementsByClassName('buttonReports')[0].style="display: block;"
+        document.getElementsByClassName('buttonUser')[0].style="display: block;"
+        document.getElementsByClassName('margin-h-top')[0].style.marginTop = "240px";
+      }
+      },
     activePath(path) {
       this.active = path;
       localStorage.setItem('activePath', path);
@@ -169,8 +190,8 @@ export default {
         .catch((error) => {
           this.$router.push({ path: '/' });
         });
+    }
     },
-  },
   created() {
     if (localStorage.getItem('inLocal')) {
       this.$store.dispatch('createToken', localStorage.getItem('token'));
@@ -207,6 +228,9 @@ p {
 .buttonSettings:hover{
   background: @dim-grey;
   cursor: pointer;
+}
+.hideNav{
+  display:none;
 }
 .buttonToday,
 .buttonReports,
@@ -276,17 +300,25 @@ button.v-btn.theme--light {
     background: @dark-grey !important;
     color: @white;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1024px) {
+.margin-h-top{
+  margin-top:60px;
+}
+  .hideNav{
+    display:block;
+    font-size:36px;
+  }
   .buttonToday,
   .buttonReports,
   .buttonSettings{
     height: 50px;
+    display: none;
   }
   .dash-nav {
     top: 0;
     left: 0;
     width: 100%;
-    height: 220px;
+    height: 50px;
     position: absolute;
     background: @dark-grey;
     z-index: 1;
@@ -305,11 +337,10 @@ button.v-btn.theme--light {
     right: 0;
     top:0;
     z-index: 2 !important;
+    display: none;
 }
   .logoWhite {
-    width: 7%;
-    margin-top: 20px;
-    margin-bottom: 15px;
+    display:none;
   }
   .buttonSettings{
   top:0;

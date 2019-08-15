@@ -201,7 +201,7 @@ export default {
 <style lang="less">
 @import '../styles/main.less';
 .padding-h-top{
-  padding-top: 0px;
+  padding-top: 0;
 }
 .padding-h-top-btm {
   padding-top: 20px;
@@ -211,7 +211,7 @@ export default {
   height: 50px;
   background: none;
   width: 200px;
-  margin-left: 120px;
+  margin-left: 6%;
   padding-left: 30px;
   border-radius: 5px;
   float: left;
@@ -280,7 +280,7 @@ input[type="text"] {
 .theme--dark.v-picker__body {
   background: @dark-grey;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1024px) {
   .dataTable,
   .pieChart,
   .lineChart {
@@ -288,9 +288,6 @@ input[type="text"] {
     float: center;
     margin: 0;
     margin-top: 10px;
-  }
-  .padding-h-top {
-  margin-top:270px;
   }
   #createBtn {
   left:0;

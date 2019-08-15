@@ -75,7 +75,7 @@ export default {
   padding-bottom:20px;
 }
 .margin-h-top {
-  padding-top:40px;
+  padding-top:40px !important;
 }
 .apexcharts-legend-text {
   color: @white !important;
@@ -126,9 +126,9 @@ export default {
 }
 .artworkBg {
   position: absolute;
-  right: -250px;
+  left:-20%;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1024px) {
   .parentImages {
     display: none;
   }
@@ -140,9 +140,9 @@ export default {
     margin: 0;
     margin-top: 10px;
   }
-  .margin-h-top {
-  margin-top:270px;
-  padding: 0;
-}
+  .margin-h-top{
+    padding-top: 0px;
+    margin-top: 60px;
+  }
 }
 </style>
