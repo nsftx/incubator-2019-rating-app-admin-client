@@ -1,7 +1,7 @@
 <template id="api-snackbar">
   <v-snackbar
     top
-    :color="snackbarMsg.type"
+    :class="snackbarMsg.type"
     v-model="snackbar"
     :timeout="2000"
   >

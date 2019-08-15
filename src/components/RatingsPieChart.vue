@@ -8,7 +8,8 @@
 </template>
 
 <script>
-import { map, forEach } from 'lodash';
+import Vue from 'vue';
+import { findIndex, forEach } from 'lodash';
 import ApexCharts from 'vue-apexcharts';
 
 export default {
@@ -37,10 +38,15 @@ export default {
     };
   },
   methods: {
+    updatePieChart() {
+      const emoticonIndex = findIndex(this.ratings.data, ['emoticonId', this.newRating.emoticonId]);
+      Vue.set(this.chartSeries, emoticonIndex, this.chartSeries[emoticonIndex] + 1);
+    },
     createPieChart() {
       this.chartOptions.labels.length = 0;
-      this.chartSeries = map(this.ratings.data, 'count');
+      this.chartSeries.length = 0;
       forEach(this.ratings.data, (rating) => {
+        this.chartSeries.push(rating.count);
         this.chartOptions.labels.push(rating.emoticon.name);
       });
     },
@@ -52,10 +58,16 @@ export default {
       },
       deep: true,
     },
+    newRating() {
+      this.updatePieChart();
+    },
   },
   computed: {
     ratings() {
       return this.$store.getters.pieChartData;
+    },
+    newRating() {
+      return this.$store.getters.newRating;
     },
   },
 };

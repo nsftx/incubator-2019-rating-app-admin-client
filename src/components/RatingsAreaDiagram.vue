@@ -8,9 +8,10 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import ApexCharts from 'vue-apexcharts';
 import {
-  map, includes, indexOf, forEach,
+  forEach, find, includes, indexOf, map,
 } from 'lodash';
 
 const NO_RATING = 0;
@@ -34,10 +35,28 @@ export default {
           type: 'datetime',
           categories: [],
         },
+        yaxis: {
+          min: 0,
+        },
       },
     };
   },
   methods: {
+    updateDiagram() {
+      let timeIndex;
+      for (let i = 0; i < this.diagramOptions.xaxis.categories.length - 1; i++) {
+        if (this.rating.time > this.diagramOptions.xaxis.categories[i]
+            && this.rating.time <= this.diagramOptions.xaxis.categories[i + 1]) {
+          timeIndex = i;
+          break;
+        }
+      }
+      const ratedEmoticon = find(this.diagramData.emoticons, ['id', this.rating.emoticonId]);
+      const emoticonIndex = indexOf(this.diagramSeries, find(this.diagramSeries, ['name', ratedEmoticon.name]));
+
+      Vue.set(this.diagramSeries[emoticonIndex].data, timeIndex,
+        this.diagramSeries[emoticonIndex].data[timeIndex] + 1);
+    },
     populateDiagramOptionsCategories() {
       this.diagramOptions.xaxis.categories.length = 0;
       forEach(this.diagramData.data, (rating) => {
@@ -81,8 +100,14 @@ export default {
       },
       deep: true,
     },
+    rating() {
+      this.updateDiagram();
+    },
   },
   computed: {
+    rating() {
+      return this.$store.getters.newRating;
+    },
     diagramData() {
       return this.$store.getters.diagramData;
     },
