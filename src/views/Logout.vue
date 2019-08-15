@@ -1,7 +1,9 @@
 <template>
   <div id="logout">
     <div class="profileWelcome">
-    <h2 class="margin-h-top" style="text-align: center;">Welcome to your profile</h2>
+    <h2 class="marginTop1"
+        :class="{ marginTop2 : this.$parent.toggleNav }"
+        style="text-align: center;">Welcome to your profile</h2>
     </div>
     <v-divider
       class="dividerLogout"

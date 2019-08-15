@@ -2,7 +2,8 @@
   <div id="reports">
     <br>
     <div
-      id="pickerWrap1" class="margin-h-top"
+      id="pickerWrap1" class="marginTop1"
+      :class="{ marginTop2 : this.$parent.toggleNav }"
     >
       <v-layout
         row
@@ -200,7 +201,7 @@ export default {
 
 <style lang="less">
 @import '../styles/main.less';
-.margin-h-top{
+.marginTop1{
   padding-top: 0px !important;
 }
 .padding-h-top-btm {
@@ -281,7 +282,7 @@ input[type="text"] {
   background: @dark-grey;
 }
 @media only screen and (max-width: 1024px) {
-  .margin-h-top{
+  .marginTop1{
   padding-top: 0px ;
 }
   .dataTable,

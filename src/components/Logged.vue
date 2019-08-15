@@ -42,7 +42,7 @@
         </v-icon>
       </api-snackbar>
       <div class="buttonUser"
-            v-show="hidden"
+            v-show="toggleNav"
             >
         <router-link to="/logout">
           <v-chip
@@ -60,15 +60,16 @@
       </div>
       <div
         v-show="logged"
-        class="dash-nav"
+        :class="{ maximizedNav : toggleNav }"
+        class="minimizedNav dash-nav"
       >
-      <p class="hideNav" @click="hideNav()">≡</p>
+      <p class="hideNav" @click="toggledNav()">≡</p>
         <div id="logo">
           <img src="../assets/logo_white1.png" class="logoWhite">
         </div>
         <router-link to="/today">
           <div class="buttonToday"
-            v-show="hidden"
+            v-show="toggleNav"
             @click="activePath('today')" :class="{activeBtn: active === 'today' }">
             <img
               src="../assets/today.png"
@@ -81,7 +82,7 @@
         </router-link>
         <router-link to="/reports">
           <div class="buttonReports"
-            v-show="hidden"
+            v-show="toggleNav"
             @click="activePath('reports')" :class="{activeBtn: active === 'reports' }">
             <img
               src="../assets/report.png"
@@ -94,7 +95,7 @@
         </router-link>
         <router-link to="/settings">
           <div class="buttonSettings"
-            v-show="hidden"
+            v-show="toggleNav"
             @click="activePath('settings')" :class="{activeBtn: active === 'settings' }">
             <img
               src="../assets/settings.png"
@@ -130,20 +131,12 @@ export default {
       email: '',
       logged: false,
       inLocal: false,
-      hidden: true,
+      toggleNav: true,
     };
   },
   methods: {
-    hideNav() {
-      if (this.hidden) {
-        this.hidden = false;
-        document.getElementsByClassName('dash-nav')[0].style = 'height: 50px;';
-        document.getElementsByClassName('margin-h-top')[0].style.marginTop = '60px';
-      } else {
-        this.hidden = true;
-        document.getElementsByClassName('dash-nav')[0].style = 'height: 230px;';
-        document.getElementsByClassName('margin-h-top')[0].style.marginTop = '240px';
-      }
+    toggledNav() {
+      this.toggleNav = !this.toggleNav;
     },
     activePath(path) {
       this.active = path;
@@ -298,8 +291,17 @@ button.v-btn.theme--light {
     color: @white;
 }
 @media only screen and (max-width: 1024px) {
-.margin-h-top{
-  margin-top:60px;
+.minimizedNav{
+  height: 50px;
+}
+.maximizedNav{
+  height: 230px;
+}
+.marginTop1{
+  margin-top: 60px;
+}
+.marginTop2{
+  margin-top: 240px !important;
 }
   .hideNav{
     display:block;
@@ -314,7 +316,6 @@ button.v-btn.theme--light {
     top: 0;
     left: 0;
     width: 100%;
-    height: 240px;
     position: absolute;
     background: @dark-grey;
     z-index: 1;

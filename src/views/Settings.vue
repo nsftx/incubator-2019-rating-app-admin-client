@@ -3,7 +3,8 @@
     <v-app>
       <v-form ref="form">
         <v-container fluid>
-          <h3 class="margin-h-top">Settings</h3>
+          <h3 class="marginTop1"
+            :class="{ marginTop2 : this.$parent.toggleNav }">Settings</h3>
           <v-divider
             class="divider"
             dark
@@ -294,8 +295,8 @@ h3 {
     position: fixed;
     overflow-y: scroll;
 }
-.margin-h-top {
-  margin-top:250px;
+.marginTop1 {
+  margin-top:50px;
 }
 }
 </style>
