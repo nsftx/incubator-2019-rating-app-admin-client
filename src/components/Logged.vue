@@ -41,7 +41,9 @@
           person
         </v-icon>
       </api-snackbar>
-      <div class="buttonUser">
+      <div class="buttonUser"
+            v-show="toggleNav"
+            >
         <router-link to="/logout">
           <v-chip
             v-show="logged"
@@ -58,13 +60,16 @@
       </div>
       <div
         v-show="logged"
-        class="dash-nav"
+        :class="{ maximizedNav : toggleNav }"
+        class="minimizedNav dash-nav"
       >
+      <p class="hideNav" @click="toggledNav()">≡</p>
         <div id="logo">
           <img src="../assets/logo_white1.png" class="logoWhite">
         </div>
         <router-link to="/today">
           <div class="buttonToday"
+            v-show="toggleNav"
             @click="activePath('today')" :class="{activeBtn: active === 'today' }">
             <img
               src="../assets/today.png"
@@ -77,6 +82,7 @@
         </router-link>
         <router-link to="/reports">
           <div class="buttonReports"
+            v-show="toggleNav"
             @click="activePath('reports')" :class="{activeBtn: active === 'reports' }">
             <img
               src="../assets/report.png"
@@ -89,6 +95,7 @@
         </router-link>
         <router-link to="/settings">
           <div class="buttonSettings"
+            v-show="toggleNav"
             @click="activePath('settings')" :class="{activeBtn: active === 'settings' }">
             <img
               src="../assets/settings.png"
@@ -124,9 +131,13 @@ export default {
       email: '',
       logged: false,
       inLocal: false,
+      toggleNav: true,
     };
   },
   methods: {
+    toggledNav() {
+      this.toggleNav = !this.toggleNav;
+    },
     activePath(path) {
       this.active = path;
       localStorage.setItem('activePath', path);
@@ -208,6 +219,9 @@ p {
   background: @dim-grey;
   cursor: pointer;
 }
+.hideNav{
+  display:none;
+}
 .buttonToday,
 .buttonReports,
 .buttonSettings{
@@ -276,7 +290,23 @@ button.v-btn.theme--light {
     background: @dark-grey !important;
     color: @white;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1024px) {
+.minimizedNav{
+  height: 50px;
+}
+.maximizedNav{
+  height: 230px;
+}
+.marginTop1{
+  margin-top: 60px;
+}
+.marginTop2{
+  margin-top: 240px !important;
+}
+  .hideNav{
+    display:block;
+    font-size:36px;
+  }
   .buttonToday,
   .buttonReports,
   .buttonSettings{
@@ -286,7 +316,6 @@ button.v-btn.theme--light {
     top: 0;
     left: 0;
     width: 100%;
-    height: 220px;
     position: absolute;
     background: @dark-grey;
     z-index: 1;
@@ -307,9 +336,7 @@ button.v-btn.theme--light {
     z-index: 2 !important;
 }
   .logoWhite {
-    width: 7%;
-    margin-top: 20px;
-    margin-bottom: 15px;
+    display:none;
   }
   .buttonSettings{
   top:0;

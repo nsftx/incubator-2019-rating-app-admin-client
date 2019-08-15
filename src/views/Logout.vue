@@ -1,6 +1,10 @@
 <template>
   <div id="logout">
-    <h3 class="profileWelcome">Welcome to your profile</h3>
+    <div class="profileWelcome">
+    <h2 class="marginTop1"
+        :class="{ marginTop2 : this.$parent.toggleNav }"
+        style="text-align: center;">Welcome to your profile</h2>
+    </div>
     <v-divider
       class="dividerLogout"
       dark
@@ -77,7 +81,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .profileInfo{
   width: 80%;
   padding-top:25px;
@@ -114,15 +118,16 @@ export default {
   padding-right: 10px;
 }
 .profileWelcome {
-  text-align: left;
-  font-size: 2vw;
-  margin-left: 200px;
-  padding-top: 80px;
+  margin-top:0px;
+  padding-top:20px;
+  text-align: center;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1024px) {
+  .profileWelcome{
+  margin-top:40px;
+  }
   .profileInfo{
     width: 100%;
-    margin-top: 150px;
     text-align: center;
     margin-left: 0;
   }
