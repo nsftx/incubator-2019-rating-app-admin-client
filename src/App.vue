@@ -69,4 +69,10 @@ button.v-btn.theme--light {
 .apexcharts-tooltip {
   color: @silver;
 }
+.error .v-snack__content {
+  background: red;
+}
+.success .v-snack__content {
+  background: green;
+}
 </style>

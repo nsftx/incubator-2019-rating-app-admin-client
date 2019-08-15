@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { forEach } from 'lodash';
+import { findIndex, forEach } from 'lodash';
 
 export default {
   template: '#data-table',
@@ -38,6 +38,10 @@ export default {
     };
   },
   methods: {
+    updateTable() {
+      const emoticonIndex = findIndex(this.ratings.data, ['emoticonId', this.newRating.emoticonId]);
+      this.reactions[emoticonIndex].number++;
+    },
     populateTable() {
       this.reactions = [];
       forEach(this.ratings.data, (data) => {
@@ -52,10 +56,16 @@ export default {
       },
       deep: true,
     },
+    newRating() {
+      this.updateTable();
+    },
   },
   computed: {
     ratings() {
       return this.$store.getters.pieChartData;
+    },
+    newRating() {
+      return this.$store.getters.newRating;
     },
   },
 };
