@@ -129,25 +129,25 @@ export default {
     };
   },
   methods: {
-    hideNav(){
-      if(!this.hidden) {
-        this.hidden=true;
-        document.getElementsByClassName('dash-nav')[0].style="height: 50px;"
-        document.getElementsByClassName('buttonToday')[0].style="display: none;"
-        document.getElementsByClassName('buttonSettings')[0].style="display: none;"
-        document.getElementsByClassName('buttonReports')[0].style="display: none;"
-        document.getElementsByClassName('buttonUser')[0].style="display: none;"
-        document.getElementsByClassName('margin-h-top')[0].style.marginTop = "60px";
+    hideNav() {
+      if (!this.hidden) {
+        this.hidden = true;
+        document.getElementsByClassName('dash-nav')[0].style = 'height: 50px;';
+        document.getElementsByClassName('buttonToday')[0].style = 'display: none;';
+        document.getElementsByClassName('buttonSettings')[0].style = 'display: none;';
+        document.getElementsByClassName('buttonReports')[0].style = 'display: none;';
+        document.getElementsByClassName('buttonUser')[0].style = 'display: none;';
+        document.getElementsByClassName('margin-h-top')[0].style.marginTop = '60px';
       } else {
-        this.hidden=false;
-        document.getElementsByClassName('dash-nav')[0].style="height: 230px;"
-        document.getElementsByClassName('buttonToday')[0].style="display: block;"
-        document.getElementsByClassName('buttonSettings')[0].style="display: block;"
-        document.getElementsByClassName('buttonReports')[0].style="display: block;"
-        document.getElementsByClassName('buttonUser')[0].style="display: block;"
-        document.getElementsByClassName('margin-h-top')[0].style.marginTop = "240px";
+        this.hidden = false;
+        document.getElementsByClassName('dash-nav')[0].style = 'height: 230px;';
+        document.getElementsByClassName('buttonToday')[0].style = 'display: block;';
+        document.getElementsByClassName('buttonSettings')[0].style = 'display: block;';
+        document.getElementsByClassName('buttonReports')[0].style = 'display: block;';
+        document.getElementsByClassName('buttonUser')[0].style = 'display: block;';
+        document.getElementsByClassName('margin-h-top')[0].style.marginTop = '240px';
       }
-      },
+    },
     activePath(path) {
       this.active = path;
       localStorage.setItem('activePath', path);
@@ -190,8 +190,8 @@ export default {
         .catch((error) => {
           this.$router.push({ path: '/' });
         });
-    }
     },
+  },
   created() {
     if (localStorage.getItem('inLocal')) {
       this.$store.dispatch('createToken', localStorage.getItem('token'));

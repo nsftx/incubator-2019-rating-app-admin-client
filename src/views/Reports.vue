@@ -2,7 +2,7 @@
   <div id="reports">
     <br>
     <div
-      id="pickerWrap1" class="padding-h-top"
+      id="pickerWrap1" class="margin-h-top"
     >
       <v-layout
         row
@@ -200,8 +200,8 @@ export default {
 
 <style lang="less">
 @import '../styles/main.less';
-.padding-h-top{
-  padding-top: 0;
+.margin-h-top{
+  padding-top: 0px !important;
 }
 .padding-h-top-btm {
   padding-top: 20px;
@@ -281,6 +281,9 @@ input[type="text"] {
   background: @dark-grey;
 }
 @media only screen and (max-width: 1024px) {
+  .margin-h-top{
+  padding-top: 0px ;
+}
   .dataTable,
   .pieChart,
   .lineChart {

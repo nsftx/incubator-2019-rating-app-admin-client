@@ -4,7 +4,9 @@
       <img class="artworkBg" src="../assets/Oval.png" />
       <img class="artwork" src="../assets/Artwork.png" />
     </div>
+    <div class="padding-top">
     <h1 class="margin-h-top">Today is a new day.</h1>
+    </div>
     <h1 class="margin-h-btm">Check your ratings</h1>
     <h2>Graphs present your rating results. Today you have {{ todayCount }} rates,</h2>
     <h2>check it on the dashboard.</h2>
@@ -74,8 +76,8 @@ export default {
 .margin-h-btm {
   padding-bottom:20px;
 }
-.margin-h-top {
-  padding-top:40px !important;
+.padding-top {
+  padding-top:40px;
 }
 .apexcharts-legend-text {
   color: @white !important;
@@ -142,7 +144,10 @@ export default {
   }
   .margin-h-top{
     padding-top: 0px;
-    margin-top: 60px;
+    margin-top: 60px ;
+  }
+  .padding-top {
+    padding-top: 0;
   }
 }
 </style>

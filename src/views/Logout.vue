@@ -1,6 +1,8 @@
 <template>
   <div id="logout">
-    <h2 class="margin-h-top profileWelcome">Welcome to your profile</h2>
+    <div class="profileWelcome">
+    <h2 class="margin-h-top" style="text-align: center;">Welcome to your profile</h2>
+    </div>
     <v-divider
       class="dividerLogout"
       dark
@@ -114,7 +116,7 @@ export default {
   padding-right: 10px;
 }
 .profileWelcome {
-  margin-top:10px;
+  margin-top:0px;
   padding-top:20px;
   text-align: center;
 }
