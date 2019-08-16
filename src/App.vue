@@ -78,4 +78,7 @@ button.v-btn.theme--light {
 .success .v-snack__content {
   background: green;
 }
+.v-snack.v-snack--active.v-snack--top {
+  background: none !important;
+}
 </style>
