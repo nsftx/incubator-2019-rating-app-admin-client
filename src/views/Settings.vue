@@ -1,5 +1,6 @@
 <template>
   <div id="settings">
+    <v-app>
       <v-form ref="form">
         <v-container fluid>
           <h3 class="marginTop1"
@@ -129,6 +130,7 @@
             </v-btn>
         </v-container>
       </v-form>
+    </v-app>
   </div>
 </template>
 <script>
