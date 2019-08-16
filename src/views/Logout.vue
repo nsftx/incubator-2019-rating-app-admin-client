@@ -72,7 +72,7 @@ export default {
         .then(() => {
           localStorage.clear();
         });
-      this.$parent.logged = false;
+      this.$store.commit('setLogged', false);
     },
     invite() {
       this.$store.dispatch('invite', { email: this.inviteMail });

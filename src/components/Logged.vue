@@ -112,7 +112,6 @@
   </div>
 </template>
 <script>
-import ApiService from '@/services/ApiService';
 import ApiSnackbar from './ApiSnackbar.vue';
 
 export default {
@@ -129,7 +128,6 @@ export default {
       nameAvatar: '',
       lastName: '',
       email: '',
-      logged: false,
       inLocal: false,
       toggleNav: true,
     };
@@ -159,21 +157,10 @@ export default {
           // eslint-disable-next-line camelcase
           const { id_token } = GoogleUser.getAuthResponse();
           // eslint-disable-next-line camelcase
-          this.$store.dispatch('createToken', id_token);
-          const payLoad = {};
-          ApiService.postData('http://172.20.15.193:3000/api/v1/users/login', payLoad, id_token)
-            .then((response) => {
-              if (response.data.error == false) {
-                this.logged = true;
-                this.$store.dispatch('setMessage', { type: 'success', text: 'Login success! Welcome' });
-                localStorage.setItem('token', id_token);
-                this.inLocal = true;
-                localStorage.setItem('inLocal', this.inLocal);
-                this.$router.push({ path: '/today' });
-              } else {
-                this.$store.dispatch('setMessage', { type: 'success', text: 'Oops. You are a non-existing user. Please ask for an invite.' });
-                this.$router.push({ path: '/' });
-              }
+          this.$store.dispatch('createToken', id_token)
+            .then(() => {
+              const payload = {};
+              this.$store.dispatch('login', payload);
             });
         })
       // eslint-disable-next-line no-unused-vars
@@ -185,7 +172,7 @@ export default {
   created() {
     if (localStorage.getItem('inLocal')) {
       this.$store.dispatch('createToken', localStorage.getItem('token'));
-      this.logged = true;
+      this.$store.commit('setLogged', true);
       this.imgAvatar = localStorage.getItem('imgAvatar');
       this.nameAvatar = localStorage.getItem('nameAvatar');
       this.firstName = localStorage.getItem('firstName');
@@ -193,6 +180,11 @@ export default {
       this.email = localStorage.getItem('email');
       this.active = localStorage.getItem('activePath');
     }
+  },
+  computed: {
+    logged() {
+      return this.$store.getters.isLogged;
+    },
   },
 };
 </script>
