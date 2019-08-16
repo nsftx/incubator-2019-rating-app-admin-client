@@ -43,11 +43,14 @@ export default {
   },
   methods: {
     updateDiagram() {
+      if (localStorage.getItem('activePath') === 'reports') {
+        this.rating.time = this.rating.time.substr(0, 10);
+      }
       let timeIndex;
       for (let i = 0; i < this.diagramOptions.xaxis.categories.length - 1; i++) {
         if (this.rating.time > this.diagramOptions.xaxis.categories[i]
             && this.rating.time <= this.diagramOptions.xaxis.categories[i + 1]) {
-          timeIndex = i;
+          timeIndex = i + 1;
           break;
         }
       }

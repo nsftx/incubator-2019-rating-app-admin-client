@@ -14,6 +14,9 @@ export default {
     return {};
   },
   methods: {},
+  mounted() {
+    this.$store.dispatch('newRating');
+  },
 };
 </script>
 

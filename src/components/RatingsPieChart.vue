@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     updatePieChart() {
-      const emoticonIndex = findIndex(this.ratings.data, ['emoticonId', this.newRating.emoticonId]);
+      const emoticonIndex = findIndex(this.ratings.data, ['id', this.newRating.emoticonId]);
       Vue.set(this.chartSeries, emoticonIndex, this.chartSeries[emoticonIndex] + 1);
     },
     createPieChart() {
@@ -47,7 +47,7 @@ export default {
       this.chartSeries.length = 0;
       forEach(this.ratings.data, (rating) => {
         this.chartSeries.push(rating.count);
-        this.chartOptions.labels.push(rating.emoticon.name);
+        this.chartOptions.labels.push(rating.name);
       });
     },
   },

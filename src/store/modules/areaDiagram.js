@@ -55,7 +55,6 @@ export default ({
     },
     newRating({ commit }) {
       const socket = require('socket.io-client')('http://172.20.15.193:7000/');
-
       socket.on('newRating', (rating) => {
         commit('setNewRating', rating);
       });

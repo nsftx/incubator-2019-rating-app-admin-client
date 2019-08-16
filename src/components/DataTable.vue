@@ -39,13 +39,13 @@ export default {
   },
   methods: {
     updateTable() {
-      const emoticonIndex = findIndex(this.ratings.data, ['emoticonId', this.newRating.emoticonId]);
+      const emoticonIndex = findIndex(this.ratings.data, ['id', this.newRating.emoticonId]);
       this.reactions[emoticonIndex].number++;
     },
     populateTable() {
       this.reactions = [];
       forEach(this.ratings.data, (data) => {
-        this.reactions.push({ name: data.emoticon.name, number: data.count });
+        this.reactions.push({ name: data.name, number: data.count });
       });
     },
   },

@@ -53,7 +53,6 @@ export default {
     if (this.$parent.logged) {
       this.$store.dispatch('getPieChartToday', this.Today);
       this.$store.dispatch('getDiagramToday', this.interval);
-      this.$store.dispatch('newRating');
     }
   },
   methods: {

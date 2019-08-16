@@ -172,7 +172,10 @@ export default {
       if (this.$refs.form.validate()) {
         this.activeSettings.messageId = this.activeMessage.id;
         this.updateActiveEmoticons();
-        this.$store.dispatch('updateSettings', this.activeSettings);
+        this.$store.dispatch('updateSettings', this.activeSettings)
+          .then(() => {
+            this.$store.dispatch('getActiveSettings');
+          });
       } else {
         const message = 'Please enter valid settings';
         this.$store.dispatch('setMessage', { type: 'error', text: message });
