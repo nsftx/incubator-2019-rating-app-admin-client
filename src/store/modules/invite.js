@@ -1,6 +1,6 @@
 import ApiService from '@/services/ApiService';
 
-const API_URL = 'http://172.20.15.193:3000/api/v1';
+const API_URL = 'http://172.20.116.56:3000/api/v1';
 
 export default ({
   state: {},
