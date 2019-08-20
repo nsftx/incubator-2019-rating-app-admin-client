@@ -28,9 +28,9 @@ export default ({
       commit('setToken', token);
     },
     login({ commit, dispatch, getters }, payload) {
-      ApiService.postData('http://172.20.15.193:3000/api/v1/users/login', payload, getters.token)
+      ApiService.postData('http://172.20.116.56:3000/api/v1/users/login', payload, getters.token)
         .then((response) => {
-          if (response.data.error == false) {
+          if (response.data.error === false) {
             commit('setLogged', true);
             commit('setUser', response.data.data);
             dispatch('setMessage', { type: 'success', text: 'Login success! Welcome' });
