@@ -54,7 +54,7 @@
               <img
                 :src="imgAvatar"
               >
-            </v-avatar><b>{{nameAvatar}}</b>
+            </v-avatar><b class="nameAv">{{nameAvatar}}</b>
           </v-chip>
         </router-link>
       </div>
@@ -65,7 +65,7 @@
       >
       <p class="hideNav" @click="toggledNav()">≡</p>
         <div id="logo">
-          <img src="../assets/logo_white1.png" class="logoWhite">
+          <a href="https://www.nsoft.com" target="_blank"><img src="../assets/logo_white1.png" class="logoWhite"></a>
         </div>
         <router-link to="/today">
           <div class="buttonToday"
@@ -283,14 +283,20 @@ button.v-btn.theme--light {
     color: @white;
 }
 @media only screen and (max-width: 1024px) {
+.v-chip .v-chip__content {
+  padding: 0 !important;
+}
+.hideNav {
+  margin-top: 10px;
+}
 .minimizedNav{
-  height: 50px;
+  height: 60px;
 }
 .maximizedNav{
   height: 230px;
 }
 .marginTop1{
-  margin-top: 60px;
+  margin-top: 70px;
 }
 .marginTop2{
   margin-top: 240px !important;
@@ -334,6 +340,14 @@ button.v-btn.theme--light {
   top:0;
   position: relative;
   width:100%;
+}
+.nameAv {
+  display: none;
+}
+.buttonUser {
+    right: 0;
+    margin-right: 0;
+    margin-bottom:0;
 }
 h1{
   font-size:36px;

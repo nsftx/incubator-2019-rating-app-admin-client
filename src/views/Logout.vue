@@ -119,7 +119,7 @@ export default {
 }
 .profileWelcome {
   margin-top:0px;
-  padding-top:20px;
+  padding-top:25px;
   text-align: center;
 }
 @media only screen and (max-width: 1024px) {
