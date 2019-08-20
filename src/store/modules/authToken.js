@@ -30,7 +30,7 @@ export default ({
     login({ commit, dispatch, getters }, payload) {
       ApiService.postData('http://172.20.116.56:3000/api/v1/users/login', payload, getters.token)
         .then((response) => {
-          if (response.data.error === false) {
+          if (response.status === 200) {
             commit('setLogged', true);
             commit('setUser', response.data.data);
             dispatch('setMessage', { type: 'success', text: 'Login success! Welcome' });
@@ -38,9 +38,25 @@ export default ({
             localStorage.setItem('inLocal', true);
             router.push({ path: '/today' });
           } else {
-            dispatch('setMessage', { type: 'success', text: 'Oops. You are a non-existing user. Please ask for an invite.' });
+            dispatch('setMessage', { type: 'error', text: response.data.message });
             router.push({ path: '/' });
           }
+        })
+        .catch((error) => {
+          dispatch('setMessage', { type: 'error', text: error.response.data.message });
+        });
+    },
+    setUser({ commit, dispatch, getters }) {
+      ApiService.postData('http://172.20.116.56:3000/api/v1/users/user', { email: localStorage.email }, getters.token)
+        .then((response) => {
+          if (response.status === 200) {
+            commit('setUser', response.data.data);
+          } else {
+            dispatch('setMessage', { type: 'error', text: 'Error with user email.' });
+          }
+        })
+        .catch((error) => {
+          dispatch('setMessage', { type: 'error', text: error.response.data.message });
         });
     },
   },

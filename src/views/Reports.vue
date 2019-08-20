@@ -183,7 +183,7 @@ export default {
   },
   methods: {
     getYesterdayDate() {
-      this.dateBegin = moment().subtract(1, 'days').format('YYYY-MM-DD');
+      this.dateBegin = moment().subtract(1, 'day').format('YYYY-MM-DD');
     },
     createRange() {
       const Today = {
