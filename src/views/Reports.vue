@@ -150,6 +150,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
 import RatingsPieChart from '../components/RatingsPieChart.vue';
 import DataTable from '../components/DataTable.vue';
@@ -182,10 +183,7 @@ export default {
   },
   methods: {
     getYesterdayDate() {
-      const todayTimeStamp = new Date();
-      const oneDayTimeStamp = 1000 * 60 * 60 * 24;
-      const diff = todayTimeStamp - oneDayTimeStamp;
-      this.dateBegin = new Date(diff).toISOString().substr(0, 10);
+      this.dateBegin = moment().subtract(1, 'day').format('YYYY-MM-DD');
     },
     createRange() {
       const Today = {

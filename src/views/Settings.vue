@@ -158,6 +158,7 @@ export default {
     };
   },
   created() {
+    this.$store.dispatch('setUser');
     this.$store.dispatch('getEmoticons')
       .then(() => {
         this.$store.dispatch('getActiveSettings')

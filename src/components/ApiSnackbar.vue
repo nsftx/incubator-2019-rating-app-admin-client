@@ -6,14 +6,6 @@
     :timeout="2000"
   >
     {{ snackbarMsg.text }}
-    <button
-      block
-      color="primary"
-      dark
-      @click="snackbar=false"
-    >
-      Close
-    </button>
   </v-snackbar>
 </template>
 
