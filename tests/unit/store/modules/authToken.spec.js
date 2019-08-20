@@ -1,15 +1,15 @@
 import authToken from '@/store/modules/authToken';
 
-test('validate state token value', () => {
+test('token should be empty string', () => {
   expect(typeof authToken.state.token).toBe('string');
   expect(authToken.state.token).toEqual('');
 });
 
-test('validate state isLogged value', () => {
+test('isLogged initial value should be false', () => {
   expect(authToken.state.isLogged).toBeFalsy();
 });
 
-test('validate state user value', () => {
+test('user value should be object', () => {
   expect(typeof authToken.state.loggedUser).toBe('object');
 });
 

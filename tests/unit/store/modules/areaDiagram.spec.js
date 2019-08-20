@@ -1,10 +1,10 @@
 import areaDiagram from '@/store/modules/areaDiagram';
 
-test('validate state diagram data value', () => {
+test('diagram data should be object', () => {
   expect(typeof areaDiagram.state.diagramData).toBe('object');
 });
 
-  test('validate state new rating value', () => {
+  test('new rating should be object', () => {
   expect(typeof areaDiagram.state.newRating).toBe('object');
 });
 

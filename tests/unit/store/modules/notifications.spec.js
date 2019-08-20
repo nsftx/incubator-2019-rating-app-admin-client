@@ -1,6 +1,6 @@
 import notifications from '@/store/modules/notifications';
 
-test('validate state notifiactions value', () => {
+test('notifications should be empty object', () => {
   expect(typeof notifications.state.notifications).toBe('object');
 })
 
