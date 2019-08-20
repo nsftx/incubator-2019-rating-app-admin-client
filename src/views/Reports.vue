@@ -176,7 +176,6 @@ export default {
     };
   },
   created() {
-    console.log(localStorage);
     if (this.$parent.logged) {
       this.getYesterdayDate();
       this.createRange();
