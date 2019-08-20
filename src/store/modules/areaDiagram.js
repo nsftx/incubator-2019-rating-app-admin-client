@@ -54,7 +54,6 @@ export default ({
         });
     },
     newRating({ commit }) {
-      // eslint-disable-next-line global-require
       const socket = require('socket.io-client')('http://172.20.116.56:7000/');
       socket.on('newRating', (rating) => {
         commit('setNewRating', rating);

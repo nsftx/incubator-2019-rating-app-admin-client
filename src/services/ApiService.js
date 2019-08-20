@@ -1,4 +1,3 @@
-/* eslint-disable no-tabs */
 import axios from 'axios';
 
 const API_URL = 'http://172.20.116.56:3000/api/v1';
