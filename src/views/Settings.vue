@@ -128,6 +128,10 @@
             >
               Confirm
             </v-btn>
+            <h4 class="modified">
+              Last modified by: {{ user.firstName }} {{ user.lastName }}
+              at: {{ activeSettings.updatedAt.substr(0, 19) }}
+            </h4>
         </v-container>
       </v-form>
     </v-app>
@@ -139,6 +143,7 @@ import { some, find, cloneDeep } from 'lodash';
 export default {
   data() {
     return {
+      user: {},
       activeMessage: {},
       newMessageDialog: false,
       newMessage: {},
@@ -163,6 +168,10 @@ export default {
       .then(() => {
         this.$store.dispatch('getActiveSettings')
           .then(() => {
+            this.$store.dispatch('getUserById', this.activeSettings.userId)
+              .then((response) => {
+                this.user = response.data.data;
+              });
             this.$store.dispatch('getThanksMessages')
               .then(() => {
                 this.activeMessage = find(this.messages, ['id', this.activeSettings.messageId]);
@@ -278,6 +287,10 @@ h3 {
 }
 .application--wrap {
   background: @cinder;
+}
+.modified {
+  text-align: right;
+  color: @silver;
 }
 @media only screen and (max-width: 1024px) {
   .layout{

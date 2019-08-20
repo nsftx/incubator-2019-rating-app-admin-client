@@ -59,5 +59,8 @@ export default ({
           dispatch('setMessage', { type: 'error', text: error.response.data.message });
         });
     },
+    getUserById({ getters }, id) {
+      return ApiService.getData(`http://172.20.116.56:3000/api/v1/users/${id}`, getters.token);
+    },
   },
 });

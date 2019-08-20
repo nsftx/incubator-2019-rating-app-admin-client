@@ -2,10 +2,10 @@ import notifications from '@/store/modules/notifications';
 
 test('notifications should be empty object', () => {
   expect(typeof notifications.state.notifications).toBe('object');
-})
+});
 
 test('setMessage updates state with message in payload', () => {
-  let message = { type: 'success', text: 'Congratulations' };
+  const message = { type: 'success', text: 'Congratulations' };
   notifications.mutations.setMessage(notifications.state, { message });
   expect(notifications.state.notifications.message).toEqual(message);
   expect(notifications.state.notifications.message.type).toEqual(message.type);

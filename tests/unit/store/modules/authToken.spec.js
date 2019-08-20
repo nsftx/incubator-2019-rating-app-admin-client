@@ -14,19 +14,19 @@ test('user value should be object', () => {
 });
 
 test('setToken updates state with token in payload', () => {
-  let token = 'asklsjdfsjfkldjgfkfjsgfčgldfds';
+  const token = 'asklsjdfsjfkldjgfkfjsgfčgldfds';
   authToken.mutations.setToken(authToken.state, { token });
   expect(authToken.state.token.token).toEqual(token);
 });
 
 test('setLogged updates state with isLogged in payload', () => {
-  let isLogged = false;
+  const isLogged = false;
   authToken.mutations.setLogged(authToken.state, { isLogged });
   expect(authToken.state.isLogged.isLogged).toBeFalsy();
 });
 
 test('setUser updates state with user in payload', () => {
-  let user = {
+  const user = {
     name: 'pero',
     lastname: 'peric',
     password: 'peroperic',
