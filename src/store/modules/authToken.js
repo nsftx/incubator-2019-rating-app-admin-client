@@ -28,7 +28,7 @@ export default ({
       commit('setToken', token);
     },
     login({ commit, dispatch, getters }, payload) {
-      ApiService.postData('http://172.105.81.4:3000/api/v1/users/login', payload, getters.token)
+      ApiService.postData(`${getters.apiUrl}/users/login`, payload, getters.token)
         .then((response) => {
           if (response.status === 200) {
             commit('setLogged', true);
@@ -47,7 +47,7 @@ export default ({
         });
     },
     setUser({ commit, dispatch, getters }) {
-      ApiService.postData('http://172.105.81.4:3000/api/v1/users/user', { email: localStorage.email }, getters.token)
+      ApiService.postData(`${getters.apiUrl}/users/user`, { email: localStorage.email }, getters.token)
         .then((response) => {
           if (response.status === 200) {
             commit('setUser', response.data.data);
@@ -60,7 +60,7 @@ export default ({
         });
     },
     getUserById({ getters }, id) {
-      return ApiService.getData(`http://172.105.81.4:3000/api/v1/users/${id}`, getters.token);
+      return ApiService.getData(`${getters.apiUrl}/users/${id}`, getters.token);
     },
   },
 });

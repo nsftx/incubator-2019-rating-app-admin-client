@@ -1,6 +1,5 @@
 import ApiService from '@/services/ApiService';
 
-const API_URL = 'http://172.105.81.4:3000/api/v1';
 export default ({
   state: {
     pieChartData: {},
@@ -15,7 +14,7 @@ export default ({
   },
   actions: {
     getPieChartToday({ commit, getters, dispatch }, date) {
-      ApiService.postData(`${API_URL}/ratings/count`, date, getters.token)
+      ApiService.postData(`${getters.apiUrl}/ratings/count`, date, getters.token)
         .then((response) => {
           if (response.status === 200) {
             commit('setPieChartData', response.data);
@@ -32,7 +31,7 @@ export default ({
         });
     },
     getPieChartReport({ commit, getters, dispatch }, date) {
-      ApiService.postData(`${API_URL}/ratings/report`, date, getters.token)
+      ApiService.postData(`${getters.apiUrl}/ratings/report`, date, getters.token)
         .then((response) => {
           if (response.status === 200) {
             commit('setPieChartData', response.data);

@@ -1,6 +1,5 @@
 import ApiService from '@/services/ApiService';
 
-const API_URL = 'http://172.105.81.4:3000/api/v1';
 export default ({
   state: {
     activeSettings: {},
@@ -26,8 +25,8 @@ export default ({
     emoticonGroupNames: state => state.emoticons.map(group => group.name),
   },
   actions: {
-    getActiveSettings({ commit, dispatch }) {
-      return ApiService.getData(`${API_URL}/settings/last`)
+    getActiveSettings({ commit, dispatch, getters }) {
+      return ApiService.getData(`${getters.apiUrl}/settings/last`)
         .then((response) => {
           if (response.status === 200) {
             commit('setActiveSettings', response.data.data);
@@ -44,7 +43,7 @@ export default ({
         });
     },
     getEmoticons({ commit, getters, dispatch }) {
-      return ApiService.getData(`${API_URL}/emoticonsGroups`, getters.token)
+      return ApiService.getData(`${getters.apiUrl}/emoticonsGroups`, getters.token)
         .then((response) => {
           if (response.status === 200) {
             commit('setEmoticons', response.data.data);
@@ -61,7 +60,7 @@ export default ({
         });
     },
     updateSettings({ getters, dispatch }, settings) {
-      return ApiService.putData(`${API_URL}/settings/${settings.id}`, settings, getters.token)
+      return ApiService.putData(`${getters.apiUrl}/settings/${settings.id}`, settings, getters.token)
         .then((response) => {
           if (response.status === 200 || response.status === 201) {
             dispatch('setMessage', { type: 'success', text: response.data.message });
@@ -78,7 +77,7 @@ export default ({
         });
     },
     createThanksMessage({ getters, dispatch }, message) {
-      return ApiService.postData(`${API_URL}/messages`, message, getters.token)
+      return ApiService.postData(`${getters.apiUrl}/messages`, message, getters.token)
         .then((response) => {
           if (response.status === 201) {
             dispatch('setMessage', { type: 'success', text: response.data.message });
@@ -95,7 +94,7 @@ export default ({
         });
     },
     getThanksMessages({ commit, getters, dispatch }) {
-      return ApiService.getData(`${API_URL}/messages`, getters.token)
+      return ApiService.getData(`${getters.apiUrl}/messages`, getters.token)
         .then((response) => {
           if (response.status === 200) {
             commit('setThanksMessages', response.data.data);

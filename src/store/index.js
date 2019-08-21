@@ -8,6 +8,7 @@ import pieChart from './modules/pieChart';
 import settings from './modules/settings';
 import invite from './modules/invite';
 import notifications from './modules/notifications';
+import apiUrl from './modules/apiUrl';
 
 Vue.use(Vuex);
 
@@ -19,5 +20,6 @@ export default new Vuex.Store({
     settings,
     invite,
     notifications,
+    apiUrl,
   },
 });
