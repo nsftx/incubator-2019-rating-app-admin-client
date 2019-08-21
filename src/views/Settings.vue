@@ -168,10 +168,6 @@ export default {
       .then(() => {
         this.$store.dispatch('getActiveSettings')
           .then(() => {
-            this.$store.dispatch('getUserById', this.activeSettings.userId)
-              .then((response) => {
-                this.user = response.data.data;
-              });
             this.$store.dispatch('getThanksMessages')
               .then(() => {
                 this.activeMessage = find(this.messages, ['id', this.activeSettings.messageId]);
@@ -221,6 +217,12 @@ export default {
         this.emoticonPreview.splice(2, 1);
       }
     },
+    setSettingsModifiedBy() {
+      this.$store.dispatch('getUserById', this.activeSettings.userId)
+        .then((response) => {
+          this.user = response.data.data;
+        });
+    },
   },
   computed: {
     activeSettings() {
@@ -239,6 +241,7 @@ export default {
   watch: {
     activeSettings: {
       handler() {
+        this.setSettingsModifiedBy();
         this.updateEmoticonPreview();
       },
       deep: true,
