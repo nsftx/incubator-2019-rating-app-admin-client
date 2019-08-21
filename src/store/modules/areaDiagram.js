@@ -54,7 +54,7 @@ export default ({
     },
     newRating({ commit }) {
       // eslint-disable-next-line global-require
-      const socket = require('socket.io-client')('http://172.105.81.4:7000/');
+      const socket = require('socket.io-client')('https://ratingsapp.ddns.net:7000/');
       socket.on('newRating', (rating) => {
         commit('setNewRating', rating);
       });

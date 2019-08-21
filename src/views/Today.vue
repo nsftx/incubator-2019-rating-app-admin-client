@@ -50,8 +50,10 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch('getPieChartToday', this.Today);
-    this.$store.dispatch('getDiagramToday', this.interval);
+    if (this.$store.getters.isLogged) {
+      this.$store.dispatch('getPieChartToday', this.Today);
+      this.$store.dispatch('getDiagramToday', this.interval);
+    }
   },
   methods: {
     countToday() {

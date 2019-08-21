@@ -18,7 +18,7 @@
       <br>
       <p class="respLogin" style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">
         Welcome to the Rating Dashboard! Please enter your credentials<br>
-        Please login with OAuth
+        Please login with your Google account
       </p>
       <br>
         <v-btn
