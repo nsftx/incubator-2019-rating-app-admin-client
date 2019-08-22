@@ -1,3 +1,4 @@
+import moment from 'moment';
 import router from '../../router';
 import ApiService from '@/services/ApiService';
 
@@ -37,6 +38,7 @@ export default ({
             localStorage.setItem('token', getters.token);
             localStorage.setItem('inLocal', true);
             router.push({ path: '/today' });
+            dispatch('getDiagramDataOnLogin');
           } else {
             dispatch('setMessage', { type: 'error', text: response.data.message });
             router.push({ path: '/' });
@@ -49,6 +51,11 @@ export default ({
             dispatch('setMessage', { type: 'error', text: error.message });
           }
         });
+    },
+    getDiagramDataOnLogin({ dispatch }) {
+      const today = moment().format('YYYY-MM-DD');
+      dispatch('getPieChartToday', { date: today });
+      dispatch('getDiagramToday', { date: today, interval: 2 });
     },
     setUser({ commit, dispatch, getters }) {
       ApiService.postData(`${getters.apiUrl}/users/user`, { email: localStorage.email }, getters.token)

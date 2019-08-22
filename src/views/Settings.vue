@@ -163,13 +163,15 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch('setUser');
-    this.$store.dispatch('getEmoticons')
-      .then(() => this.$store.dispatch('getActiveSettings'))
-      .then(() => this.$store.dispatch('getThanksMessages'))
-      .then(() => {
-        this.activeMessage = find(this.messages, ['id', this.activeSettings.messageId]);
-      });
+    if (this.$store.getters.isLogged) {
+      this.$store.dispatch('setUser');
+      this.$store.dispatch('getEmoticons')
+        .then(() => this.$store.dispatch('getActiveSettings'))
+        .then(() => this.$store.dispatch('getThanksMessages'))
+        .then(() => {
+          this.activeMessage = find(this.messages, ['id', this.activeSettings.messageId]);
+        });
+    }
   },
   methods: {
     updateActiveSettings() {
