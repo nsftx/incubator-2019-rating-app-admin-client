@@ -43,7 +43,11 @@ export default ({
           }
         })
         .catch((error) => {
-          dispatch('setMessage', { type: 'error', text: error.response.data.message });
+          if (error.response) {
+            dispatch('setMessage', { type: 'error', text: error.response.data.message });
+          } else {
+            dispatch('setMessage', { type: 'error', text: error.message });
+          }
         });
     },
     setUser({ commit, dispatch, getters }) {
@@ -56,7 +60,11 @@ export default ({
           }
         })
         .catch((error) => {
-          dispatch('setMessage', { type: 'error', text: error.response.data.message });
+          if (error.response) {
+            dispatch('setMessage', { type: 'error', text: error.response.data.message });
+          } else {
+            dispatch('setMessage', { type: 'error', text: error.message });
+          }
         });
     },
     getUserById({ getters }, id) {

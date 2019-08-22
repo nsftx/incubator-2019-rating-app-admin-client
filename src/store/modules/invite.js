@@ -5,12 +5,20 @@ export default ({
   mutations: {},
   getters: {},
   actions: {
-    invite({ commit, getters }, mail) {
+    invite({ dispatch, getters }, mail) {
       ApiService.postData(`${getters.apiUrl}/invites`, mail, getters.token)
-        .then(() => {
-          commit('setMessage', { type: 'success', text: 'Invite successfully sent' });
-        }).catch(() => {
-          commit('setMessage', { type: 'error', text: 'Invite is already sent' });
+        .then((response) => {
+          if (response.status === 201) {
+            dispatch('setMessage', { type: 'success', text: 'Invite successfully sent' });
+          } else {
+            dispatch('setMessage', { type: 'error', text: 'Invite is already sent' });
+          }
+        }).catch((error) => {
+          if (error.response) {
+            dispatch('setMessage', { type: 'error', text: error.response.data.message });
+          } else {
+            dispatch('setMessage', { type: 'error', text: error.message });
+          }
         });
     },
   },

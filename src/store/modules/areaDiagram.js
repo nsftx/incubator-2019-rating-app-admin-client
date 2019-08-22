@@ -31,7 +31,7 @@ export default ({
           if (error.response) {
             dispatch('setMessage', { type: 'error', text: error.response.data.message });
           } else {
-            dispatch('setMessage', { type: 'error', text: error });
+            dispatch('setMessage', { type: 'error', text: error.message });
           }
         });
     },
@@ -48,7 +48,7 @@ export default ({
           if (error.response) {
             dispatch('setMessage', { type: 'error', text: error.response.data.message });
           } else {
-            dispatch('setMessage', { type: 'error', text: error });
+            dispatch('setMessage', { type: 'error', text: error.message });
           }
         });
     },
