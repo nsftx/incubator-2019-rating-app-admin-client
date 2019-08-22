@@ -19,7 +19,7 @@ export default ({
           if (response.status === 200) {
             commit('setPieChartData', response.data);
           } else {
-            dispatch('setMessage', { type: 'error', text: response.statusText });
+            dispatch('setMessage', { type: 'error', text: response.data.message });
           }
         })
         .catch((error) => {
@@ -36,7 +36,7 @@ export default ({
           if (response.status === 200) {
             commit('setPieChartData', response.data);
           } else {
-            dispatch('setMessage', { type: 'error', text: response.statusText });
+            dispatch('setMessage', { type: 'error', text: response.data.message });
           }
         })
         .catch((error) => {

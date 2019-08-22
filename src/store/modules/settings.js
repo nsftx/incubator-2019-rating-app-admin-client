@@ -31,7 +31,7 @@ export default ({
           if (response.status === 200) {
             commit('setActiveSettings', response.data.data);
           } else {
-            dispatch('setMessage', { type: 'error', text: response.statusText });
+            dispatch('setMessage', { type: 'error', text: response.data.message });
           }
         })
         .catch((error) => {
@@ -48,7 +48,7 @@ export default ({
           if (response.status === 200) {
             commit('setEmoticons', response.data.data);
           } else {
-            dispatch('setMessage', { type: 'error', text: response.statusText });
+            dispatch('setMessage', { type: 'error', text: response.data.message });
           }
         })
         .catch((error) => {
@@ -65,7 +65,7 @@ export default ({
           if (response.status === 200 || response.status === 201) {
             dispatch('setMessage', { type: 'success', text: response.data.message });
           } else {
-            dispatch('setMessage', { type: 'error', text: response.statusText });
+            dispatch('setMessage', { type: 'error', text: response.data.message });
           }
         })
         .catch((error) => {
@@ -82,7 +82,7 @@ export default ({
           if (response.status === 201) {
             dispatch('setMessage', { type: 'success', text: response.data.message });
           } else {
-            dispatch('setMessage', { type: 'error', text: response.statusText });
+            dispatch('setMessage', { type: 'error', text: response.data.message });
           }
         })
         .catch((error) => {
@@ -99,7 +99,7 @@ export default ({
           if (response.status === 200) {
             commit('setThanksMessages', response.data.data);
           } else {
-            dispatch('setMessage', { type: 'error', text: response.statusText });
+            dispatch('setMessage', { type: 'error', text: response.data.message });
           }
         })
         .catch((error) => {
