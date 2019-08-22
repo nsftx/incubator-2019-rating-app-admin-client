@@ -176,7 +176,7 @@ export default {
     };
   },
   created() {
-    if (this.$parent.logged) {
+    if (this.$store.getters.isLogged) {
       this.getYesterdayDate();
       this.createRange();
     }
