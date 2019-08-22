@@ -1,9 +1,11 @@
+import moment from 'moment';
+
 export default {
   install(Vue) {
     Vue.mixin({
       methods: {
         getToday() {
-          return new Date().toISOString().substr(0, 10);
+          return moment().format('YYYY-MM-DD');
         },
       },
     });
