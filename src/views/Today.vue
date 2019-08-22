@@ -21,7 +21,6 @@
     <div class="dataTable">
       <data-table />
     </div>
-    <api-snackbar></api-snackbar>
   </div>
 </template>
 
@@ -30,14 +29,12 @@ import { sumBy } from 'lodash';
 import RatingsAreaDiagram from '../components/RatingsAreaDiagram.vue';
 import RatingsPieChart from '../components/RatingsPieChart.vue';
 import DataTable from '../components/DataTable.vue';
-import ApiSnackbar from '../components/ApiSnackbar.vue';
 
 export default {
   components: {
     RatingsAreaDiagram,
     RatingsPieChart,
     DataTable,
-    ApiSnackbar,
   },
   data() {
     return {
