@@ -165,14 +165,10 @@ export default {
   created() {
     this.$store.dispatch('setUser');
     this.$store.dispatch('getEmoticons')
+      .then(() => this.$store.dispatch('getActiveSettings'))
+      .then(() => this.$store.dispatch('getThanksMessages'))
       .then(() => {
-        this.$store.dispatch('getActiveSettings')
-          .then(() => {
-            this.$store.dispatch('getThanksMessages')
-              .then(() => {
-                this.activeMessage = find(this.messages, ['id', this.activeSettings.messageId]);
-              });
-          });
+        this.activeMessage = find(this.messages, ['id', this.activeSettings.messageId]);
       });
   },
   methods: {
@@ -182,9 +178,7 @@ export default {
         this.activeSettings.messageId = this.activeMessage.id;
         this.updateActiveEmoticons();
         this.$store.dispatch('updateSettings', this.activeSettings)
-          .then(() => {
-            this.$store.dispatch('getActiveSettings');
-          });
+          .then(() => this.$store.dispatch('getActiveSettings'));
       } else {
         const message = 'Please enter valid settings';
         this.$store.dispatch('setMessage', { type: 'error', text: message });

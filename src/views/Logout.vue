@@ -69,9 +69,7 @@ export default {
   methods: {
     logout() {
       this.$gAuth.signOut()
-        .then(() => {
-          localStorage.clear();
-        });
+        .then(() => localStorage.clear());
       this.$store.commit('setLogged', false);
     },
     invite() {
