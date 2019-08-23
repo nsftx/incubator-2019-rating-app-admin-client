@@ -179,6 +179,7 @@ export default {
       this.lastName = localStorage.getItem('lastName');
       this.email = localStorage.getItem('email');
       this.active = localStorage.getItem('activePath');
+      this.$router.push(this.active);
     }
   },
   computed: {
