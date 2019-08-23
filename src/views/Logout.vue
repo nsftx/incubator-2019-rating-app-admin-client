@@ -1,5 +1,21 @@
 <template>
   <div id="logout">
+    <v-snackbar
+      top
+      color="#ffbf00"
+      v-model="snackbarLogoutConfirm"
+      :timeout="5000"
+      >
+      One last confirm...
+      <button
+        block
+        color="primary"
+        dark
+        @click="logout()"
+      >
+        Confirm
+      </button>
+    </v-snackbar>
     <div class="profileWelcome">
     <h2 class="marginTop1"
         :class="{ marginTop2 : this.$parent.toggleNav }"
@@ -36,22 +52,6 @@
     >
       Logout
     </v-btn>
-    <v-snackbar
-      top
-      color="#2196F3"
-      v-model="snackbarLogoutConfirm"
-      :timeout="5000"
-      >
-      One last confirm...
-      <button
-        block
-        color="primary"
-        dark
-        @click="logout()"
-      >
-        Confirm
-      </button>
-    </v-snackbar>
   </div>
 </template>
 
@@ -80,20 +80,20 @@ export default {
 </script>
 
 <style>
-.profileInfo{
+.profileInfo {
   width: 80%;
   padding-top:25px;
   padding-bottom:25px;
   margin-left: 125px;
   border-radius: 3px;
 }
-.profileAvatar{
+.profileAvatar {
   float:right;
   margin-top: -85px;
   margin-right:15px;
   border-radius:3px;
 }
-.profileInfo h2{
+.profileInfo h2 {
   font-weight: normal;
 }
 .dividerLogout {
@@ -121,15 +121,15 @@ export default {
   text-align: center;
 }
 @media only screen and (max-width: 1024px) {
-  .profileWelcome{
+  .profileWelcome {
   margin-top:40px;
   }
-  .profileInfo{
+  .profileInfo {
     width: 100%;
     text-align: center;
     margin-left: 0;
   }
-  .profileAvatar{
+  .profileAvatar {
     width:15%;
     height: auto;
   }
@@ -138,13 +138,13 @@ export default {
   left: 0;
   right: 0;
 }
-  .v-input.inviteMail.v-text-field.theme--dark{
+  .v-input.inviteMail.v-text-field.theme--dark {
     margin-left: auto !important;
     margin-right: auto !important;
     left: 0;
     right: 0;
   }
-  button.inviteBtn.v-btn.theme--dark, button.logout.v-btn.theme--dark{
+  button.inviteBtn.v-btn.theme--dark, button.logout.v-btn.theme--dark {
     float: none !important;
     margin-left: 0 !important;
   }
