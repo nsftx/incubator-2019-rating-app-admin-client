@@ -104,6 +104,7 @@ export default {
   width: 30%;
   height: 400px;
   float: left;
+  padding-top: 25px;
 }
 .dataTable {
   float: left;
