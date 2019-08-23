@@ -185,6 +185,7 @@ export default {
     createRange() {
       if (this.dateBegin >= this.dateEnd) {
         this.getYesterdayDate();
+        this.dateEnd = this.getToday();
         this.$store.dispatch('setMessage', { type: 'error', text: 'You have selected an invalid date' });
       }
       const Today = {
