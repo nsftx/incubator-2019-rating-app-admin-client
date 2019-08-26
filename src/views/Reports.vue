@@ -37,6 +37,7 @@
               />
             </template>
             <v-date-picker
+              :max="getToday()"
               v-model="dateBegin"
               no-title
               scrollable
@@ -98,6 +99,7 @@
               />
             </template>
             <v-date-picker
+              :max="getToday()"
               v-model="dateEnd"
               no-title
               scrollable
@@ -115,7 +117,7 @@
               <v-btn
                 flat
                 color="@white"
-                @click="createRange();$refs.menuEnd.save(dateEnd); "
+                @click="createRange();$refs.menuEnd.save(dateEnd);"
               >
                 OK
               </v-btn>
@@ -175,18 +177,16 @@ export default {
       this.dateBegin = moment().subtract(1, 'day').format('YYYY-MM-DD');
     },
     createRange() {
-      if (this.dateBegin >= this.dateEnd || this.dateEnd > this.getToday()) {
-        this.getYesterdayDate();
+      if (this.dateBegin > this.dateEnd) {
         this.dateEnd = this.getToday();
         this.$store.dispatch('setMessage', { type: 'error', text: 'You have selected an invalid date' });
-      } else {
-        const Today = {
-          startDate: this.dateBegin,
-          endDate: this.dateEnd,
-        };
-        this.$store.dispatch('getPieChartReport', Today);
-        this.$store.dispatch('getDiagramRange', Today);
       }
+      const Today = {
+        startDate: this.dateBegin,
+        endDate: this.dateEnd,
+      };
+      this.$store.dispatch('getPieChartReport', Today);
+      this.$store.dispatch('getDiagramRange', Today);
     },
   },
 };
