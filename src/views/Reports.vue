@@ -54,7 +54,7 @@
               <v-btn
                 flat
                 color="@white"
-                @click="$refs.menuBegin.save(dateBegin)"
+                @click="createRange();$refs.menuBegin.save(dateBegin);"
               >
                 OK
               </v-btn>
@@ -115,7 +115,7 @@
               <v-btn
                 flat
                 color="@white"
-                @click="$refs.menuEnd.save(dateEnd)"
+                @click="createRange();$refs.menuEnd.save(dateEnd); "
               >
                 OK
               </v-btn>
@@ -125,14 +125,6 @@
       </v-layout>
     </div>
     <br>
-    <div class="spacer" />
-    <v-btn
-      id="createBtn"
-      dark
-      @click="createRange()"
-    >
-      Show reports
-    </v-btn>
     <div class="spacer" />
     <h2 class="padding-h-top-btm">Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
     <div class="lineChart">
@@ -183,17 +175,18 @@ export default {
       this.dateBegin = moment().subtract(1, 'day').format('YYYY-MM-DD');
     },
     createRange() {
-      if (this.dateBegin >= this.dateEnd) {
+      if (this.dateBegin >= this.dateEnd || this.dateEnd > this.getToday()) {
         this.getYesterdayDate();
         this.dateEnd = this.getToday();
         this.$store.dispatch('setMessage', { type: 'error', text: 'You have selected an invalid date' });
+      } else {
+        const Today = {
+          startDate: this.dateBegin,
+          endDate: this.dateEnd,
+        };
+        this.$store.dispatch('getPieChartReport', Today);
+        this.$store.dispatch('getDiagramRange', Today);
       }
-      const Today = {
-        startDate: this.dateBegin,
-        endDate: this.dateEnd,
-      };
-      this.$store.dispatch('getPieChartReport', Today);
-      this.$store.dispatch('getDiagramRange', Today);
     },
   },
 };
@@ -253,6 +246,7 @@ export default {
   width: 30%;
   height: 400px;
   float: left;
+  padding-top: 25px;
 }
 .dataTable {
   float: left;

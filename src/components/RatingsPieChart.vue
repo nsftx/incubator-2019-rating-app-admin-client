@@ -28,12 +28,6 @@ export default {
             colors: '#fff',
           },
         },
-        title: {
-          text: 'Ratings',
-          style: {
-            color: '#fff',
-          },
-        },
       },
     };
   },

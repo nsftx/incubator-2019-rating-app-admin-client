@@ -25,6 +25,11 @@ export default {
     return {
       diagramSeries: [],
       diagramOptions: {
+        chart: {
+          zoom: {
+            enabled: false,
+          },
+        },
         dataLabels: {
           enabled: false,
         },
