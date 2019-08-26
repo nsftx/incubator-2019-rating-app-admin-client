@@ -1,3 +1,4 @@
+import https from 'https';
 import ApiService from '@/services/ApiService';
 
 export default ({
@@ -54,7 +55,8 @@ export default ({
     },
     newRating({ commit }) {
       // eslint-disable-next-line global-require
-      const socket = require('socket.io-client')('https://ratingsapp.ddns.net:7000/', { secure: true, transports: ['websocket'] });
+      https.globalAgent.options.rejectUnauthorized = false;
+      const socket = require('socket.io-client')('https://ratingsapp.ddns.net:7000/', { agent: https.globalAgent, secure: true, transports: ['websocket'] });
       socket.on('newRating', (rating) => {
         commit('setNewRating', rating);
       });
