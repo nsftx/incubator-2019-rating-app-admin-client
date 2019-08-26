@@ -180,8 +180,7 @@ export default {
       this.email = localStorage.getItem('email');
       this.active = localStorage.getItem('activePath');
       this.$router.push(this.active);
-    }
-    else {
+    } else {
       this.active = 'today';
     }
   },

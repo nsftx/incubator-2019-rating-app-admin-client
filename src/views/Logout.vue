@@ -71,6 +71,8 @@ export default {
       this.$gAuth.signOut()
         .then(() => localStorage.clear());
       this.$store.commit('setLogged', false);
+      this.$router.push({ path: '/' });
+      this.$parent.active = 'today';
     },
     invite() {
       this.$store.dispatch('invite', { email: this.inviteMail });
