@@ -44,19 +44,105 @@
       <div class="buttonUser"
             v-show="toggleNav"
             >
-        <router-link to="/logout">
-          <v-chip
-            v-show="logged"
-            :dark="true"
-            @click="activePath('logout')" :class="{activeBtn: active === 'logout' }"
-          >
-            <v-avatar>
-              <img
-                :src="imgAvatar"
+  <div class="text-center">
+    <v-menu
+      v-model="menu"
+      :close-on-content-click="false"
+      :nudge-width="200"
+      offset-x
+      dark
+    >
+      <template v-slot:activator="{ on }">
+        <v-btn class="mx-2" fab dark color="indigo" v-on="on"
+        >
+          <v-icon>person</v-icon>
+        </v-btn>
+      </template>
+
+      <v-card>
+        <v-list>
+          <v-list-item>
+            <v-list-item-avatar>
+              <img :src="imgAvatar" class="imgDropdown">
+            </v-list-item-avatar>
+            <br>
+            <v-list-item-content>
+              <v-list-item-title><b>{{nameAvatar}}</b>, </v-list-item-title>
+              <v-list-item-subtitle>Administrator</v-list-item-subtitle>
+            </v-list-item-content>
+
+          </v-list-item>
+        </v-list>
+
+        <v-divider></v-divider>
+
+        <v-list>
+          <v-list-item>
+            <v-list-item-action>
+              <v-btn @click="snackbarLogoutConfirm=true">Logout</v-btn>
+            </v-list-item-action>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-action>
+              <v-btn @click="dialogInvite=true; menu=false">Invite user</v-btn>
+            </v-list-item-action>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-menu>
+  </div>
+  <v-snackbar
+      top
+      color="#dba100"
+      v-model="snackbarLogoutConfirm"
+      :timeout="5000"
+      >
+      One last confirm...
+      <button
+        block
+        color="primary"
+        dark
+        @click="logout()"
+      >
+        Confirm
+      </button>
+    </v-snackbar>
+  <div class="text-center">
+              <v-dialog
+                v-model="dialogInvite"
+                dark
+                width="500"
               >
-            </v-avatar><b class="nameAv">{{nameAvatar}}</b>
-          </v-chip>
-        </router-link>
+                <v-card>
+                  <v-card-title
+                    class="headline grey lighten-2"
+                    primary-title
+                  >
+                    Invite new user
+                  </v-card-title>
+
+                  <v-text-field label="e-mail"
+                  v-model="inviteMail"
+                  class="mailInput"
+                  clearable
+                  ></v-text-field>
+
+                  <v-divider></v-divider>
+
+                  <v-card-actions>
+                    <div class="flex-grow-1"></div>
+                    <v-btn
+                      color="primary"
+                      text
+                      @click="invite()"
+                    >
+                      Invite user
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </div>
       </div>
       <div
         v-show="logged"
@@ -130,9 +216,25 @@ export default {
       email: '',
       inLocal: false,
       toggleNav: true,
+      menu: false,
+      message: false,
+      dialogInvite: false,
+      inviteMail: '',
+      snackbarLogoutConfirm: false,
     };
   },
   methods: {
+    logout() {
+      this.$gAuth.signOut()
+        .then(() => localStorage.clear());
+      this.$store.commit('setLogged', false);
+      this.$router.push({ path: '/' });
+      this.active = 'today';
+    },
+    invite() {
+      this.dialogInvite = false;
+      this.$store.dispatch('invite', { email: this.inviteMail });
+    },
     toggledNav() {
       this.toggleNav = !this.toggleNav;
     },
@@ -191,6 +293,15 @@ export default {
 </script>
 <style lang="less">
 @import '../styles/main.less';
+.imgDropdown {
+  border-radius:25px;
+  height:50px;
+}
+.v-input.mailInput.v-text-field.theme--dark {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
 .artLogin{
   margin-right: 5px;
   float:right;
@@ -222,6 +333,10 @@ p {
 }
 .activeBtn{
   background: @dim-grey;
+}
+.v-card.v-sheet.theme--dark, .v-card__title.headline.grey.lighten-2.v-card__title--primary {
+    background: @dark-grey !important;
+    border: 1px solid @arsenic !important;
 }
 .dash-nav {
   top: 0;
@@ -283,10 +398,15 @@ button.v-btn.theme--light {
     background: @dark-grey !important;
     color: @white;
 }
-@media only screen and (max-width: 1024px) {
-.v-chip .v-chip__content {
-  padding: 0 !important;
+.v-card__actions{
+  background: @dark-grey;
 }
+@media only screen and (max-width: 1024px) {
+  .v-menu__content.theme--dark{
+    position:fixed;
+    left:0;
+    width:100%;
+  }
 .hideNav {
   margin-top: 10px;
 }
@@ -332,6 +452,7 @@ button.v-btn.theme--light {
     position: absolute;
     right: 0;
     top:0;
+    margin-top: -1px;
     z-index: 2 !important;
 }
   .logoWhite {
@@ -341,9 +462,6 @@ button.v-btn.theme--light {
   top:0;
   position: relative;
   width:100%;
-}
-.nameAv {
-  display: none;
 }
 .buttonUser {
     right: 0;
