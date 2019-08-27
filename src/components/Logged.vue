@@ -97,7 +97,7 @@
   </div>
   <v-snackbar
       top
-      color="#ffbf00"
+      color="#dba100"
       v-model="snackbarLogoutConfirm"
       :timeout="5000"
       >
