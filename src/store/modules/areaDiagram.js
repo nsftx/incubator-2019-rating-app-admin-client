@@ -54,7 +54,7 @@ export default ({
         });
     },
     newRating({ commit }) {
-      const socket = io.connect('https://ratingsapp.ddns.net:7000', { transports: ['websocket'], rejectUnauthorized: false });
+      const socket = io.connect('wss://ratingsapp.ddns.net:7000', { transports: ['websocket'], rejectUnauthorized: false });
       socket.on('message', (rating) => {
         console.log(rating);
         commit('setNewRating', rating);
