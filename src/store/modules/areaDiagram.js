@@ -54,9 +54,9 @@ export default ({
         });
     },
     newRating({ commit }) {
-      // eslint-disable-next-line global-require
-      const socket = io.connect('https://172.105.81.4:7000/', { secure: true, transports: ['websocket'] });
-      socket.on('newRating', (rating) => {
+      const socket = io.connect('https://ratingsapp.ddns.net:7000', { transports: ['websocket'], rejectUnauthorized: false });
+      socket.on('message', (rating) => {
+        console.log(rating);
         commit('setNewRating', rating);
       });
     },

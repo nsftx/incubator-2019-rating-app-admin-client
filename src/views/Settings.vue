@@ -51,7 +51,7 @@
           <v-layout>
             <v-flex class="flex">
               <v-select
-                v-model="activeMessage"
+                v-model="activeSettings.message"
                 dark
                 color="grey"
                 :items="messages"
@@ -192,8 +192,8 @@ export default {
     },
     createNewMessage() {
       if (!this.isMessageExisting(this.newMessage) && this.$refs.message.validate()) {
-        this.$store.dispatch('createThanksMessage', this.newMessage);
-        this.$store.dispatch('getThanksMessages');
+        this.$store.dispatch('createThanksMessage', this.newMessage)
+          .then(() => this.$store.dispatch('getThanksMessages'));
         this.newMessageDialog = false;
       } else {
         const message = 'Please enter valid message';
