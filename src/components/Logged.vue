@@ -88,7 +88,7 @@
 
           <v-list-item>
             <v-list-item-action>
-              <v-btn @click="dialogInvite=true">Invite user</v-btn>
+              <v-btn @click="dialogInvite=true; menu=false">Invite user</v-btn>
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -338,7 +338,8 @@ p {
   background: @dim-grey;
 }
 .v-card.v-sheet.theme--dark, .v-card__title.headline.grey.lighten-2.v-card__title--primary {
-    background: #2D3038 !important;
+    background: @dark-grey !important;
+    border: 1px solid @arsenic !important;
 }
 .dash-nav {
   top: 0;
