@@ -53,12 +53,9 @@
       dark
     >
       <template v-slot:activator="{ on }">
-        <v-btn
-          color="indigo"
-          dark
-          v-on="on"
+        <v-btn class="mx-2" fab dark color="indigo" v-on="on"
         >
-          User settings
+          <v-icon>person</v-icon>
         </v-btn>
       </template>
 
@@ -455,6 +452,7 @@ button.v-btn.theme--light {
     position: absolute;
     right: 0;
     top:0;
+    margin-top: -1px;
     z-index: 2 !important;
 }
   .logoWhite {
