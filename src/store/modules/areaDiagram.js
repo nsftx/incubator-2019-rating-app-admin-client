@@ -1,3 +1,4 @@
+import io from 'socket.io-client';
 import ApiService from '@/services/ApiService';
 
 export default ({
@@ -54,7 +55,7 @@ export default ({
     },
     newRating({ commit }) {
       // eslint-disable-next-line global-require
-      const socket = require('socket.io-client')('https://ratingsapp.ddns.net:7000/', { secure: true });
+      const socket = io.connect('https://172.105.81.4:7000/', { secure: true, transports: ['websocket'] });
       socket.on('newRating', (rating) => {
         commit('setNewRating', rating);
       });
