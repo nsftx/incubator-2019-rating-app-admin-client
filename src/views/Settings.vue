@@ -177,7 +177,7 @@ export default {
     updateActiveSettings() {
       if (this.$refs.form.validate()) {
         this.activeSettings.userId = this.$store.getters.loggedUser.id;
-        this.activeSettings.messageId = this.activeMessage.id;
+        this.activeSettings.messageId = this.activeSettings.message.id;
         this.updateActiveEmoticons();
         this.$store.dispatch('updateSettings', this.activeSettings)
           .then(() => this.$store.dispatch('getActiveSettings'));
