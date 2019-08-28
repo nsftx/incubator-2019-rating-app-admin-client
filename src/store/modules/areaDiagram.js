@@ -1,4 +1,4 @@
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import ApiService from '@/services/ApiService';
 
 export default ({
@@ -54,8 +54,16 @@ export default ({
         });
     },
     newRating({ commit }) {
-      const socket = io.connect('wss://ratingsapp.ddns.net:7000', { transports: ['websocket'], rejectUnauthorized: false });
+      /* const socket = io.connect('wss://ratingsapp.ddns.net:7000', { transports: ['websocket'], rejectUnauthorized: false });
       socket.on('message', (rating) => {
+        console.log(rating);
+        commit('setNewRating', rating);
+      }); */
+      const ws = new WebSocket('wss://ratingsapp.ddns.net:7000');
+      ws.onopen(() => {
+        console.log('WS Open');
+      });
+      ws.onmessage((rating) => {
         console.log(rating);
         commit('setNewRating', rating);
       });
