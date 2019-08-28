@@ -168,18 +168,19 @@ export default {
   },
   created() {
     if (this.$store.getters.isLogged) {
-      this.getYesterdayDate();
+      this.oneDayRange();
       this.createRange();
     }
   },
   methods: {
-    getYesterdayDate() {
+    oneDayRange() {
       this.dateBegin = moment().subtract(1, 'day').format('YYYY-MM-DD');
+      this.dateEnd = this.getToday();
     },
     createRange() {
       if (this.dateBegin >= this.dateEnd) {
-        this.dateEnd = this.getToday();
-        this.$store.dispatch('setMessage', { type: 'error', text: 'You have selected an invalid date' });
+        this.oneDayRange();
+        this.$store.dispatch('setMessage', { type: 'error', text: 'You have selected an invalid date range' });
       }
       const Today = {
         startDate: this.dateBegin,
