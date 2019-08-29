@@ -5,9 +5,9 @@
       <img class="artwork" src="../assets/Artwork.png" />
     </div>
     <div class="padding-top">
-    <h1 class="marginTop1"
-        :class="{ marginTop2 : this.$parent.toggleNav }"
-    >Today is a new day.</h1>
+      <h1 class="marginTop1"
+      :class="{ marginTop2 : this.$parent.toggleNav }"
+      >Today is a new day.</h1>
     </div>
     <h1 class="margin-h-btm">Check your ratings</h1>
     <h2>Graphs present your rating results. Today you have {{ todayCount }} rates,</h2>
@@ -57,6 +57,7 @@ export default {
   },
   created() {
     if (this.$store.getters.isLogged) {
+      this.$disconnect();
       this.$store.dispatch('getPieChartToday', this.Today);
       this.$store.dispatch('getDiagramToday', this.interval);
     }

@@ -176,6 +176,7 @@ export default {
   },
   created() {
     if (this.$store.getters.isLogged) {
+      this.$disconnect();
       this.oneDayRange();
       this.createRange();
     }
