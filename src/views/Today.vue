@@ -57,6 +57,7 @@ export default {
   },
   created() {
     if (this.$store.getters.isLogged) {
+      this.$disconnect();
       this.$store.dispatch('getPieChartToday', this.Today);
       this.$store.dispatch('getDiagramToday', this.interval);
     }
