@@ -128,7 +128,13 @@
     </div>
     <br>
     <div class="spacer" />
-    <h2 class="padding-h-top-btm">Showing reports from {{ dateBegin }} to {{ dateEnd }}</h2>
+    <v-switch
+      dark
+      v-model="realTime"
+      class="statistics"
+      :label="`Real time statistics: ${realTimeText}`"
+    >
+    </v-switch>
     <div class="lineChart">
       <ratings-area-diagram />
     </div>
@@ -156,6 +162,8 @@ export default {
   },
   data() {
     return {
+      realTime: false,
+      realTimeText: 'OFF',
       range: {
         date: this.getToday(),
         interval: 2,
@@ -190,6 +198,19 @@ export default {
       this.$store.dispatch('getDiagramRange', Today);
     },
   },
+  watch: {
+    realTime() {
+      if (this.realTime) {
+        this.realTimeText = 'ON';
+        this.oneDayRange();
+        this.createRange();
+        this.$connect('wss://ratingsapp.ddns.net:7000');
+      } else {
+        this.realTimeText = 'OFF';
+        this.$disconnect();
+      }
+    },
+  },
 };
 </script>
 
@@ -197,10 +218,6 @@ export default {
 @import '../styles/main.less';
 .marginTop1{
   padding-top: 0px !important;
-}
-.padding-h-top-btm {
-  padding-top: 20px;
-  padding-bottom: 20px;
 }
 #pickerWrap1 {
   height: 50px;
@@ -229,6 +246,13 @@ export default {
   color: @dark-grey;
   background: none;
   width: 150px;
+}
+.statistics{
+  margin-left: 150px;
+}
+.accent--text {
+  color: @malibu !important;
+  caret-color: @malibu !important;
 }
 .lineChart {
   background: @dark-grey;
@@ -280,6 +304,9 @@ input[type="text"] {
   .marginTop1{
   padding-top: 0px ;
 }
+  .statistics{
+    margin: 0;
+  }
   .dataTable,
   .pieChart,
   .lineChart {

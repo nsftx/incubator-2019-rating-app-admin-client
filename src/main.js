@@ -11,7 +11,7 @@ import store from './store';
 import mixin from './mixin';
 import 'vuetify/dist/vuetify.min.css';
 
-Vue.use(WebSocket, 'wss://ratingsapp.ddns.net:7000', { store });
+Vue.use(WebSocket, 'wss://ratingsapp.ddns.net:7000', { store, connectManually: true });
 
 const gauthOption = {
   clientId: '641180167952-h84f394tnm50qm8j30t101cla1k2aglh.apps.googleusercontent.com',
