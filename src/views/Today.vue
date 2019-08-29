@@ -12,6 +12,13 @@
     <h1 class="margin-h-btm">Check your ratings</h1>
     <h2>Graphs present your rating results. Today you have {{ todayCount }} rates,</h2>
     <h2>check it on the dashboard.</h2>
+    <v-switch
+      dark
+      v-model="realTime"
+      class="statistic"
+      :label="`Real time statistics: ${realTimeText}`"
+    >
+    </v-switch>
     <div class="lineChart">
       <ratings-area-diagram />
     </div>
@@ -38,6 +45,8 @@ export default {
   },
   data() {
     return {
+      realTime: false,
+      realTimeText: 'OFF',
       interval: {
         date: this.getToday(),
         interval: 2,
@@ -72,6 +81,17 @@ export default {
     newRating() {
       this.todayCount++;
     },
+    realTime() {
+      if (this.realTime) {
+        this.realTimeText = 'ON';
+        this.$store.dispatch('getPieChartToday', this.Today);
+        this.$store.dispatch('getDiagramToday', this.interval);
+        this.$connect('wss://ratingsapp.ddns.net:7000');
+      } else {
+        this.realTimeText = 'OFF';
+        this.$disconnect();
+      }
+    },
   },
 };
 </script>
@@ -90,6 +110,14 @@ export default {
 .apexcharts-yaxis-texts-g text,
 .apexcharts-xaxis-texts-g text {
   fill: @white !important;
+}
+.statistic{
+  margin-left: 150px;
+  margin-top: 10%;
+}
+.accent--text {
+  color: @malibu !important;
+  caret-color: @malibu !important;
 }
 .lineChart {
   background: @dark-grey;
@@ -139,6 +167,10 @@ export default {
 @media only screen and (max-width: 1024px) {
   .parentImages {
     display: none;
+  }
+  .statistic{
+    margin: 0;
+    margin-top: 10%;
   }
   .dataTable,
   .pieChart,
