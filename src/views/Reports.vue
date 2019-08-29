@@ -55,7 +55,7 @@
               <v-btn
                 flat
                 color="@white"
-                @click="createRange();$refs.menuBegin.save(dateBegin);"
+                @click="createRange('begin');$refs.menuBegin.save(dateBegin);"
               >
                 OK
               </v-btn>
@@ -117,7 +117,7 @@
               <v-btn
                 flat
                 color="@white"
-                @click="createRange();$refs.menuEnd.save(dateEnd);"
+                @click="createRange('end');$refs.menuEnd.save(dateEnd);"
               >
                 OK
               </v-btn>
@@ -185,27 +185,28 @@ export default {
       this.dateBegin = moment().subtract(1, 'day').format('YYYY-MM-DD');
       this.dateEnd = this.getToday();
     },
-    isOneDayInterval() {
-      const firstDate = moment(this.dateBegin);
-      const secondDate = moment(this.dateEnd);
-      return secondDate.diff(firstDate, 'days') === 1;
-    },
-    createRange() {
-      const Today = {
-        startDate: this.dateBegin,
-        endDate: this.dateEnd,
-      };
-      if (this.isOneDayInterval()) {
+    createRange(clickedDate) {
+      let Today = {};
+      if (this.dateBegin >= this.dateEnd) {
+        if (clickedDate === 'begin') {
+          this.dateEnd = this.dateBegin;
+        } else {
+          this.dateBegin = this.dateEnd;
+        }
+        Today = {
+          startDate: this.dateBegin,
+          endDate: this.dateEnd,
+        };
         const interval = {
           date: this.dateBegin,
           interval: 2,
         };
         this.$store.dispatch('getDiagramToday', interval);
       } else {
-        if (this.dateBegin >= this.dateEnd) {
-          this.oneDayRange();
-          this.$store.dispatch('setMessage', { type: 'error', text: 'You have selected an invalid date range' });
-        }
+        Today = {
+          startDate: this.dateBegin,
+          endDate: this.dateEnd,
+        };
         this.$store.dispatch('getDiagramRange', Today);
       }
       this.$store.dispatch('getPieChartReport', Today);
@@ -215,6 +216,7 @@ export default {
     realTime() {
       if (this.realTime) {
         this.realTimeText = 'ON';
+        this.oneDayRange();
         this.createRange();
         this.$connect('wss://ratingsapp.ddns.net:7000');
       } else {
