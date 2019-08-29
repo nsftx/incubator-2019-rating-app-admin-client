@@ -11,7 +11,9 @@ export default ({
     },
     SOCKET_ONMESSAGE(state, message) {
       const rating = JSON.parse(message.data);
-      state.newRating = rating;
+      if (rating.type === 'ratings') {
+        state.newRating = rating;
+      }
     },
   },
   getters: {
