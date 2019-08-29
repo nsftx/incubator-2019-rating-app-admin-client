@@ -185,24 +185,36 @@ export default {
       this.dateBegin = moment().subtract(1, 'day').format('YYYY-MM-DD');
       this.dateEnd = this.getToday();
     },
+    isOneDayInterval() {
+      const firstDate = moment(this.dateBegin);
+      const secondDate = moment(this.dateEnd);
+      return secondDate.diff(firstDate, 'days') === 1;
+    },
     createRange() {
-      if (this.dateBegin >= this.dateEnd) {
-        this.oneDayRange();
-        this.$store.dispatch('setMessage', { type: 'error', text: 'You have selected an invalid date range' });
-      }
       const Today = {
         startDate: this.dateBegin,
         endDate: this.dateEnd,
       };
+      if (this.isOneDayInterval()) {
+        const interval = {
+          date: this.dateBegin,
+          interval: 2,
+        };
+        this.$store.dispatch('getDiagramToday', interval);
+      } else {
+        if (this.dateBegin >= this.dateEnd) {
+          this.oneDayRange();
+          this.$store.dispatch('setMessage', { type: 'error', text: 'You have selected an invalid date range' });
+        }
+        this.$store.dispatch('getDiagramRange', Today);
+      }
       this.$store.dispatch('getPieChartReport', Today);
-      this.$store.dispatch('getDiagramRange', Today);
     },
   },
   watch: {
     realTime() {
       if (this.realTime) {
         this.realTimeText = 'ON';
-        this.oneDayRange();
         this.createRange();
         this.$connect('wss://ratingsapp.ddns.net:7000');
       } else {
