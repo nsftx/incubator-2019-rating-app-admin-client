@@ -4,11 +4,14 @@ import Vuetify from 'vuetify';
 import Axios from 'axios';
 import VueAxios from 'vue-axios';
 import GAuth from 'vue-google-oauth2';
+import WebSocket from 'vue-native-websocket';
 import App from './App.vue';
 import router from './router';
 import store from './store';
 import mixin from './mixin';
 import 'vuetify/dist/vuetify.min.css';
+
+Vue.use(WebSocket, 'wss://ratingsapp.ddns.net:7000', { store });
 
 const gauthOption = {
   clientId: '641180167952-h84f394tnm50qm8j30t101cla1k2aglh.apps.googleusercontent.com',
