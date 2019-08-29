@@ -81,10 +81,8 @@ export default ({
         .then((response) => {
           if (response.status === 201) {
             const settings = getters.activeSettings;
-            settings.messageId = response.data.data.id;
             settings.message = response.data.data;
             commit('setActiveSettings', settings);
-            dispatch('updateSettings', settings);
             dispatch('setMessage', { type: 'success', text: response.data.message });
           } else {
             dispatch('setMessage', { type: 'error', text: response.data.message });
