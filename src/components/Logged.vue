@@ -13,7 +13,7 @@
           error
         </v-icon>
       </api-snackbar>
-      <h1>Ratings app - Dashboard</h1>
+      <h1 class ="margin-login">Ratings app - Dashboard</h1>
       <h1>Login</h1>
       <br>
       <p class="respLogin" style="text-align: left; margin-left:200px; color:rgb(190, 190, 190);">
@@ -247,13 +247,9 @@ export default {
         .then((GoogleUser) => {
           this.imgAvatar = GoogleUser.w3.Paa;
           this.nameAvatar = GoogleUser.w3.ig;
-          this.firstName = GoogleUser.w3.ofa;
-          this.lastName = GoogleUser.w3.wea;
           this.email = GoogleUser.w3.U3;
           localStorage.setItem('imgAvatar', this.imgAvatar);
           localStorage.setItem('nameAvatar', this.nameAvatar);
-          localStorage.setItem('firstName', this.firstName);
-          localStorage.setItem('lastName', this.lastName);
           localStorage.setItem('email', this.email);
           this.isSignIn = this.$gAuth.isAuthorized;
           // eslint-disable-next-line camelcase
@@ -277,8 +273,6 @@ export default {
       this.$store.commit('setLogged', true);
       this.imgAvatar = localStorage.getItem('imgAvatar');
       this.nameAvatar = localStorage.getItem('nameAvatar');
-      this.firstName = localStorage.getItem('firstName');
-      this.lastName = localStorage.getItem('lastName');
       this.email = localStorage.getItem('email');
       this.active = localStorage.getItem('activePath');
       this.$router.push(this.active);
@@ -293,6 +287,9 @@ export default {
 </script>
 <style lang="less">
 @import '../styles/main.less';
+.margin-login {
+  margin-top: 20px;
+}
 .imgDropdown {
   border-radius:25px;
   height:50px;
